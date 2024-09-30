@@ -8,10 +8,20 @@ const config: Config = {
   ],
   theme: {
     extend: {
-      colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
-      },
+      fontFamily:{
+        "alumni": ["Alumni Sans SemiBold", "sans-serif"],
+        "asap-condensed-medium": ["Asap Condensed Medium", "sans-serif"],
+        "asap-condensed-regular": ["Asap Condensed Regular", "sans-serif"],
+        "asap-condensed-semibold": ["Asap Condensed SemiBold", "sans-serif"],
+        "barlow-condensed-bold": ["Asap Condensed Bold", "sans-serif"],
+        "barlow-condensed-extra-light": ["Asap Condensed ExtraLight", "sans-serif"],
+        "barlow-condensed-medium": ["Asap Condensed Medium", "sans-serif"],
+        "barlow-condensed-semibold": ["Asap Condensed SemiBold", "sans-serif"],
+        "open-sans-italic": ["Open Sans Italic", "sans-serif"],
+        "open-sans": ["OpenSans", "sans-serif"],
+        "open-sans-condensed-bold": ["Opensans Condensed Bold", "sans-serif"],
+        "open-sans-condensed-light": ["Opensans Condensed Light", "sans-serif"],
+      }
     },
   },
   plugins: [],

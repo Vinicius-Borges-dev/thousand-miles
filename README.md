@@ -1,0 +1,1 @@
+<h3 align="center">Projeto sob os termos da licença AGPL-3.0.</h3>

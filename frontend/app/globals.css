@@ -1,3 +1,52 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+    font-family: 'Alumni Sans SemiBold';
+    src: url("./assets/fonts/AlumniSans/AlumniSans-SemiBold.ttf");
+}
+@font-face {
+    font-family: 'Asap Condensed Medium';
+    src: url("./assets/fonts/AsapCondensed/AsapCondensed-Medium.ttf");
+}
+@font-face {
+    font-family: 'Asap Condensed Regular';
+    src: url("./assets/fonts/AsapCondensed/AsapCondensed-Regular.ttf");
+}
+@font-face {
+    font-family: 'Asap Condensed SemiBold';
+    src: url("./assets/fonts/AsapCondensed/AsapCondensed-SemiBold.ttf");
+}
+@font-face {
+    font-family: 'Barlow Condensed Bold';
+    src: url("./assets/fonts/BarlowCondensed/BarlowCondensed-Bold.ttf");
+}
+@font-face {
+    font-family: 'Barlow Condensed ExtraLight';
+    src: url("./assets/fonts/BarlowCondensed/BarlowCondensed-ExtraLight.ttf");
+}
+@font-face {
+    font-family: 'Barlow Condensed Medium';
+    src: url("./assets/fonts/BarlowCondensed/BarlowCondensed-Medium.ttf");
+}
+@font-face {
+    font-family: 'Barlow Condensed SemiBold';
+    src: url("./assets/fonts/BarlowCondensed/BarlowCondensed-SemiBold.ttf");
+}
+@font-face {
+    font-family: 'OpenSans Italic';
+    src: url("./assets/fonts/OpenSans/OpenSans-Italic-VariableFont_wdth\,wght.ttf");
+}
+@font-face {
+    font-family: 'OpenSans';
+    src: url("./assets/fonts/OpenSans/OpenSans-VariableFont_wdth\,wght.ttf");
+}
+@font-face {
+    font-family: 'Opensans Condensed Bold';
+    src: url("./assets/fonts/OpenSansCondensed/OpenSans-CondBold.ttf");
+}
+@font-face {
+    font-family: 'Opensans Condensed Light';
+    src: url("./assets/fonts/OpenSansCondensed/OpenSans-CondLight.ttf");
+}

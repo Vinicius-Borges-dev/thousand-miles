@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import Base from "@components/shared/Base";
 
 export const metadata: Metadata = {
   title: "Thousand Miles",
@@ -13,10 +14,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-br">
-      <body
-        className={`overflow-x-hidden`}
-      >
-        {children}
+      <body className={`overflow-x-hidden`}>
+        <Base>{children}</Base>
       </body>
     </html>
   );
