@@ -1,11 +1,12 @@
 import Image from "next/image";
 import ImagemTopo from "@images/topo.svg";
 import ImagemBaixo from "@images/base.svg";
+import { forwardRef } from "react";
 
-export default function Background() {
-  return (
-    <span className="w-full absolute">
-      <section className="w-full relative" id="global">
+const Background = forwardRef<HTMLDivElement>((props, ref) => {
+    return(
+      <div className="w-full absolute">
+      <section className="w-full relative" ref={ref}>
         <Image className="w-full" src={ImagemTopo} alt="Imagem do topo" />
 
         <Image
@@ -14,6 +15,10 @@ export default function Background() {
           alt="Imagem de baixo"
         />
       </section>
-    </span>
-  );
-}
+    </div>
+    )
+});
+
+Background.displayName = "Background";
+
+export default Background;
