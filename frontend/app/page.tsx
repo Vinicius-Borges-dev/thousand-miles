@@ -1,6 +1,12 @@
+import Header from "@components/pages/principal/Header";
+import BrandsSlider from "./components/pages/principal/BrandsSlider";
+
 export default function Home() 
 {
   return (
-    <><h1>Hello, world!</h1></>
+    <>
+      <Header />
+      <BrandsSlider />
+    </>
   );
 }

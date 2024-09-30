@@ -21,6 +21,9 @@ const config: Config = {
         "open-sans": ["OpenSans", "sans-serif"],
         "open-sans-condensed-bold": ["Opensans Condensed Bold", "sans-serif"],
         "open-sans-condensed-light": ["Opensans Condensed Light", "sans-serif"],
+      },
+      colors:{
+        "card": "#f2f2f2",
       }
     },
   },

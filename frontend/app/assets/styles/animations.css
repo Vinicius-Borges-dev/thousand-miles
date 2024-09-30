@@ -1,0 +1,5 @@
+@keyframes slider {
+    to {
+        left: -100%;
+    }
+}

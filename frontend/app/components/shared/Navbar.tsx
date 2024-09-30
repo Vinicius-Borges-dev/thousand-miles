@@ -8,7 +8,7 @@ export default function Navbar() {
           <li className="text-3xl p-2">
             <Link
               className="text-gray-300 hover:text-gray-500 transition-all"
-              href="#"
+              href="/carros"
             >
               Carros disponíveis
             </Link>
@@ -16,7 +16,7 @@ export default function Navbar() {
           <li className="text-3xl p-2">
             <Link
               className="text-gray-300 hover:text-gray-500 transition-all"
-              href="#"
+              href="/"
             >
               Home
             </Link>
@@ -24,7 +24,7 @@ export default function Navbar() {
           <li className="text-3xl p-2">
             <Link
               className="text-gray-300 hover:text-gray-500 transition-all"
-              href="#"
+              href="/reservas"
             >
               Minhas reservas
             </Link>
