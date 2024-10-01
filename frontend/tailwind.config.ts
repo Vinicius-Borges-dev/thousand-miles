@@ -24,6 +24,10 @@ const config: Config = {
       },
       colors:{
         "card": "#f2f2f2",
+      },
+      animation:{
+        "slide": "slider 40s linear infinite",
+      },
       }
     },
   },

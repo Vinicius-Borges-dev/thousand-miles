@@ -23,6 +23,7 @@
       "@images/*": ["./app/assets/images/*"],
       "@icons/*": ["./app/assets/icons/*"],
       "@styles/*": ["./app/assets/styles/*"],
+      "@brands/*": ["./app/assets/brands/*"],
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

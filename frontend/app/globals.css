@@ -50,3 +50,9 @@
     font-family: 'Opensans Condensed Light';
     src: url("./assets/fonts/OpenSansCondensed/OpenSans-CondLight.ttf");
 }
+
+@keyframes slider {
+    to{
+        left: -200%;
+    }
+}
