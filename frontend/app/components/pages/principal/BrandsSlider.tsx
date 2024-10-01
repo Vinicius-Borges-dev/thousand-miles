@@ -16,7 +16,7 @@ export default function BrandsSlider() {
     cardRefs.current.forEach(element => {
         element.style.animationDelay = `calc(40s / ${numberOfBrands} * ${numberOfBrands - (cardRefs.current.indexOf(element)+ 1)} * -1)`;
     });
-  }, []);
+  }, [numberOfBrands]);
   
   return (
     <section>
