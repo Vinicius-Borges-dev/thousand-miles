@@ -11,13 +11,15 @@ export default function BrandsSlider() {
     if (element && !cardRefs.current.includes(element)) {
       cardRefs.current.push(element);
     }
-  }
-  useEffect(()=>{
-    cardRefs.current.forEach(element => {
-        element.style.animationDelay = `calc(40s / ${numberOfBrands} * ${numberOfBrands - (cardRefs.current.indexOf(element)+ 1)} * -1)`;
+  };
+  useEffect(() => {
+    cardRefs.current.forEach((element) => {
+      element.style.animationDelay = `calc(40s / ${numberOfBrands} * ${
+        numberOfBrands - (cardRefs.current.indexOf(element) + 1)
+      } * -1)`;
     });
   }, [numberOfBrands]);
-  
+
   return (
     <section>
       <h1 className="text-white text-center font-asap-condensed-semi-bold text-5xl">
@@ -30,10 +32,7 @@ export default function BrandsSlider() {
             key={index}
             ref={addRefs}
           >
-            <Image
-              src={brand}
-              alt={`Brand ${index + 1}`}
-            />
+            <Image src={brand} alt={`Brand ${index + 1}`} />
           </div>
         ))}
       </section>
