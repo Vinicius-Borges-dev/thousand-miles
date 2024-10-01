@@ -1,9 +1,12 @@
+"use server";
+
 import Image from "next/image";
 import BmwCinza from "@images/bmw-cinza.png";
 import steringWheel from "@icons/stering-wheel.svg";
 import seat from "@icons/seat.svg";
+import Link from "next/link";
 
-export default function CardCars({filter}:{filter?:string})
+export default async function CardCars({filter}:{filter?:string})
 {
     return(
         <div className="w-[350px] bg-card-cars rounded-lg shadow-md shadow-slate-50 relative flex flex-col items-center">
@@ -24,7 +27,7 @@ export default function CardCars({filter}:{filter?:string})
             <p>2 lugares</p>
           </span>
         </div>
-        <button className="w-[calc(100%-(.75rem*2))] p-4 bg-blue-400 text-white rounded-lg mb-3">Alugar veículo</button>
+        <Link href={`/pages/veiculos/1`}><button className="w-[calc(100%-(.75rem*2))] p-4 bg-blue-400 text-white rounded-lg mb-3">Alugar veículo</button></Link>
       </div>
     )
 }

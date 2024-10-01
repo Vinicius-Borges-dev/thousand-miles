@@ -43,11 +43,11 @@
     src: url("./assets/fonts/OpenSans/OpenSans-VariableFont_wdth\,wght.ttf");
 }
 @font-face {
-    font-family: 'Opensans Condensed Bold';
+    font-family: 'OpenSans Condensed Bold';
     src: url("./assets/fonts/OpenSansCondensed/OpenSans-CondBold.ttf");
 }
 @font-face {
-    font-family: 'Opensans Condensed Light';
+    font-family: 'OpenSans Condensed Light';
     src: url("./assets/fonts/OpenSansCondensed/OpenSans-CondLight.ttf");
 }
 

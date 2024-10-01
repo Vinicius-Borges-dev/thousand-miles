@@ -19,12 +19,13 @@ const config:Config = {
         "barlow-condensed-semibold": ["Asap Condensed SemiBold", "sans-serif"],
         "open-sans-italic": ["Open Sans Italic", "sans-serif"],
         "open-sans": ["OpenSans", "sans-serif"],
-        "open-sans-condensed-bold": ["Opensans Condensed Bold", "sans-serif"],
-        "open-sans-condensed-light": ["Opensans Condensed Light", "sans-serif"],
+        "open-sans-condensed-bold": ["OpenSans Condensed Bold", "sans-serif"],
+        "open-sans-condensed-light": ["OpenSans Condensed Light", "sans-serif"],
       },
       colors:{
         "card": "#f2f2f2",
-      },  
+        "card-cars": "#DFE4F7",
+      },
       animation: {
         "slide": "slider 40s linear infinite",
       },
