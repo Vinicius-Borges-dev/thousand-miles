@@ -1,6 +1,6 @@
 import type { Config } from "tailwindcss";
 
-const config: Config = {
+const config:Config = {
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -24,13 +24,12 @@ const config: Config = {
       },
       colors:{
         "card": "#f2f2f2",
-      },
-      animation:{
+      },  
+      animation: {
         "slide": "slider 40s linear infinite",
       },
-      }
     },
   },
   plugins: [],
-};
+}
 export default config;
