@@ -56,3 +56,11 @@
         left: -200%;
     }
 }
+
+tbody tr:nth-child(odd){
+    background-color: white;
+}
+
+tbody tr:nth-child(even){
+    background-color: #E9E9E9;
+}
