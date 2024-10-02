@@ -57,10 +57,20 @@
     }
 }
 
-tbody tr:nth-child(odd){
-    background-color: white;
+tbody tr:first-child{
+    td:first-chiild{
+        border-top-left-radius: 1rem;
+    }
+    td:last-child{
+        border-top-right-radius: 1rem;
+    }
 }
 
-tbody tr:nth-child(even){
-    background-color: #E9E9E9;
+tbody tr:last-child{
+    td:first-child{
+        border-bottom-left-radius: 1rem;
+    }
+    td:last-child{
+        border-bottom-right-radius: 1rem;
+    }
 }
