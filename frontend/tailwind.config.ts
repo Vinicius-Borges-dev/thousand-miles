@@ -29,6 +29,8 @@ const config:Config = {
         "card-form-lighter": "#434343",
         "input": "#353535",
         "dark-font": "#7E7E7E",
+        "table-border": "#C0C0C0",
+        "tbody-text-color": "#8B8B8B",
       },
       animation: {
         "slide": "slider 40s linear infinite",
