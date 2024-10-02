@@ -25,6 +25,10 @@ const config:Config = {
       colors:{
         "card": "#f2f2f2",
         "card-cars": "#DFE4F7",
+        "card-form": "#282828",
+        "card-form-lighter": "#434343",
+        "input": "#353535",
+        "dark-font": "#7E7E7E",
       },
       animation: {
         "slide": "slider 40s linear infinite",
