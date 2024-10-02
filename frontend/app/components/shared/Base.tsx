@@ -28,7 +28,7 @@ export default function Base({ children }: BaseProps) {
       <Background ref={backgroundRef} />
       <Navbar />
       <main
-        className="min-h-[150vh] container absolute pt-28 left-2/4 -translate-x-2/4"
+        className="min-h-[120vh] container absolute pt-28 left-2/4 -translate-x-2/4"
         ref={mainRef}
       >
         {children}
