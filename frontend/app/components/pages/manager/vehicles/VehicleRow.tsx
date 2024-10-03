@@ -3,7 +3,6 @@ import bmwCinza from "@images/bmw-cinza.png";
 import iconEdit from "@icons/iconEdit.svg";
 import iconDelete from "@icons/iconTrash.svg";
 import Link from "next/link";
-import { Key } from "react";
 
 type VehicleRowProps = {
   model: string;
@@ -11,7 +10,6 @@ type VehicleRowProps = {
   category: string;
   pricePerDay: GLfloat;
   amount: number;
-  key: Key;
 };
 
 export default function VehicleRow({
@@ -20,10 +18,9 @@ export default function VehicleRow({
   category,
   pricePerDay,
   amount,
-  key,
 }: VehicleRowProps) {
   return (
-    <tr className="odd:bg-white even:bg-gray-300" key={key}>
+    <tr className="odd:bg-white even:bg-gray-300">
       <td>
         <span className="flex gap-3">
           <Image src={bmwCinza} height={30} alt="Veiculo" />
