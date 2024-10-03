@@ -14,17 +14,21 @@ export default function Base({ children }: BaseProps) {
   const mainRef = useRef<HTMLDivElement | null>(null);
   const footerRef = useRef<HTMLDivElement | null>(null);
 
-  useEffect(() => {
+  const handleResize = () => {
     const background = backgroundRef.current;
     const main = mainRef.current;
     const footer = footerRef.current;
 
-    if (background && main) {
+    if (background && main && footer) {
       const mainHeight = main.offsetHeight;
       const footerHeight = footer.offsetHeight;
       background.style.height = `${mainHeight + footerHeight + 20}px`;
     }
-  }, [backgroundRef, mainRef.current?.offsetHeight]);
+  };
+
+  useEffect(() => {
+    handleResize();
+  }, [backgroundRef, mainRef, footerRef]);
 
   return (
     <>
