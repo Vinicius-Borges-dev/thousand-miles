@@ -34,7 +34,7 @@ export default async function TableContainer({
         {/* {content.map((item, index) => {
           return <VehicleRow />;
         })} */}
-        {Array.from({ length: 5 }).map((_, index) => {
+        {Array.from({ length: 55 }).map((_, index) => {
           return (
             <VehicleRow
               model="I8"
