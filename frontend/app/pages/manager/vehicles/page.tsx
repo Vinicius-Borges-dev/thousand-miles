@@ -1,10 +1,10 @@
-import TableVehicles from "@root/app/components/pages/manager/vehicles/TableVehicles";
+import TableContainer from "@components/shared/TableContainer";
 
 export default function ManagerVehicles()
 {
     return(
         <>
-            <TableVehicles />
+            <TableContainer keys={['modelo', 'marca', 'categoria', 'preço por dia', 'quantidade em estoque', 'ações']} content={['']}/>
         </>
     )
 }
