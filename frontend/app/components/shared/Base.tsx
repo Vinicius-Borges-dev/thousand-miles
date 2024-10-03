@@ -26,7 +26,7 @@ export default function Base({ children }: BaseProps) {
     }
 
     if (table) {
-      const tableHeight = table.offsetHeight; // Aqui você obtém a altura da Table
+      const tableHeight = table.offsetHeight;
       console.log("Height of Table:", tableHeight);
     }
   }, [backgroundRef, mainRef]);
@@ -39,7 +39,7 @@ export default function Base({ children }: BaseProps) {
         className="min-h-[120vh] container absolute pt-28 left-2/4 -translate-x-2/4"
         ref={mainRef}
       >
-        {React.Children.map(children, child => {
+        {React.Children.map(children, (child) => {
           if (React.isValidElement(child) && child.type === Table) {
             return React.cloneElement(child, { ref: tableRef });
           }
