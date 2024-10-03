@@ -3,74 +3,73 @@
 @tailwind utilities;
 
 @font-face {
-    font-family: 'Alumni Sans SemiBold';
-    src: url("./assets/fonts/AlumniSans/AlumniSans-SemiBold.ttf");
+  font-family: "Alumni Sans SemiBold";
+  src: url("./assets/fonts/AlumniSans/AlumniSans-SemiBold.ttf");
 }
 @font-face {
-    font-family: 'Asap Condensed Medium';
-    src: url("./assets/fonts/AsapCondensed/AsapCondensed-Medium.ttf");
+  font-family: "Asap Condensed Medium";
+  src: url("./assets/fonts/AsapCondensed/AsapCondensed-Medium.ttf");
 }
 @font-face {
-    font-family: 'Asap Condensed Regular';
-    src: url("./assets/fonts/AsapCondensed/AsapCondensed-Regular.ttf");
+  font-family: "Asap Condensed Regular";
+  src: url("./assets/fonts/AsapCondensed/AsapCondensed-Regular.ttf");
 }
 @font-face {
-    font-family: 'Asap Condensed SemiBold';
-    src: url("./assets/fonts/AsapCondensed/AsapCondensed-SemiBold.ttf");
+  font-family: "Asap Condensed SemiBold";
+  src: url("./assets/fonts/AsapCondensed/AsapCondensed-SemiBold.ttf");
 }
 @font-face {
-    font-family: 'Barlow Condensed Bold';
-    src: url("./assets/fonts/BarlowCondensed/BarlowCondensed-Bold.ttf");
+  font-family: "Barlow Condensed Bold";
+  src: url("./assets/fonts/BarlowCondensed/BarlowCondensed-Bold.ttf");
 }
 @font-face {
-    font-family: 'Barlow Condensed ExtraLight';
-    src: url("./assets/fonts/BarlowCondensed/BarlowCondensed-ExtraLight.ttf");
+  font-family: "Barlow Condensed ExtraLight";
+  src: url("./assets/fonts/BarlowCondensed/BarlowCondensed-ExtraLight.ttf");
 }
 @font-face {
-    font-family: 'Barlow Condensed Medium';
-    src: url("./assets/fonts/BarlowCondensed/BarlowCondensed-Medium.ttf");
+  font-family: "Barlow Condensed Medium";
+  src: url("./assets/fonts/BarlowCondensed/BarlowCondensed-Medium.ttf");
 }
 @font-face {
-    font-family: 'Barlow Condensed SemiBold';
-    src: url("./assets/fonts/BarlowCondensed/BarlowCondensed-SemiBold.ttf");
+  font-family: "Barlow Condensed SemiBold";
+  src: url("./assets/fonts/BarlowCondensed/BarlowCondensed-SemiBold.ttf");
 }
 @font-face {
-    font-family: 'OpenSans Italic';
-    src: url("./assets/fonts/OpenSans/OpenSans-Italic-VariableFont_wdth\,wght.ttf");
+  font-family: "OpenSans Italic";
+  src: url("./assets/fonts/OpenSans/OpenSans-Italic-VariableFont_wdth\,wght.ttf");
 }
 @font-face {
-    font-family: 'OpenSans';
-    src: url("./assets/fonts/OpenSans/OpenSans-VariableFont_wdth\,wght.ttf");
+  font-family: "OpenSans";
+  src: url("./assets/fonts/OpenSans/OpenSans-VariableFont_wdth\,wght.ttf");
 }
 @font-face {
-    font-family: 'OpenSans Condensed Bold';
-    src: url("./assets/fonts/OpenSansCondensed/OpenSans-CondBold.ttf");
+  font-family: "OpenSans Condensed Bold";
+  src: url("./assets/fonts/OpenSansCondensed/OpenSans-CondBold.ttf");
 }
 @font-face {
-    font-family: 'OpenSans Condensed Light';
-    src: url("./assets/fonts/OpenSansCondensed/OpenSans-CondLight.ttf");
+  font-family: "OpenSans Condensed Light";
+  src: url("./assets/fonts/OpenSansCondensed/OpenSans-CondLight.ttf");
 }
 
 @keyframes slider {
-    to{
-        left: -200%;
-    }
+  to {
+    left: -200%;
+  }
 }
 
-tbody tr:first-child{
-    td:first-chiild{
-        border-top-left-radius: 1rem;
-    }
-    td:last-child{
-        border-top-right-radius: 1rem;
-    }
+tbody tr:first-child {
+  td:first-child {
+    border-top-left-radius: 1rem;
+  }
+  td:last-child {
+    border-top-right-radius: 1rem;
+  }
 }
-
-tbody tr:last-child{
-    td:first-child{
-        border-bottom-left-radius: 1rem;
-    }
-    td:last-child{
-        border-bottom-right-radius: 1rem;
-    }
+tbody tr:last-child {
+  td:first-child {
+    border-bottom-left-radius: 1rem;
+  }
+  td:last-child {
+    border-bottom-right-radius: 1rem;
+  }
 }
