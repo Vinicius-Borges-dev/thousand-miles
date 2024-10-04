@@ -7,8 +7,9 @@ import steringWheel from "@icons/stering-wheel.svg";
 import seat from "@icons/seat.svg";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+import { Span } from "next/dist/trace";
 
-const ReservarVeiculo = (params:{ Vehicleid: string }) => {
+const ReservarVeiculo = (params: { Vehicleid: string }) => {
   const vehicle = params.Vehicleid;
   console.log(vehicle);
 
@@ -20,19 +21,21 @@ const ReservarVeiculo = (params:{ Vehicleid: string }) => {
 
   useEffect(() => {
     if (entry_date && end_date) {
-      const today = new Date().getDay() - 1;
-      const entry = entry_date.getDay();
-      const end = end_date.getDay();
+      const today: number = new Date().getDay() - 1;
+      const entry: number = entry_date.getDay();
+      const end: number = end_date.getDay();
+      const entryFeedback = entryFeedbackRef.current;
+      const endFeedback = endFeedbackRef.current;
 
       if (entry < today) {
-        entryFeedbackRef.current.textContent =
+        entryFeedback.textContent =
           "Data de entrada não pode ser anterior a data de hoje";
       } else if (end < entry) {
-        endFeedbackRef.current.textContent =
+        endFeedback.current.textContent =
           "Data de saída não pode ser anterior a data de entrada";
       } else {
-        entryFeedbackRef.current.textContent = "";
-        endFeedbackRef.current.textContent = "";
+        entryFeedback.textContent = "";
+        endFeedback.current.textContent = "";
         const days = Math.abs(end - entry) + 1;
         const price = days * 100;
         const fixedPrice = price.toFixed(2);
@@ -42,9 +45,7 @@ const ReservarVeiculo = (params:{ Vehicleid: string }) => {
   }, [entry_date, end_date]);
 
   return (
-    <div
-      className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full"
-    >
+    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full">
       <div className="w-full bg-card-form p-2 rounded-md min-[770px]:flex relative shadow-lg shadow-card-form-lighter">
         <section className="flex flex-col p-4 lg:w-1/2 max-md:w-full *:select-none">
           <span className="flex w-full justify-between">
