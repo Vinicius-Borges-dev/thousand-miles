@@ -24,7 +24,7 @@ export default function Navbar() {
           <li className="text-3xl p-2">
             <Link
               className="text-gray-300 hover:text-gray-500 transition-all"
-              href="/reservas"
+              href="/pages/reserves"
             >
               Minhas reservas
             </Link>
