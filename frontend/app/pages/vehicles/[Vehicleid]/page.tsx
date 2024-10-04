@@ -6,13 +6,9 @@ import iconCar from "@icons/iconCar.svg";
 import steringWheel from "@icons/stering-wheel.svg";
 import seat from "@icons/seat.svg";
 import Link from "next/link";
-import { forwardRef, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
-const ReservarVeiculo = forwardRef<
-  HTMLDivElement,
-  { params: { Vehicleid: string } }
->(({ params }, ref) => {
-
+const ReservarVeiculo = (params:{ Vehicleid: string }) => {
   const vehicle = params.Vehicleid;
   console.log(vehicle);
 
@@ -45,8 +41,10 @@ const ReservarVeiculo = forwardRef<
     }
   }, [entry_date, end_date]);
 
-  return(
-    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full" ref={ref}>
+  return (
+    <div
+      className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full"
+    >
       <div className="w-full bg-card-form p-2 rounded-md min-[770px]:flex relative shadow-lg shadow-card-form-lighter">
         <section className="flex flex-col p-4 lg:w-1/2 max-md:w-full *:select-none">
           <span className="flex w-full justify-between">
@@ -137,10 +135,7 @@ const ReservarVeiculo = forwardRef<
         </section>
       </div>
     </div>
-  )
-});
-
-
-ReservarVeiculo.displayName = "ReservarVeiculo";
+  );
+};
 
 export default ReservarVeiculo;
