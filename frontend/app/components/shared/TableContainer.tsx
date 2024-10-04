@@ -1,6 +1,5 @@
 import { forwardRef } from "react";
 import VehicleRow from "../pages/manager/vehicles/VehicleRow";
-// import VehicleRow from "../pages/manager/vehicles/VehicleRow";
 
 const TableContainer = forwardRef<
   HTMLTableElement,
