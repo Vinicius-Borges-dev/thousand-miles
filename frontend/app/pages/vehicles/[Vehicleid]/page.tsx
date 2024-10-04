@@ -7,7 +7,6 @@ import steringWheel from "@icons/stering-wheel.svg";
 import seat from "@icons/seat.svg";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { Span } from "next/dist/trace";
 
 const ReservarVeiculo = (params: { Vehicleid: string }) => {
   const vehicle = params.Vehicleid;
@@ -15,28 +14,30 @@ const ReservarVeiculo = (params: { Vehicleid: string }) => {
 
   const [entry_date, setEntry_date] = useState<Date | null>(null);
   const [end_date, setEnd_date] = useState<Date | null>(null);
+
   const priceRef = useRef<HTMLDivElement | null>(null);
   const entryFeedbackRef = useRef<HTMLSpanElement | null>(null);
   const endFeedbackRef = useRef<HTMLSpanElement | null>(null);
 
   useEffect(() => {
     if (entry_date && end_date) {
-      const today: number = new Date().getDay() - 1;
-      const entry: number = entry_date.getDay();
-      const end: number = end_date.getDay();
+      const today: number = new Date().getDate();
+      const entry: number = entry_date.getDate();
+      const end: number = end_date.getDate();
       const entryFeedback = entryFeedbackRef.current;
       const endFeedback = endFeedbackRef.current;
+      console.log(today, entry, end);
 
       if (entry < today) {
         entryFeedback.textContent =
           "Data de entrada não pode ser anterior a data de hoje";
       } else if (end < entry) {
-        endFeedback.current.textContent =
+        endFeedback.textContent =
           "Data de saída não pode ser anterior a data de entrada";
       } else {
         entryFeedback.textContent = "";
-        endFeedback.current.textContent = "";
-        const days = Math.abs(end - entry) + 1;
+        endFeedback.textContent = "";
+        const days = end - entry + 1;
         const price = days * 100;
         const fixedPrice = price.toFixed(2);
         priceRef.current.textContent = `R$ ${fixedPrice.replace(".", ",")}`;
@@ -97,7 +98,7 @@ const ReservarVeiculo = (params: { Vehicleid: string }) => {
                   type="date"
                   id="entry_date"
                   name="entry_date"
-                  onChange={(e) => setEntry_date(new Date(e.target.value))}
+                  onChange={(e) => setEntry_date(new Date((e.target.value).replace(/-/g, "/")))}
                   required
                 />
                 <span ref={entryFeedbackRef} className="text-red-500"></span>
@@ -106,7 +107,7 @@ const ReservarVeiculo = (params: { Vehicleid: string }) => {
                   type="date"
                   id="end_date"
                   name="end_date"
-                  onChange={(e) => setEnd_date(new Date(e.target.value))}
+                  onChange={(e) => setEnd_date(new Date((e.target.value).replace(/-/g, "/")))}
                   required
                 />
                 <span ref={endFeedbackRef} className="text-red-500"></span>
