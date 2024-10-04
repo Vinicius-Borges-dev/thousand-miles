@@ -1,12 +1,16 @@
 import Header from "@root/app/components/pages/vehicles/index/Header";
 import GridCars from "@root/app/components/pages/vehicles/index/GridCars";
+import { forwardRef } from "react";
 
-export default function Veiculos()
-{
+const Veiculos = forwardRef<HTMLDivElement>((props, ref) => {
     return(
-        <>
+        <div ref={ref}>
             <Header />
-            <GridCars />
-        </>
+            <GridCars/>
+        </div>
     )
-}
+})
+
+Veiculos.displayName = "Veiculos";
+
+export default Veiculos;

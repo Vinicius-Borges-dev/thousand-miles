@@ -1,6 +1,7 @@
 import TableContainer from "@components/shared/TableContainer";
+import { forwardRef } from "react";
 
-export default function ManagerVehicles() {
+const ManagerVehicles = forwardRef<HTMLTableElement>((props, ref) => {
   return (
     <TableContainer
       keys={[
@@ -12,6 +13,11 @@ export default function ManagerVehicles() {
         "ações",
       ]}
       content={[""]}
+      ref={ref}
     />
   );
-}
+});
+
+ManagerVehicles.displayName = "ManagerVehicles";
+
+export default ManagerVehicles;

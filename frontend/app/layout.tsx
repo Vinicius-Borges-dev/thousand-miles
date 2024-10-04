@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Base from "@components/shared/Base";
+import { ReactElement } from "react";
 
 export const metadata: Metadata = {
   title: "Thousand Miles",
@@ -10,7 +11,7 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: ReactElement[];
 }>) {
   return (
     <html lang="pt-br">

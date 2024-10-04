@@ -6,24 +6,25 @@ import iconCar from "@icons/iconCar.svg";
 import steringWheel from "@icons/stering-wheel.svg";
 import seat from "@icons/seat.svg";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { forwardRef, useEffect, useRef, useState } from "react";
 
-export default function ReservarVeiculo({
-  params,
-}: {
-  params: { Vehicleid: string };
-}) {
+const ReservarVeiculo = forwardRef<
+  HTMLDivElement,
+  { params: { Vehicleid: string } }
+>(({ params }, ref) => {
+
   const vehicle = params.Vehicleid;
+  console.log(vehicle);
 
   const [entry_date, setEntry_date] = useState<Date | null>(null);
   const [end_date, setEnd_date] = useState<Date | null>(null);
-  let priceRef = useRef<HTMLDivElement | null>(null);
-  let entryFeedbackRef = useRef<HTMLSpanElement | null>(null);
-  let endFeedbackRef = useRef<HTMLSpanElement | null>(null);
+  const priceRef = useRef<HTMLDivElement | null>(null);
+  const entryFeedbackRef = useRef<HTMLSpanElement | null>(null);
+  const endFeedbackRef = useRef<HTMLSpanElement | null>(null);
 
   useEffect(() => {
     if (entry_date && end_date) {
-      let today = new Date().getDay() - 1;
+      const today = new Date().getDay() - 1;
       const entry = entry_date.getDay();
       const end = end_date.getDay();
 
@@ -44,8 +45,8 @@ export default function ReservarVeiculo({
     }
   }, [entry_date, end_date]);
 
-  return (
-    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full">
+  return(
+    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full" ref={ref}>
       <div className="w-full bg-card-form p-2 rounded-md min-[770px]:flex relative shadow-lg shadow-card-form-lighter">
         <section className="flex flex-col p-4 lg:w-1/2 max-md:w-full *:select-none">
           <span className="flex w-full justify-between">
@@ -136,5 +137,10 @@ export default function ReservarVeiculo({
         </section>
       </div>
     </div>
-  );
-}
+  )
+});
+
+
+ReservarVeiculo.displayName = "ReservarVeiculo";
+
+export default ReservarVeiculo;
