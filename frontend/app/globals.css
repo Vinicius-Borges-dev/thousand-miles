@@ -65,6 +65,9 @@ tbody tr:first-child {
     border-top-right-radius: 1rem;
   }
 }
+
+
+
 tbody tr:last-child {
   td:first-child {
     border-bottom-left-radius: 1rem;
