@@ -1,42 +1,27 @@
 import TableContainer from "@root/app/components/shared/TableContainer";
 import HeaderMyReserves from "../manager/reserves/page";
 
-export default function Reserves()
-{
+export default function Reserves() {
+  const dataTable: string[] = [
+    "Carro",
+    "Marca",
+    "Tipo",
+    "preço por dia",
+    "preço total",
+    "status",
+    "Ações",
+  ];
 
-    const content: Array<Array<string | number>> = [
-        [
-            "I8",
-            "BMW",
-            "Esportivo",
-            500.00,
-            1500.00,
-            "ativo",
-            "cancelar"
-        ],
-        [
-            "I8",
-            "BMW",
-            "Esportivo",
-            500.00,
-            1500.00,
-            "pendente",
-            "cancelar"
-        ],
-        [
-            "I8",
-            "BMW",
-            "Esportivo",
-            500.00,
-            1500.00,
-            "cancelado",
-            ""
-        ],
-    ];
-    return (
-        <>
-            <HeaderMyReserves />
-            <TableContainer keys={["Carro","Marca","Tipo","preço por dia","preço total", "status", "Ações"]} content={content}/>
-        </>
-    )
+  const content: Array<Array<string | number>> = [
+    ["I8", "BMW", "Esportivo", 500.0, 1500.0, "ativo", "cancelar"],
+    ["I8", "BMW", "Esportivo", 500.0, 1500.0, "pendente", "cancelar"],
+    ["I8", "BMW", "Esportivo", 500.0, 1500.0, "cancelado", ""],
+  ];
+
+  return (
+    <>
+      <HeaderMyReserves />
+      <TableContainer keys={dataTable} content={content} />
+    </>
+  );
 }
