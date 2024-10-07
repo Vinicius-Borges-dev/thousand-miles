@@ -1,13 +1,14 @@
 FROM python:3.9
 
-WORKDIR /backend
+WORKDIR /app
+
+RUN python -m venv venv
 
 COPY requirements.txt .
-
-RUN pip install -r requirements.txt
+RUN . venv/bin/activate && pip install -r requirements.txt
 
 COPY . .
 
-EXPOSE 8000
+EXPOSE 5000
 
-CMD ["python", "app.py"]
+CMD ["/bin/bash", "-c", "source venv/bin/activate && python app.py"]

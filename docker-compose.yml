@@ -19,5 +19,5 @@ services:
       - "5000:5000"
     volumes:
       - ./backend:/backend
-    command: python app.py
+    command: /bin/bash -c "source venv/bin/activate && python app.py"
     restart: always
