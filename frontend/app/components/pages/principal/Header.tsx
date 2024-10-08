@@ -13,7 +13,7 @@ export default function Header() {
           Veja todos os veículos disponiveis para você.
         </p>
         <div className="bg-slate-200 py-3 px-3 w-2/3 rounded-full mx-auto">
-          <Link href="/veiculos" className="w-full flex justify-between">
+          <Link href="/pages/vehicles/index" className="w-full flex justify-between">
             <button
               type="submit"
               className="text-slate-400 font-asap-condensed-semi-bold"
