@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export default function FormRegistration() {
   const [FormValues, setFormValues] = useState({
@@ -37,13 +37,6 @@ export default function FormRegistration() {
     }
   };
 
-  const submitForm = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (validateForm()) {
-      console.log(FormValues);
-    }
-  };
-
   const onImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
       const reader = new FileReader();
@@ -57,6 +50,12 @@ export default function FormRegistration() {
     }
   };
 
+  const submitForm = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (validateForm()) {
+      console.log(FormValues);
+    }
+  };
   return (
     <div className="bg-card-form p-3 rounded-md">
       <h1 className="text-2xl font-open-sans text-center">
@@ -64,7 +63,7 @@ export default function FormRegistration() {
       </h1>
       <form onSubmit={submitForm}>
         <div className="lg:flex">
-          <div className="w-full px-2 [&>div>input]:w-full [&>div>input]:bg-input [&>div>input]:rounded-lg">
+          <div className="w-full px-2 [&>div>input]:w-full [&>div>input]:bg-input [&>div>input]:rounded-lg [&>div>textarea]:w-full [&>div>textarea]:bg-input [&>div>textarea]:rounded-lg">
             <div className="mb-6">
               <label htmlFor="brand">Marca do veículo:</label>
               <input
@@ -137,6 +136,15 @@ export default function FormRegistration() {
                 required
               />
             </div>
+            <div className="mb-6">
+              <label htmlFor="description">Descrição:</label>
+              <textarea
+                name="description"
+                id="description"
+                placeholder="Ex.Veículo esportivo com assentos de couro, pintura interna e externa em perfeito estado."
+                className="pl-[8px] py-[6px]"
+              ></textarea>
+            </div>
           </div>
           <div className="w-full">
             <div className="mb-6">
@@ -162,8 +170,7 @@ export default function FormRegistration() {
             <div className="mb-6">
               <Image
                 src={
-                  FormValues.lateralPhoto ||
-                  "https://placehold.co/400x200.svg"
+                  FormValues.lateralPhoto || "https://placehold.co/400x200.svg"
                 }
                 width={100}
                 height={90}
