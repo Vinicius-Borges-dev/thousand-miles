@@ -61,7 +61,7 @@ export default function FormRegistration() {
       <h1 className="text-2xl font-open-sans text-center">
         Registro de novo veiculo
       </h1>
-      <form onSubmit={submitForm}>
+      <form onSubmit={submitForm} className="*:font-open-sans font-semibold tracking-wide">
         <div className="lg:flex">
           <div className="w-full px-2 [&>div>input]:w-full [&>div>input]:bg-input [&>div>input]:rounded-lg [&>div>textarea]:w-full [&>div>textarea]:bg-input [&>div>textarea]:rounded-lg">
             <div className="mb-6">
