@@ -7,9 +7,9 @@ import seat from "@icons/seat.svg";
 import Link from "next/link";
 
 export default async function CardCars() {
-  const test = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api`);
+  /* const test = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api`);
   
-  console.log(test.json());
+  console.log(test.json()); */
 
   return (
     <div className="w-[350px] bg-card-cars rounded-lg shadow-md shadow-slate-50 relative flex flex-col items-center">

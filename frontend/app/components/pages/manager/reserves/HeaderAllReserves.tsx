@@ -1,13 +1,13 @@
 import searchIcon from "@icons/searchIcon.svg";
 import Image from "next/image";
 
-export default function HeaderMyReserves() {
+export default function HeaderAllReserves() {
   return (
     <>
       <header>
         <section className="flex flex-col items-center mt-12">
           <h1 className="text-white text-3xl font-open-sans text-center mb-5">
-            Busque pela sua reserva ou veja todas listadas abaixo
+            Busque pelas reservas ou veja todas listadas abaixo
           </h1>
           <form className="bg-slate-400 w-[500px] p-2 rounded-full flex gap-1">
             <input type="text" className="w-[90%] rounded-full bg-transparent outline-none text-xl text-gray-200 placeholder:text-gray-200 pl-2" placeholder="EX.Bmw"/>

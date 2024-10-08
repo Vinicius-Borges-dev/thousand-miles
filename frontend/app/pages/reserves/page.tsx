@@ -1,5 +1,5 @@
 import TableContainer from "@root/app/components/shared/TableContainer";
-import HeaderMyReserves from "../manager/reserves/page";
+import HeaderMyReserves from "@components/pages/reserves/HeaderMyReserves";
 
 export default function Reserves() {
   const dataTable: string[] = [
