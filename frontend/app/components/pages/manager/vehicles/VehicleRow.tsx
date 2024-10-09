@@ -78,7 +78,7 @@ export default function VehicleRow({
             <td key={index}>
               <button
                 className="flex gap-2 border border-gray-600 rounded-lg w-fit p-2"
-                onClick={()=>handleEdit(items[0])}
+                onClick={()=>handleEdit(Number(items[0]))}
               >
                 <Image src={iconEdit} alt="Icone de editar" />
                 {item}
