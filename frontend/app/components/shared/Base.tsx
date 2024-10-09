@@ -11,6 +11,10 @@ type BaseProps = {
   children: React.ReactNode;
 };
 
+type ChildProps = {
+  openModal?: (content?: JSX.Element) => void;
+};
+
 export default function Base({ children }: BaseProps) {
   const backgroundRef = useRef<HTMLDivElement | null>(null);
   const mainRef = useRef<HTMLDivElement | null>(null);
@@ -24,11 +28,15 @@ export default function Base({ children }: BaseProps) {
     if (content) {
       setModalContent(content);
     }
-  }
+  };
 
   const closeModal = () => {
     setIsModalOpen(false);
-  }
+  };
+
+  const childrenWithOpenModal = React.Children.map(children, (child) => {
+      return React.cloneElement(child, { openModal });
+    });
 
   const resizeBackground = () => {
     const background = backgroundRef.current;
@@ -49,12 +57,12 @@ export default function Base({ children }: BaseProps) {
   return (
     <>
       <Background ref={backgroundRef} />
-      <Navbar openModal={openModal}/>
+      <Navbar openModal={openModal} />
       <main
         className="min-h-[120vh] container absolute pt-28 left-2/4 -translate-x-2/4 z-0"
         ref={mainRef}
       >
-        {children}
+        {childrenWithOpenModal}
         <Footer ref={footerRef} />
       </main>
       {isModalOpen ? (

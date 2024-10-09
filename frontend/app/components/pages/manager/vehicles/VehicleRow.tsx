@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import bmwCinza from "@images/bmw-cinza.png";
 import iconEdit from "@icons/iconEdit.svg";
@@ -6,16 +8,29 @@ import iconWarning from "@icons/iconWarning.svg";
 import iconDanger from "@icons/iconDanger.svg";
 import iconDelete from "@icons/iconTrash.svg";
 import Link from "next/link";
+import EditReserve from "@components/modal/EditReserve";
+
+type VehicleRowProps = {
+  items: Array<string | number>;
+  typeContent: string;
+  openModal: (content?: JSX.Element) => void;
+};
 
 export default function VehicleRow({
   items,
-}: {
-  items: Array<string | number>;
-}) {
+  typeContent,
+  openModal,
+}: VehicleRowProps) {
+  const handleEdit = () => {
+    if (typeContent === "AllReserves"){
+      openModal(<EditReserve reserveId={1}/>);
+    }
+  };
+
   return (
     <tr className="odd:bg-white even:bg-gray-200 odd:hover:bg-gray-300 even:hover:bg-gray-300 transition-all [&>td]:h-[66px] [&>td>span]:flex [&>td>span]:items-center">
       {items.map((item: string | number, index: number) => {
-        if (index == 0) {
+        if (index == 1) {
           return (
             <td key={index}>
               <span className="flex gap-3">
@@ -25,30 +40,30 @@ export default function VehicleRow({
             </td>
           );
         }
-        if (item == "ativo") {
+        if (item === "ativo") {
           return (
             <td key={index} className="flex gap-1">
               <Image src={iconSuccess} alt="Icone de sucesso" />
               <span>{item}</span>
             </td>
           );
-        } else if (item == "pendente") {
+        } else if (item === "pendente") {
           return (
             <td key={index} className="flex gap-1 border item-center">
-                <Image src={iconWarning} alt="Icone de sucesso" />
+              <Image src={iconWarning} alt="Icone de sucesso" />
               <span>{item}</span>
             </td>
           );
-        } else if (item == "cancelado") {
+        } else if (item === "cancelado") {
           return (
             <td key={index} className="flex gap-1">
               <Image src={iconDanger} alt="Icone de sucesso" />
               <span>{item}</span>
             </td>
           );
-        } else if (item == "cancelar") {
+        } else if (item === "cancelar") {
           return (
-            <td key={index} className="">
+            <td key={index}>
               <Link
                 href=""
                 className="flex gap-2 border border-gray-600 rounded-lg w-fit p-2"
@@ -58,28 +73,25 @@ export default function VehicleRow({
               </Link>
             </td>
           );
-        } else if(item == "editar"){
+        } else if (item === "editar") {
           return (
             <td key={index}>
-              <Link
-                href=""
+              <button
                 className="flex gap-2 border border-gray-600 rounded-lg w-fit p-2"
+                onClick={handleEdit}
               >
                 <Image src={iconEdit} alt="Icone de editar" />
                 {item}
-              </Link>
+              </button>
             </td>
           );
-        } else if (item == "excluir" ){
+        } else if (item === "excluir") {
           return (
             <td key={index}>
-              <Link
-                href=""
-                className="flex gap-2 border border-gray-600 rounded-lg w-fit p-2"
-              >
+              <button className="flex gap-2 border border-gray-600 rounded-lg w-fit p-2">
                 <Image src={iconDelete} alt="Icone de deletar" />
                 {item}
-              </Link>
+              </button>
             </td>
           );
         }

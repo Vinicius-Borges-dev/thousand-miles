@@ -2,8 +2,13 @@ import TableContainer from "@root/app/components/shared/TableContainer";
 import Image from "next/image";
 import searchIcon from "@icons/searchIcon.svg";
 
-export default function ManagerReserves() {
+type ManagerReservesProps = {
+  openModal: (content?: JSX.Element) => void;
+};
+
+export default function ManagerReserves({openModal}: ManagerReservesProps) {
   const keys = [
+    "ID",
     "Carro",
     "Cliente",
     "Marca",
@@ -15,6 +20,7 @@ export default function ManagerReserves() {
   ];
   const content = [
     [
+      1,
       "I8",
       "John Doe",
       "Bmw",
@@ -26,6 +32,7 @@ export default function ManagerReserves() {
       "editar",
     ],
     [
+      2,
       "I8",
       "John Doe",
       "Bmw",
@@ -37,6 +44,7 @@ export default function ManagerReserves() {
       "editar",
     ],
     [
+      3,
       "I8",
       "John Doe",
       "Bmw",
@@ -82,7 +90,7 @@ export default function ManagerReserves() {
           </form>
         </section>
       </header>
-      <TableContainer keys={keys} content={content} />
+      <TableContainer keys={keys} content={content} typeContent="AllReserves" openModal={openModal}/>
     </>
   );
 }
