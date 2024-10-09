@@ -1,42 +1,22 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { ReactElement, useEffect, useRef } from "react";
 import Footer from "./Footer";
-import Navbar from "./Navbar";
 import Background from "./Background";
 import { usePathname } from "next/navigation";
-import ModalBase from "../modal/ModalBase";
+import { ModalProvider } from '@components/modal/ModalContext';
+import Navbar from "./Navbar";
 
 type BaseProps = {
-  children: React.ReactNode;
+  children: ReactElement;
 };
 
-type ChildProps = {
-  openModal?: (content?: JSX.Element) => void;
-};
 
-export default function Base({ children }: BaseProps) {
+export default function Base({ children }: BaseProps): JSX.Element {
   const backgroundRef = useRef<HTMLDivElement | null>(null);
   const mainRef = useRef<HTMLDivElement | null>(null);
   const footerRef = useRef<HTMLDivElement | null>(null);
   const pathname = usePathname();
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalContent, setModalContent] = useState<JSX.Element | null>(null);
-
-  const openModal = (content?: JSX.Element) => {
-    setIsModalOpen(true);
-    if (content) {
-      setModalContent(content);
-    }
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
-
-  const childrenWithOpenModal = React.Children.map(children, (child) => {
-      return React.cloneElement(child, { openModal });
-    });
 
   const resizeBackground = () => {
     const background = backgroundRef.current;
@@ -55,23 +35,16 @@ export default function Base({ children }: BaseProps) {
   }, [backgroundRef, mainRef, footerRef, pathname]);
 
   return (
-    <>
+    <ModalProvider>
       <Background ref={backgroundRef} />
-      <Navbar openModal={openModal} />
+      <Navbar />
       <main
         className="min-h-[120vh] container absolute pt-28 left-2/4 -translate-x-2/4 z-0"
         ref={mainRef}
       >
-        {childrenWithOpenModal}
+        {children}
         <Footer ref={footerRef} />
       </main>
-      {isModalOpen ? (
-        <ModalBase size="sm" closeModal={closeModal}>
-          {modalContent}
-        </ModalBase>
-      ) : (
-        ""
-      )}
-    </>
+    </ModalProvider>
   );
 }
