@@ -3,7 +3,7 @@ import Account from "@components/modal/Account";
 import { useModal } from "@components/modal/ModalContext";
 
 export default function Navbar() {
-  const { openModal,  } = useModal();
+  const { openModal } = useModal();
   return (
     <header className="p-4 fixed w-full top-0 z-10">
       <nav className="w-full bg-opacity-50 bg-gray-950 p-2 flex justify-between border-b-4 border-gray-500">

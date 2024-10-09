@@ -21,9 +21,9 @@ export default function VehicleRow({
   typeContent,
   openModal,
 }: VehicleRowProps) {
-  const handleEdit = () => {
-    if (typeContent === "AllReserves"){
-      openModal(<EditReserve reserveId={1}/>);
+  const handleEdit = (id:number) => {
+    if (typeContent === "AllReserves") {
+      openModal(<EditReserve reserveId={id} />);
     }
   };
 
@@ -78,7 +78,7 @@ export default function VehicleRow({
             <td key={index}>
               <button
                 className="flex gap-2 border border-gray-600 rounded-lg w-fit p-2"
-                onClick={handleEdit}
+                onClick={()=>handleEdit(items[0])}
               >
                 <Image src={iconEdit} alt="Icone de editar" />
                 {item}
