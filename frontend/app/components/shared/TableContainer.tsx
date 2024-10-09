@@ -6,7 +6,7 @@ const TableContainer = forwardRef<
   { keys: string[]; content:  Array<Array<string | number>> }
 >(({ keys, content=[] }, ref) => {
   return (
-    <table className="w-full *:font-open-sans mt-12" ref={ref}>
+    <table className="w-full *:font-open-sans mt-12 overflow-auto" ref={ref}>
       <thead className="[&>tr>th]:text-left [&>tr>th]:pl-2 [&>tr>th]:pb-4 *:uppercase *:font-bold">
         <tr>
           {keys.map((content:string, index:number) => {

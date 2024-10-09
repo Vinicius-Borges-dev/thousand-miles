@@ -1,6 +1,11 @@
 import Link from "next/link";
+import Account from "@components/modal/Account";
 
-export default function Navbar() {
+type NavbarProps = {
+  openModal: (content?: JSX.Element) => void;
+};
+
+export default function Navbar({ openModal }: NavbarProps) {
   return (
     <header className="p-4 fixed w-full top-0 z-10">
       <nav className="w-full bg-opacity-50 bg-gray-950 p-2 flex justify-between border-b-4 border-gray-500">
@@ -65,15 +70,9 @@ export default function Navbar() {
                 <li>
                   <button
                     className="text-gray-300 hover:text-gray-500 transition-all"
+                    onClick={()=>openModal(<Account />)}
                   >
                     Login
-                  </button>
-                </li>
-                <li>
-                  <button
-                    className="text-gray-300 hover:text-gray-500 transition-all"
-                  >
-                    Registrar
                   </button>
                 </li>
                 <hr className="w-full h-[2px] bg-slate-400"/>
