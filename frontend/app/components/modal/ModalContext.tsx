@@ -24,7 +24,7 @@ export const ModalProvider = ({ children }: { children: ReactNode }) => {
   return (
     <ModalContext.Provider value={{ isModalOpen, openModal, closeModal, modalContent }}>
       {children}
-      {isModalOpen && <ModalBase size="sm" closeModal={closeModal}>{modalContent}</ModalBase>}
+      {isModalOpen && <ModalBase closeModal={closeModal}>{modalContent}</ModalBase>}
     </ModalContext.Provider>
   );
 };
