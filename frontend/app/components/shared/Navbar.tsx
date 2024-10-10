@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Account from "@components/modal/Account";
-import { useModal } from "@components/modal/ModalContext";
+import { useModal } from "@root/app/components/modal/BaseModal/ModalContext";
 
 export default function Navbar() {
   const { openModal } = useModal();

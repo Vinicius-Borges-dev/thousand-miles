@@ -4,7 +4,7 @@ import React, { ReactElement, useEffect, useRef } from "react";
 import Footer from "./Footer";
 import Background from "./Background";
 import { usePathname } from "next/navigation";
-import { ModalProvider } from '@components/modal/ModalContext';
+import { ModalProvider } from '@root/app/components/modal/BaseModal/ModalContext';
 import Navbar from "./Navbar";
 
 type BaseProps = {

@@ -3,7 +3,7 @@
 import TableContainer from "@root/app/components/shared/TableContainer";
 import Image from "next/image";
 import searchIcon from "@icons/searchIcon.svg";
-import { useModal } from '@components/modal/ModalContext';
+import { useModal } from '@root/app/components/modal/BaseModal/ModalContext';
 
 export default function ManagerReserves() {
   const { openModal } = useModal();
