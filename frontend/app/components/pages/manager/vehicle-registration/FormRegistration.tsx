@@ -1,38 +1,49 @@
 "use client";
 
-import { ExecException } from "child_process";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useCallback, FormEvent } from "react";
 
 export default function FormRegistration() {
-  const [FormValues, setFormValues] = useState({
+  const [FormInputTextValues, setFormInputTextValues] = useState({
     brand: "",
     model: "",
     category: "",
     year: "",
     color: "",
     pricePerDay: "",
-    apresentationPhoto: "",
-    lateralPhoto: "",
+    description: "",
   });
+
+  const [formInputFiles, setFormInputFiles] = useState({
+    apresentationPhoto: {
+      file: null,
+      preview: "",
+    },
+    lateralPhoto: {
+      file: null,
+      preview: "",
+    },
+  });
+
   const [error, setError] = useState<string>("");
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormValues({
-      ...FormValues,
+  const handleStringsInputsChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setFormInputTextValues({
+      ...FormInputTextValues,
       [e.target.name]: e.target.value,
     });
-    console.log(FormValues);
   };
 
   const validateForm = () => {
     if (
-      FormValues.brand === "" ||
-      FormValues.model === "" ||
-      FormValues.category === "" ||
-      FormValues.year === "" ||
-      FormValues.color === "" ||
-      FormValues.pricePerDay === ""
+      FormInputTextValues.brand === "" ||
+      FormInputTextValues.model === "" ||
+      FormInputTextValues.category === "" ||
+      FormInputTextValues.year === "" ||
+      FormInputTextValues.color === "" ||
+      FormInputTextValues.pricePerDay === ""
     ) {
       setError("Preencha todos os campos!");
       return false;
@@ -40,38 +51,52 @@ export default function FormRegistration() {
     return true;
   };
 
-  const onImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    /* if (event.target.files && event.target.files[0]) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        console.log(e);
-        setFormValues({
-          ...FormValues,
-          [event.target.name]: e.target.result,
-        });
-      };
-      reader.readAsDataURL(event.target.files[0]);
-    } */
-   setFormValues({
-      ...FormValues,
-      [event.target.name]: URL.createObjectURL(event.target.files[0])
-   })
-   console.log(FormValues);
-  };
+  const handleImageChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      const file = event.target.files?.[0];
+      const name = event.target.name;
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (e: ProgressEvent<FileReader>) => {
+          setFormInputFiles((prevState) => ({
+            ...prevState,
+            [name]: {
+              file: file,
+              preview: e.target?.result,
+            },
+          }));
+        };
+        reader.readAsDataURL(file);
+      }
+    },
+    []
+  );
 
   const submitForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (validateForm()) {
+      const formData = new FormData();
+
+      Object.keys(FormInputTextValues).forEach((key) => {
+        formData.append(
+          key,
+          FormInputTextValues[key as keyof typeof FormInputTextValues]
+        );
+      });
+
+      formData.append(
+        "apresentationPhoto",
+        formInputFiles.apresentationPhoto.file
+      );
+      formData.append("lateralPhoto", formInputFiles.lateralPhoto.file);
+
       try {
         const response = await fetch("/api/vehicles/create", {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(FormValues),
+          body: formData,
         });
         const data = await response.json();
-  
+
         console.log(data);
       } catch (err: unknown) {
         console.error("Erro no fetch:", err);
@@ -89,6 +114,7 @@ export default function FormRegistration() {
       <form
         onSubmit={submitForm}
         className="*:font-open-sans font-semibold tracking-wide"
+        encType="multipart/form-data"
       >
         <div className="lg:flex">
           <div className="w-full px-2 [&>div>input]:w-full [&>div>input]:bg-input [&>div>input]:rounded-lg [&>div>textarea]:w-full [&>div>textarea]:bg-input [&>div>textarea]:rounded-lg">
@@ -100,8 +126,9 @@ export default function FormRegistration() {
                 id="brand"
                 placeholder="Ex.BMW"
                 className="pl-[8px] py-[6px]"
-                onChange={handleChange}
+                onChange={handleStringsInputsChange}
                 required
+                value={FormInputTextValues.brand}
               />
             </div>
             <div className="mb-6">
@@ -112,8 +139,9 @@ export default function FormRegistration() {
                 id="model"
                 placeholder="Ex.I8"
                 className="pl-[8px] py-[6px]"
-                onChange={handleChange}
+                onChange={handleStringsInputsChange}
                 required
+                value={FormInputTextValues.model}
               />
             </div>
             <div className="mb-6">
@@ -124,8 +152,9 @@ export default function FormRegistration() {
                 id="category"
                 placeholder="Ex.Esportivo"
                 className="pl-[8px] py-[6px]"
-                onChange={handleChange}
+                onChange={handleStringsInputsChange}
                 required
+                value={FormInputTextValues.category}
               />
             </div>
             <div className="mb-6">
@@ -136,8 +165,9 @@ export default function FormRegistration() {
                 id="year"
                 placeholder="Ex.2020"
                 className="pl-[8px] py-[6px]"
-                onChange={handleChange}
+                onChange={handleStringsInputsChange}
                 required
+                value={FormInputTextValues.year}
               />
             </div>
             <div className="mb-6">
@@ -148,8 +178,9 @@ export default function FormRegistration() {
                 id="color"
                 placeholder="Ex.Vermelho"
                 className="pl-[8px] py-[6px]"
-                onChange={handleChange}
+                onChange={handleStringsInputsChange}
                 required
+                value={FormInputTextValues.color}
               />
             </div>
             <div className="mb-6">
@@ -160,8 +191,9 @@ export default function FormRegistration() {
                 id="pricePerDay"
                 placeholder="Ex.BMW"
                 className="pl-[8px] py-[6px]"
-                onChange={handleChange}
+                onChange={handleStringsInputsChange}
                 required
+                value={FormInputTextValues.pricePerDay}
               />
             </div>
             <div className="mb-6">
@@ -171,6 +203,9 @@ export default function FormRegistration() {
                 id="description"
                 placeholder="Ex.Veículo esportivo com assentos de couro, pintura interna e externa em perfeito estado."
                 className="pl-[8px] py-[6px]"
+                onChange={handleStringsInputsChange}
+                value={FormInputTextValues.description}
+                required
               ></textarea>
             </div>
           </div>
@@ -178,7 +213,7 @@ export default function FormRegistration() {
             <div className="mb-6">
               <Image
                 src={
-                  FormValues.apresentationPhoto ||
+                  formInputFiles.apresentationPhoto.preview ||
                   "https://placehold.co/400x200.svg"
                 }
                 width={100}
@@ -192,17 +227,19 @@ export default function FormRegistration() {
                 name="apresentationPhoto"
                 id="apresentationPhoto"
                 className="pl-[8px] py-[6px]"
-                onChange={onImageChange}
+                onChange={handleImageChange}
+                required
               />
             </div>
             <div className="mb-6">
               <Image
                 src={
-                  FormValues.lateralPhoto || "https://placehold.co/400x200.svg"
+                  formInputFiles.lateralPhoto.preview ||
+                  "https://placehold.co/400x200.svg"
                 }
                 width={100}
                 height={90}
-                alt="Apresentation Photo"
+                alt="Lateral Photo"
                 className="rounded-lg w-full h-[200px] object-scale-down"
               />
               <label htmlFor="lateralPhoto">Foto lateral:</label>
@@ -211,7 +248,8 @@ export default function FormRegistration() {
                 name="lateralPhoto"
                 id="lateralPhoto"
                 className="pl-[8px] py-[6px]"
-                onChange={onImageChange}
+                onChange={handleImageChange}
+                required
               />
             </div>
           </div>

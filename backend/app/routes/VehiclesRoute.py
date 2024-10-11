@@ -1,7 +1,4 @@
 from flask import Blueprint, request, jsonify, Response
-import base64
-from PIL import Image
-from io import BytesIO
 
 vehicle_bp = Blueprint('vehicle_bp', __name__)
 
@@ -13,15 +10,26 @@ def index():
 
 @vehicle_bp.route('/create', methods=['POST'])
 def create():
-    brand = request.get_json()['brand']
-    model = request.get_json()['model']
-    category = request.get_json()['category']
-    year = request.get_json()['year']
-    color = request.get_json()['color']
-    pricePerDay = request.get_json()['pricePerDay']
-    apresentationPhoto = request.get_json()['apresentationPhoto']
-    lateralPhoto = request.get_json()['lateralPhoto']
-    
+    brand = request.form.get('brand')
+    model = request.form.get('model')
+    category = request.form.get('category')
+    year = request.form.get('year')
+    color = request.form.get('color')
+    price_per_day = request.form.get('pricePerDay')
+    description = request.form.get('description')
+
+    apresentation_photo = request.files.get('apresentationPhoto')
+    lateral_photo = request.files.get('lateralPhoto')
+
+
     return jsonify({
-        'Chegou': apresentationPhoto
+        'brand': brand,
+        'model': model,
+        'category': category,
+        'year': year,
+        'color': color,
+        'pricePerDay': price_per_day,
+        'description': description,
+        'apresentationPhoto': str(apresentation_photo),
+        'lateralPhoto': str(lateral_photo)
     })
