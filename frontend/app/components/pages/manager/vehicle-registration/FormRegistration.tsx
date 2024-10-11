@@ -1,5 +1,6 @@
 "use client";
 
+import { ExecException } from "child_process";
 import Image from "next/image";
 import { useState } from "react";
 
@@ -11,7 +12,7 @@ export default function FormRegistration() {
     year: "",
     color: "",
     pricePerDay: "",
-    ApresentationPhoto: "",
+    apresentationPhoto: "",
     lateralPhoto: "",
   });
   const [error, setError] = useState<string>("");
@@ -21,6 +22,7 @@ export default function FormRegistration() {
       ...FormValues,
       [e.target.name]: e.target.value,
     });
+    console.log(FormValues);
   };
 
   const validateForm = () => {
@@ -35,33 +37,59 @@ export default function FormRegistration() {
       setError("Preencha todos os campos!");
       return false;
     }
+    return true;
   };
 
   const onImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files && event.target.files[0]) {
+    /* if (event.target.files && event.target.files[0]) {
       const reader = new FileReader();
       reader.onload = (e) => {
+        console.log(e);
         setFormValues({
           ...FormValues,
           [event.target.name]: e.target.result,
         });
       };
       reader.readAsDataURL(event.target.files[0]);
+    } */
+   setFormValues({
+      ...FormValues,
+      [event.target.name]: URL.createObjectURL(event.target.files[0])
+   })
+   console.log(FormValues);
+  };
+
+  const submitForm = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (validateForm()) {
+      try {
+        const response = await fetch("/api/vehicles/create", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(FormValues),
+        });
+        const data = await response.json();
+  
+        console.log(data);
+      } catch (err: unknown) {
+        console.error("Erro no fetch:", err);
+      }
+    } else {
+      setError("Preencha todos os campos!");
     }
   };
 
-  const submitForm = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (validateForm()) {
-      console.log(FormValues);
-    }
-  };
   return (
     <div className="bg-card-form p-3 rounded-md">
       <h1 className="text-2xl font-open-sans text-center">
         Registro de novo veiculo
       </h1>
-      <form onSubmit={submitForm} className="*:font-open-sans font-semibold tracking-wide">
+      <form
+        onSubmit={submitForm}
+        className="*:font-open-sans font-semibold tracking-wide"
+      >
         <div className="lg:flex">
           <div className="w-full px-2 [&>div>input]:w-full [&>div>input]:bg-input [&>div>input]:rounded-lg [&>div>textarea]:w-full [&>div>textarea]:bg-input [&>div>textarea]:rounded-lg">
             <div className="mb-6">
@@ -150,7 +178,7 @@ export default function FormRegistration() {
             <div className="mb-6">
               <Image
                 src={
-                  FormValues.ApresentationPhoto ||
+                  FormValues.apresentationPhoto ||
                   "https://placehold.co/400x200.svg"
                 }
                 width={100}
@@ -158,11 +186,11 @@ export default function FormRegistration() {
                 alt="Apresentation Photo"
                 className="rounded-lg w-full h-[200px] object-scale-down"
               />
-              <label htmlFor="ApresentationPhoto">Foto de apresentação:</label>
+              <label htmlFor="apresentationPhoto">Foto de apresentação:</label>
               <input
                 type="file"
-                name="ApresentationPhoto"
-                id="ApresentationPhoto"
+                name="apresentationPhoto"
+                id="apresentationPhoto"
                 className="pl-[8px] py-[6px]"
                 onChange={onImageChange}
               />

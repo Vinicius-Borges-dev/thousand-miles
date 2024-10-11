@@ -5,7 +5,9 @@ type InputProps = {
   type: string;
   name: string;
   placeholder?: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement & HTMLSelectElement>) => void;
+  onChange: (
+    e: React.ChangeEvent<HTMLInputElement & HTMLSelectElement>
+  ) => void;
   feedback?: string;
   icon?: string;
   iconAlt?: string;
@@ -23,10 +25,8 @@ export default function Input({
   iconAlt,
   value,
 }: InputProps) {
-  
   const iconName = icon?.src.split("/")[4].split(".")[0];
 
-  console.log(iconName);
   return (
     <div className="mb-5 *:font-open-sans first:mt-5">
       <label htmlFor={name} className="font-bold tracking-wide text-nowrap">
