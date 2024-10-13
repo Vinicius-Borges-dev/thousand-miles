@@ -1,5 +1,4 @@
 from flask import Blueprint, request, jsonify
-
 from app.controllers.VehicleController import VehicleController
 
 
