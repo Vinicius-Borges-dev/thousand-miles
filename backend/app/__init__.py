@@ -7,7 +7,7 @@ db = SQLAlchemy()
 def create_app():
 
     app = Flask(__name__)
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite3'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db_thousand_miles.sqlite3'
     app.config['UPLOAD_FOLDER'] = 'app/static/uploads'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['SECRET_KEY'] = "Thousand-Miles"
