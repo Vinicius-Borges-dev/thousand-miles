@@ -25,5 +25,20 @@ class VehicleModel(db.Model):
         self.apresentation_photo = apresentation_photo
         self.lateral_photo = lateral_photo
 
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'brand': self.brand,
+            'model': self.model,
+            'category': self.category,
+            'year': self.year,
+            'color': self.color,
+            'price_per_day': self.price_per_day,
+            'description': self.description,
+            'apresentation_photo': self.apresentation_photo,
+            'lateral_photo': self.lateral_photo
+        }
+    
+    
     def __repr__(self):
         return f'<Vehicle {self.brand} {self.model} {self.year}>'

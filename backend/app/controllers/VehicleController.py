@@ -92,16 +92,9 @@ class VehicleController:
         vehicles = self.__VehicleModel.query.all()
         
         if vehicles:
-            allVehicles = {
-                "brand": vehicles.brand,
-                "model": vehicles.model,
-                "category": vehicles.category,
-                "year": vehicles.year,
-                "color": vehicles.color,
-                "price_per_day": vehicles.price_per_day,
-                "description": vehicles.description,
-                "apresentation_photo": vehicles.apresentation_photo,
-                "lateral_photo": vehicles.lateral_photo,
-            }
-            
-            return res(allVehicles), 200
+            allVehicles = [self.__VehicleModel.to_dict(vehicle) for vehicle in vehicles]
+            return res({
+                "vehicles": allVehicles
+            }), 200
+        else:
+            return res({"status": "error", "message": "Nenhum veículo encontrado"}), 404

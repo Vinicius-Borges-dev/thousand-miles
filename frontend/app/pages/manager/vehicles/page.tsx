@@ -1,23 +1,43 @@
+"use client";
 import TableContainer from "@components/shared/TableContainer";
+import { useModal } from "@components/modal/BaseModal/ModalContext";
+import { useState, useEffect } from "react";
 
 const ManagerVehicles = () => {
-  const content: Array<Array<string | number>> = [
-    ["I8", "BMW", "Esportivo", 500.0, 200, "cancelar"],
-    ["I8", "BMW", "Esportivo", 500.0, 200, "cancelar"],
-    ["I8", "BMW", "Esportivo", 500.0, 200, "cancelar"],
-  ];
+  const { openModal } = useModal();
+  const [content, setContent] = useState([]);
+
+  const getVehicles = async () => {
+    try {
+      const response = await fetch('/api/vehicles/');
+      const data = await response.json();
+      const vehicles = data.vehicles;
+
+      const newContent = vehicles.map(vehicle => [
+        vehicle.id, vehicle.model, vehicle.brand, vehicle.category,
+        vehicle.year, vehicle.color, vehicle.price_per_day, vehicle.description
+      ]);
+
+      setContent(newContent);
+      console.log(content);
+    } catch (err) {
+      throw new Error('Erro na requisição: ' + err);
+    }
+  };
+
+  useEffect(() => {
+    getVehicles();
+  }, []);
 
   return (
     <TableContainer
       keys={[
-        "modelo",
-        "marca",
-        "categoria",
-        "preço por dia",
-        "quantidade em estoque",
-        "ações",
+        "id", "modelo", "marca", "categoria",
+        "ano", "cor", "preço por dia", "descrição"
       ]}
       content={content}
+      typeContent="AllVehicles"
+      openModal={openModal}
     />
   );
 };
