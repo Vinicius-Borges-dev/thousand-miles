@@ -49,22 +49,21 @@ class VehicleController:
             apresentation_photo_secure_filename = secure_filename(
                 self.__apresentationPhoto.filename
             )
-
             lateral_photo_secure_filename = secure_filename(
                 self.__lateralPhoto.filename
             )
-
-            apresentation_photo_path = os.path.join(
+            apresentation_photo_path = os.path.join(                
                 app.config["UPLOAD_FOLDER"], apresentation_photo_secure_filename
             )
-
             lateral_photo_path = os.path.join(
                 app.config["UPLOAD_FOLDER"], lateral_photo_secure_filename
             )
 
             self.__apresentationPhoto.save(apresentation_photo_path)
-
             self.__lateralPhoto.save(lateral_photo_path)
+            
+            apresentation_photo_path = apresentation_photo_path.replace("app/", "")
+            lateral_photo_path = lateral_photo_path.replace("app/", "")
 
             newVehicle = self.__VehicleModel(
                 brand=self.__brand,
@@ -79,7 +78,6 @@ class VehicleController:
             )
 
             db.session.add(newVehicle)
-
             db.session.commit()
 
             return res({"status": "ok"}), 200
@@ -90,11 +88,8 @@ class VehicleController:
 
     def index(self, res):
         vehicles = self.__VehicleModel.query.all()
-        
         if vehicles:
             allVehicles = [self.__VehicleModel.to_dict(vehicle) for vehicle in vehicles]
-            return res({
-                "vehicles": allVehicles
-            }), 200
+            return res({"vehicles": allVehicles}), 200
         else:
             return res({"status": "error", "message": "Nenhum veículo encontrado"}), 404

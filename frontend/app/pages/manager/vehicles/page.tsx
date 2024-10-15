@@ -1,33 +1,44 @@
 "use client";
 import TableContainer from "@components/shared/TableContainer";
 import { useModal } from "@components/modal/BaseModal/ModalContext";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 const ManagerVehicles = () => {
   const { openModal } = useModal();
   const [content, setContent] = useState([]);
 
-  const getVehicles = async () => {
+  const getVehicles = useCallback(async () => {
     try {
       const response = await fetch('/api/vehicles/');
       const data = await response.json();
       const vehicles = data.vehicles;
 
-      const newContent = vehicles.map(vehicle => [
+      type VehicleTypes = {
+        id: string,
+        model: string,
+        brand: string,
+        category: string,
+        year: number,
+        color: string,
+        price_per_day: number,
+        description: string,
+        lateral_photo: string
+      }
+
+      const newContent = vehicles.map((vehicle:VehicleTypes) => [
         vehicle.id, vehicle.model, vehicle.brand, vehicle.category,
-        vehicle.year, vehicle.color, vehicle.price_per_day, vehicle.description
+        vehicle.year, vehicle.color, vehicle.price_per_day, vehicle.description, vehicle.lateral_photo
       ]);
 
       setContent(newContent);
-      console.log(content);
     } catch (err) {
       throw new Error('Erro na requisição: ' + err);
     }
-  };
+  },[]);
 
   useEffect(() => {
     getVehicles();
-  }, []);
+  }, [getVehicles]);
 
   return (
     <TableContainer

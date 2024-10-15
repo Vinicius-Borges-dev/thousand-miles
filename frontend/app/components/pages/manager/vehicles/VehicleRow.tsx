@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import bmwCinza from "@images/bmw-cinza.png";
 import iconEdit from "@icons/iconEdit.svg";
 import iconSuccess from "@icons/IconSuccess.svg";
 import iconWarning from "@icons/iconWarning.svg";
@@ -21,7 +20,7 @@ export default function VehicleRow({
   typeContent,
   openModal,
 }: VehicleRowProps) {
-  const handleEdit = (id:number) => {
+  const handleEdit = (id: number) => {
     if (typeContent === "AllReserves") {
       openModal(<EditReserve reserveId={id} />);
     }
@@ -30,11 +29,17 @@ export default function VehicleRow({
   return (
     <tr className="odd:bg-white even:bg-gray-200 odd:hover:bg-gray-300 even:hover:bg-gray-300 transition-all [&>td]:h-[66px] [&>td>span]:flex [&>td>span]:items-center">
       {items.map((item: string | number, index: number) => {
+        const lastItem = items[items.length - 1].replace("\\", "/");
         if (index == 1) {
           return (
             <td key={index}>
               <span className="flex gap-3">
-                <Image src={bmwCinza} height={30} alt="Veiculo" />
+                <Image
+                  src={`/api/${lastItem}`}
+                  width={60}
+                  height={30}
+                  alt="Veiculo"
+                />
                 <span className="pl-2">{item}</span>
               </span>
             </td>
@@ -78,7 +83,7 @@ export default function VehicleRow({
             <td key={index}>
               <button
                 className="flex gap-2 border border-gray-600 rounded-lg w-fit p-2"
-                onClick={()=>handleEdit(Number(items[0]))}
+                onClick={() => handleEdit(Number(items[0]))}
               >
                 <Image src={iconEdit} alt="Icone de editar" />
                 {item}
@@ -94,6 +99,8 @@ export default function VehicleRow({
               </button>
             </td>
           );
+        } else if (index == items.length - 1) {
+          return null;
         }
         return <td key={index}>{item}</td>;
       })}
