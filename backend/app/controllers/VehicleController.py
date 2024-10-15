@@ -20,6 +20,8 @@ class VehicleController:
     __year: int
     __color: str
     __pricePerDay: float
+    __transmission: str
+    __seats: int
     __description: str
     __apresentationPhoto: IO
     __lateralPhoto: IO
@@ -38,6 +40,8 @@ class VehicleController:
         self.__year = int(req.form["year"])
         self.__color = req.form["color"]
         self.__pricePerDay = float(req.form["pricePerDay"].replace(",", "."))
+        self.__transmission = req.form["transmission"]
+        self.__seats = int(req.form["seats"])
         self.__description = req.form["description"]
         self.__apresentationPhoto = req.files["apresentationPhoto"]
         self.__lateralPhoto = req.files["lateralPhoto"]
@@ -72,6 +76,8 @@ class VehicleController:
                 year=self.__year,
                 color=self.__color,
                 price_per_day=self.__pricePerDay,
+                transmission=self.__transmission,
+                seats=self.__seats,
                 description=self.__description,
                 apresentation_photo=apresentation_photo_path,
                 lateral_photo=lateral_photo_path,
