@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState, useCallback, FormEvent } from "react";
+import { useState, useCallback } from "react";
 
 export default function FormRegistration() {
   const [FormInputTextValues, setFormInputTextValues] = useState({
@@ -11,6 +11,8 @@ export default function FormRegistration() {
     year: "",
     color: "",
     pricePerDay: "",
+    transmission: "",
+    seats: "",
     description: "",
   });
 
@@ -117,7 +119,7 @@ export default function FormRegistration() {
         encType="multipart/form-data"
       >
         <div className="lg:flex">
-          <div className="w-full px-2 [&>div>input]:w-full [&>div>input]:bg-input [&>div>input]:rounded-lg [&>div>textarea]:w-full [&>div>textarea]:bg-input [&>div>textarea]:rounded-lg">
+          <div className="w-full px-2 [&>div>input]:w-full [&>div>div>input]:w-full [&>div>div>select]:w-full [&>div>div>select]:bg-input [&>div>div>select]:rounded-lg [&>div>input]:bg-input [&>div>div>input]:bg-input [&>div>input]:rounded-lg [&>div>div>input]:rounded-lg [&>div>textarea]:w-full [&>div>textarea]:bg-input [&>div>textarea]:rounded-lg">
             <div className="mb-6">
               <label htmlFor="brand">Marca do veículo:</label>
               <input
@@ -160,7 +162,9 @@ export default function FormRegistration() {
             <div className="mb-6">
               <label htmlFor="year">Ano do veículo:</label>
               <input
-                type="text"
+                type="number"
+                min={1966}
+                max={new Date().getFullYear() + 1}
                 name="year"
                 id="year"
                 placeholder="Ex.2020"
@@ -196,42 +200,73 @@ export default function FormRegistration() {
                 value={FormInputTextValues.pricePerDay}
               />
             </div>
+            <div className="flex w-full gap-4">
+              <div className="mb-6 w-1/2">
+                <label htmlFor="transmission">Tipo de câmbio:</label>
+                <select
+                  name="transmission"
+                  id="transmission"
+                  defaultValue={"Manual"}
+                  className="p-2"
+                >
+                  <option value="Manual">Manual</option>
+                  <option value="Automatic">Automático</option>
+                </select>
+              </div>
+              <div className="mb-6 w-1/2">
+                <label htmlFor="seats">Número de assentos:</label>
+                <input
+                  type="number"
+                  max={7}
+                  min={1}
+                  name="seats"
+                  id="seats"
+                  placeholder="Ex.2"
+                  className="p-2"
+                  onChange={handleStringsInputsChange}
+                  required
+                  value={FormInputTextValues.seats}
+                />
+              </div>
+            </div>
             <div className="mb-6">
               <label htmlFor="description">Descrição:</label>
-              <textarea
+                <textarea
                 name="description"
                 id="description"
                 placeholder="Ex.Veículo esportivo com assentos de couro, pintura interna e externa em perfeito estado."
-                className="pl-[8px] py-[6px]"
+                className="pl-[8px] py-[6px] h-[100%_!important] resize-none"
                 onChange={handleStringsInputsChange}
+                rows={13}
                 value={FormInputTextValues.description}
                 required
-              ></textarea>
+                ></textarea>
             </div>
           </div>
-          <div className="w-full">
+          <div className="w-full flex flex-col justify-between">
             <div className="mb-6">
+              <label htmlFor="apresentationPhoto">Foto de apresentação:</label>
               <Image
                 src={
                   formInputFiles.apresentationPhoto.preview ||
                   "https://placehold.co/400x200.svg"
                 }
                 width={100}
-                height={90}
+                height={100}
                 alt="Apresentation Photo"
-                className="rounded-lg w-full h-[200px] object-scale-down"
+                className="rounded-lg w-full h-fit object-contain mb-2"
               />
-              <label htmlFor="apresentationPhoto">Foto de apresentação:</label>
               <input
                 type="file"
                 name="apresentationPhoto"
                 id="apresentationPhoto"
-                className="pl-[8px] py-[6px]"
+                className="w-full file:bg-input file:rounded-lg file:p-2 file:text-white file:w-full"
                 onChange={handleImageChange}
                 required
               />
             </div>
             <div className="mb-6">
+              <label htmlFor="lateralPhoto">Foto lateral:</label>
               <Image
                 src={
                   formInputFiles.lateralPhoto.preview ||
@@ -240,14 +275,13 @@ export default function FormRegistration() {
                 width={100}
                 height={90}
                 alt="Lateral Photo"
-                className="rounded-lg w-full h-[200px] object-scale-down"
+                className="rounded-lg w-full h-fit object-contain mb-2"
               />
-              <label htmlFor="lateralPhoto">Foto lateral:</label>
               <input
                 type="file"
                 name="lateralPhoto"
                 id="lateralPhoto"
-                className="pl-[8px] py-[6px]"
+                className="w-full file:bg-input file:rounded-lg file:p-2 file:text-white file:w-full"
                 onChange={handleImageChange}
                 required
               />
