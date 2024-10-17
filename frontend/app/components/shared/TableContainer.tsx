@@ -11,7 +11,6 @@ const TableContainer = forwardRef<
   HTMLTableElement,
 TableContainerProps
 >(({ keys, content=[], typeContent, openModal}, ref) => {
-  console.log(content);
   return (
     <table className="w-full *:font-open-sans mt-12 overflow-auto" ref={ref}>
       <thead className="[&>tr>th]:text-left [&>tr>th]:pl-2 [&>tr>th]:pb-4 *:uppercase *:font-bold">

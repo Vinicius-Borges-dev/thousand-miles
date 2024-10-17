@@ -13,3 +13,8 @@ def index():
 def create():
 
     return VehicleController().add_vehicle(request, jsonify)
+
+
+@vehicle_bp.route("/<int:id>", methods=["GET"])
+def show(id):
+    return VehicleController().get_vehicle_by_id(id, jsonify)

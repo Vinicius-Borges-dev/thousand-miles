@@ -27,7 +27,7 @@ const ManagerVehicles = () => {
 
       const newContent = vehicles.map((vehicle:VehicleTypes) => [
         vehicle.id, vehicle.model, vehicle.brand, vehicle.category,
-        vehicle.year, vehicle.color, vehicle.price_per_day, vehicle.description, vehicle.lateral_photo
+        vehicle.year, vehicle.color, vehicle.price_per_day, vehicle.description, vehicle.lateral_photo, "editar"
       ]);
 
       setContent(newContent);
@@ -44,7 +44,7 @@ const ManagerVehicles = () => {
     <TableContainer
       keys={[
         "id", "modelo", "marca", "categoria",
-        "ano", "cor", "preço por dia", "descrição"
+        "ano", "cor", "preço por dia", "descrição", "ações"
       ]}
       content={content}
       typeContent="AllVehicles"

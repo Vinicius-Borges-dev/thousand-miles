@@ -8,6 +8,7 @@ import iconDanger from "@icons/iconDanger.svg";
 import iconDelete from "@icons/iconTrash.svg";
 import Link from "next/link";
 import EditReserve from "@components/modal/EditReserve";
+import EditVehicle from "@components/modal/EditVehicles";
 
 type VehicleRowProps = {
   items: Array<string | number>;
@@ -23,13 +24,15 @@ export default function VehicleRow({
   const handleEdit = (id: number) => {
     if (typeContent === "AllReserves") {
       openModal(<EditReserve reserveId={id} />);
+    } else if (typeContent === "AllVehicles") {
+      openModal(<EditVehicle id={id} />);
     }
   };
 
   return (
     <tr className="odd:bg-white even:bg-gray-200 odd:hover:bg-gray-300 even:hover:bg-gray-300 transition-all [&>td]:h-[66px] [&>td>span]:flex [&>td>span]:items-center">
       {items.map((item: string | number, index: number) => {
-        const lastItem = items[items.length - 1].replace("\\", "/");
+        const lastItem = items[items.length - 2].replace("\\", "/");
         if (index == 1) {
           return (
             <td key={index}>
@@ -99,7 +102,7 @@ export default function VehicleRow({
               </button>
             </td>
           );
-        } else if (index == items.length - 1) {
+        } else if (index == items.length - 2) {
           return null;
         }
         return <td key={index}>{item}</td>;

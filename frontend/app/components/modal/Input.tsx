@@ -39,7 +39,7 @@ export default function Input({
           id={name}
           placeholder={placeholder}
           onChange={onChange}
-          className="w-full h-[40px] p-2 bg-input rounded-tl-lg rounded-bl-lg outline-none focus:border focus:border-blue-400 font-semibold"
+          className={`w-full h-[40px] p-2 bg-input ${icon ? "rounded-tl-lg rounded-bl-lg": "rounded-lg"} outline-none focus:border focus:border-blue-400 font-semibold`}
           value={value}
           required
         />

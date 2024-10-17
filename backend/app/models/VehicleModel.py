@@ -45,6 +45,5 @@ class VehicleModel(db.Model):
             'lateral_photo': self.lateral_photo
         }
     
-    
     def __repr__(self):
         return f'<Vehicle {self.brand} {self.model} {self.year}>'
