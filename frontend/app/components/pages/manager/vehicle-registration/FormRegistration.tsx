@@ -249,12 +249,12 @@ export default function FormRegistration() {
               <Image
                 src={
                   formInputFiles.apresentationPhoto.preview ||
-                  "https://placehold.co/400x200.svg"
+                  "https://placehold.co/500x200.svg"
                 }
                 width={100}
                 height={100}
                 alt="Apresentation Photo"
-                className="rounded-lg w-full h-fit object-contain mb-2"
+                className="rounded-lg w-full h-[350px] object-contain mb-2"
               />
               <input
                 type="file"
@@ -270,12 +270,12 @@ export default function FormRegistration() {
               <Image
                 src={
                   formInputFiles.lateralPhoto.preview ||
-                  "https://placehold.co/400x200.svg"
+                  "https://placehold.co/500x200.svg"
                 }
                 width={100}
-                height={90}
+                height={100}
                 alt="Lateral Photo"
-                className="rounded-lg w-full h-fit object-contain mb-2"
+                className="rounded-lg w-full h-[350px] object-contain mb-2"
               />
               <input
                 type="file"
