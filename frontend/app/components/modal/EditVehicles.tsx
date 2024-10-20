@@ -86,7 +86,7 @@ export default function EditVehicle({ id }: EditVehiclesProps) {
             ...prevState,
             [name]: {
               file: file,
-              preview: e.target.result,
+              preview: e.target?.result,
             },
           }));
         };
@@ -97,7 +97,7 @@ export default function EditVehicle({ id }: EditVehiclesProps) {
   );
 
   return (
-    <form>
+    <form className="h-[500px] overflow-auto">
       <div className="lg:flex lg:gap-3">
         <div className="lg:w-1/2">
           <Input
@@ -170,11 +170,35 @@ export default function EditVehicle({ id }: EditVehiclesProps) {
               height={100}
               alt="Apresentation Photo"
               className="rounded-lg w-full h-[350px] object-contain mb-2"
+              layout="responsive"
             />
             <input
               type="file"
               name="apresentationPhoto"
               id="apresentationPhoto"
+              className="w-full file:bg-input file:rounded-lg file:p-2 file:text-white file:w-full"
+              onChange={handleChangeInput}
+              required
+            />
+          </div>
+          <div className="mb-6">
+            <label htmlFor="apresentationPhoto">Foto da lateral:</label>
+            <Image
+              src={
+                ResponseFiles
+                  ? `/api/${ResponseFiles.lateralPhoto.preview}`
+                  : "https://placehold.co/500x200.svg"
+              }
+              width={100}
+              height={100}
+              alt="Lateral Photo"
+              className="rounded-lg w-full h-[350px] object-contain mb-2"
+              layout="responsive"
+            />
+            <input
+              type="file"
+              name="lateralPhoto"
+              id="lateralPhoto"
               className="w-full file:bg-input file:rounded-lg file:p-2 file:text-white file:w-full"
               onChange={handleChangeInput}
               required

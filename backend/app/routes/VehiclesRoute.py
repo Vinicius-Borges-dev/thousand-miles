@@ -4,7 +4,7 @@ from app.controllers.VehicleController import VehicleController
 
 vehicle_bp = Blueprint("vehicle_bp", __name__)
 
-
+    
 @vehicle_bp.route("/")
 def index():
     return VehicleController().index(jsonify)

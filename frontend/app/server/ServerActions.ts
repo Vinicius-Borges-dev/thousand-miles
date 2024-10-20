@@ -45,6 +45,8 @@ export const getVehicleByIdService = async (id: number) => {
     });
     const data = await response.json();
     const vehicle = data.vehicle;
+    vehicle.apresentation_photo = vehicle.apresentation_photo.replace("\\","/")
+    vehicle.lateral_photo = vehicle.lateral_photo.replace("\\","/")
     return vehicle;
   } catch (err) {
     throw new Error("Erro na requisição: " + err);

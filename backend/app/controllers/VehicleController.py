@@ -30,7 +30,6 @@ class VehicleController:
     def __init__(self):
         self.__VehicleModel = VehicleModel
 
-    @staticmethod
     def add_vehicle(self, req, res):
 
         imageValidator = ImageMiddleWare()
@@ -175,7 +174,10 @@ class VehicleController:
     def get_vehicle_by_id(self, id, res):
         vehicle = self.__VehicleModel.query.filter_by(id=int(id)).first()
         if vehicle:
-            return res({"vehicle": self.__VehicleModel.to_dict(vehicle)}), 200
+            vehicle_data = self.__VehicleModel.to_dict(vehicle)
+            
+            
+            return res({"vehicle": vehicle_data}), 200
         else:
             return res({"status": "error", "message": "Veículo não encontrado"}), 404
 

@@ -76,3 +76,18 @@ tbody tr:last-child {
     border-bottom-right-radius: 1rem;
   }
 }
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 15px;
+  background: rgba(200,200,200,0.3);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(134, 134, 134);
+  border-radius: 15px;
+  width: 5px;
+}
