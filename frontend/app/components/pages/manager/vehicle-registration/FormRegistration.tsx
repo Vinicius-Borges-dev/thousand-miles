@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useState, useCallback } from "react";
+import { useThisToaster } from "@components/toaster/ToasterContext";
 
 export default function FormRegistration() {
   const [FormInputTextValues, setFormInputTextValues] = useState({
@@ -27,7 +28,13 @@ export default function FormRegistration() {
     },
   });
 
+  const toast = useThisToaster();
+
   const [error, setError] = useState<string>("");
+
+  const showToaster = () => {
+    toast.success("aaaaaaaaaaaaaaaaaa");
+  };
 
   const handleStringsInputsChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -98,8 +105,10 @@ export default function FormRegistration() {
           body: formData,
         });
         const data = await response.json();
-
-        console.log(data);
+        if (data.error) {
+          setError(data.error);
+        } else {
+        }
       } catch (err: unknown) {
         console.error("Erro no fetch:", err);
       }
@@ -113,6 +122,7 @@ export default function FormRegistration() {
       <h1 className="text-2xl font-open-sans text-center">
         Registro de novo veiculo
       </h1>
+      <button onClick={showToaster}>Ativar toaster</button>
       <form
         onSubmit={submitForm}
         className="*:font-open-sans font-semibold tracking-wide"
@@ -231,7 +241,7 @@ export default function FormRegistration() {
             </div>
             <div className="mb-6">
               <label htmlFor="description">Descrição:</label>
-                <textarea
+              <textarea
                 name="description"
                 id="description"
                 placeholder="Ex.Veículo esportivo com assentos de couro, pintura interna e externa em perfeito estado."
@@ -240,7 +250,7 @@ export default function FormRegistration() {
                 rows={13}
                 value={FormInputTextValues.description}
                 required
-                ></textarea>
+              ></textarea>
             </div>
           </div>
           <div className="w-full flex flex-col justify-between">

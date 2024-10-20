@@ -4,13 +4,13 @@ import React, { ReactElement, useEffect, useRef } from "react";
 import Footer from "./Footer";
 import Background from "./Background";
 import { usePathname } from "next/navigation";
-import { ModalProvider } from '@root/app/components/modal/BaseModal/ModalContext';
+import { ModalProvider } from "@components/modal/BaseModal/ModalContext";
+import { ToasterProvider } from "@components/toaster/ToasterContext";
 import Navbar from "./Navbar";
 
 type BaseProps = {
   children: ReactElement;
 };
-
 
 export default function Base({ children }: BaseProps): JSX.Element {
   const backgroundRef = useRef<HTMLDivElement | null>(null);
@@ -37,14 +37,16 @@ export default function Base({ children }: BaseProps): JSX.Element {
   return (
     <ModalProvider>
       <Background ref={backgroundRef} />
-      <Navbar />
-      <main
-        className="min-h-[120vh] container absolute pt-28 left-2/4 -translate-x-2/4 z-0"
-        ref={mainRef}
-      >
-        {children}
-        <Footer ref={footerRef} />
-      </main>
+      <ToasterProvider>
+        <Navbar />
+        <main
+          className="min-h-[120vh] container absolute pt-28 left-2/4 -translate-x-2/4 z-0"
+          ref={mainRef}
+        >
+          {children}
+          <Footer ref={footerRef} />
+        </main>
+      </ToasterProvider>
     </ModalProvider>
   );
 }

@@ -57,7 +57,6 @@ export default function EditVehicle({ id }: EditVehiclesProps) {
 
   useEffect(() => {
     getVehicleById(id);
-    console.log(ResponseFiles);
   }, [getVehicleById, id]);
 
   const handleChangeInput = useCallback(
