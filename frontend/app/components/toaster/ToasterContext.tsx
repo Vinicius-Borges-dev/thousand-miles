@@ -11,17 +11,19 @@ export const ToasterProvider = ({ children }: ToasterContextProps) => {
   return (
     <ToasterContext.Provider value={toast}>
       <Toaster
-      position="top-right"
+      position="top-center"
       containerClassName="text-2xl"
+      gutter={10}
       toastOptions={{
+        className:"mt-10",
         success:{
           style:{
-            background: "rgb(74 222 128)",
-            color: "white",
+            background: "white",
+            color: "black",
           },
           iconTheme:{
             primary: "rgb(163 230 53)",
-            secondary: "black",
+            secondary: "white",
           },
         },
       }}/>

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import Input from "./Input";
 import Image from "next/image";
-import { getVehicleByIdService } from "@root/app/server/VehiclesActions";
+import { getVehicleByIdService, updateVehicle } from "@root/app/server/VehiclesActions";
 
 type EditVehiclesProps = {
   id: number;
@@ -16,15 +16,19 @@ export default function EditVehicle({ id }: EditVehiclesProps) {
     year: 0,
     color: "",
     price_per_day: 0.0,
+    transmission: "",
+    seats: "",
     description: "",
   });
 
   const [ResponseFiles, setResponseFiles] = useState({
     apresentationPhoto: {
+      isNew: false,
       file: null,
       preview: "",
     },
     lateralPhoto: {
+      isNew: false,
       file: null,
       preview: "",
     },
@@ -40,20 +44,43 @@ export default function EditVehicle({ id }: EditVehiclesProps) {
       year: vehicle.year,
       color: vehicle.color,
       price_per_day: vehicle.price_per_day,
+      transmission: vehicle.transmission,
+      seats: vehicle.seats,
       description: vehicle.description,
     }));
     setResponseFiles((prevState) => ({
       ...prevState,
       apresentationPhoto: {
+        isNew: false,
         file: null,
         preview: vehicle.apresentation_photo,
       },
       lateralPhoto: {
+        isNew: false,
         file: null,
         preview: vehicle.lateral_photo,
       },
     }));
   }, []);
+
+  const submitForm = useCallback(async (e: React.FormEvent<HTMLFormElement>)=>{
+    e.preventDefault();
+
+    const formData = new FormData();
+
+    Object.keys(responseInputData).forEach((key)=>{
+      formData.append(key, responseInputData[key as keyof typeof responseInputData]);
+    });
+
+    formData.append("apresentationPhoto", ResponseFiles.apresentationPhoto.file);
+    formData.append("lateralPhoto", ResponseFiles.lateralPhoto.file);
+
+    const result = await updateVehicle(formData);
+
+
+
+  })
+
 
   useEffect(() => {
     getVehicleById(id);
@@ -73,7 +100,6 @@ export default function EditVehicle({ id }: EditVehiclesProps) {
     []
   );
 
-
   const handleImageChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       const file = event.target.files?.[0];
@@ -84,6 +110,7 @@ export default function EditVehicle({ id }: EditVehiclesProps) {
           setResponseFiles((prevState) => ({
             ...prevState,
             [name]: {
+              isNew: true,
               file: file,
               preview: e.target?.result,
             },
@@ -96,7 +123,7 @@ export default function EditVehicle({ id }: EditVehiclesProps) {
   );
 
   return (
-    <form className="h-[500px] overflow-auto">
+    <form onSubmit={submitForm} className="h-[500px] overflow-auto">
       <div className="lg:flex lg:gap-3">
         <div className="lg:w-1/2">
           <Input
@@ -155,28 +182,73 @@ export default function EditVehicle({ id }: EditVehiclesProps) {
             placeholder="Digite o preço do veículo por dia."
             value={responseInputData.description}
           />
+          <div className="flex gap-4">
+            <div className="w-1/2 mt-5">
+              <label
+                htmlFor="transmission"
+                className="font-bold tracking-wide text-nowrap"
+              >
+                Tipo de câmbio:
+              </label>
+              <select
+                name="transmission"
+                id="transmission"
+                className="w-full h-[40px] p-2 bg-input rounded-lg outline-none focus:border focus:border-blue-400 font-semibold mt-2"
+                onChange={handleChangeInput}
+                value={responseInputData.transmission}
+              >
+                <option
+                  value="Manual"
+                >
+                  Manual
+                </option>
+                <option
+                  value="Automatic"
+                >
+                  Automático
+                </option>
+              </select>
+            </div>
+            <div className="w-1/2">
+              <Input
+                label="Número de assentos:"
+                name="seats"
+                onChange={handleChangeInput}
+                type="number"
+                placeholder="Digite número de assentos."
+                value={responseInputData.seats}
+              />
+            </div>
+          </div>
+          <Input 
+            label="Descrição do veículo:"
+            name="description"
+            onChange={handleChangeInput}
+            type="textarea"
+            placeholder="Digite a descrição do veículo."
+            value={responseInputData.description}
+          />
         </div>
         <div className="lg:w-1/2">
           <div className="mb-6">
             <label htmlFor="apresentationPhoto">Foto de apresentação:</label>
             <Image
               src={
-                ResponseFiles
+                ResponseFiles.apresentationPhoto.isNew === false
                   ? `/api/${ResponseFiles.apresentationPhoto.preview}`
-                  : "https://placehold.co/500x200.svg"
+                  : ResponseFiles.apresentationPhoto.preview
               }
               width={100}
               height={100}
               alt="Apresentation Photo"
               className="rounded-lg w-full h-[350px] object-contain mb-2"
-              layout="responsive"
             />
             <input
               type="file"
               name="apresentationPhoto"
               id="apresentationPhoto"
               className="w-full file:bg-input file:rounded-lg file:p-2 file:text-white file:w-full"
-              onChange={handleChangeInput}
+              onChange={handleImageChange}
               required
             />
           </div>
@@ -184,22 +256,21 @@ export default function EditVehicle({ id }: EditVehiclesProps) {
             <label htmlFor="apresentationPhoto">Foto da lateral:</label>
             <Image
               src={
-                ResponseFiles
+                ResponseFiles.lateralPhoto.isNew === false
                   ? `/api/${ResponseFiles.lateralPhoto.preview}`
-                  : "https://placehold.co/500x200.svg"
+                  : ResponseFiles.lateralPhoto.preview
               }
               width={100}
               height={100}
               alt="Lateral Photo"
               className="rounded-lg w-full h-[350px] object-contain mb-2"
-              layout="responsive"
             />
             <input
               type="file"
               name="lateralPhoto"
               id="lateralPhoto"
               className="w-full file:bg-input file:rounded-lg file:p-2 file:text-white file:w-full"
-              onChange={handleChangeInput}
+              onChange={handleImageChange}
               required
             />
           </div>

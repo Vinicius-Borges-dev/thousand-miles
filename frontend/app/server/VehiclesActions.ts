@@ -1,8 +1,9 @@
 "use server";
 
 export const addNewVehicle = async (formContent:FormData)=>{
+  console.log(formContent)
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/create`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/vehicles/create`, {
       method: "POST",
       body: formContent,
     });
@@ -66,3 +67,10 @@ export const getVehicleByIdService = async (id: number) => {
     throw new Error("Erro na requisição: " + err);
   }
 };
+
+
+export const updateVehicle = async (formContent:FormData)=> {
+  console.log(formContent)
+
+  
+}

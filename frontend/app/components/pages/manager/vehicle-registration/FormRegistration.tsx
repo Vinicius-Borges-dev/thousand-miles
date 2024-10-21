@@ -34,7 +34,9 @@ export default function FormRegistration() {
   const [error, setError] = useState<string>("");
 
   const handleStringsInputsChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
   ) => {
     setFormInputTextValues({
       ...FormInputTextValues,
@@ -97,8 +99,35 @@ export default function FormRegistration() {
       formData.append("lateralPhoto", formInputFiles.lateralPhoto.file);
 
       const result = await addNewVehicle(formData);
-      
-      console.log(result)
+
+      if (result.status == "ok") {
+        toast.success(result.message);
+
+        setFormInputTextValues({
+          brand: "",
+          model: "",
+          category: "",
+          year: "",
+          color: "",
+          pricePerDay: "",
+          transmission: "",
+          seats: "",
+          description: "",
+        });
+
+        setFormInputFiles({
+          apresentationPhoto: {
+            file: null,
+            preview: "",
+          },
+          lateralPhoto: {
+            file: null,
+            preview: "",
+          },
+        });
+      } else {
+        toast.error(result.message);
+      }
     } else {
       setError("Preencha todos os campos!");
     }
@@ -204,6 +233,7 @@ export default function FormRegistration() {
                   id="transmission"
                   defaultValue={"Manual"}
                   className="p-2"
+                  onChange={handleStringsInputsChange}
                 >
                   <option value="Manual">Manual</option>
                   <option value="Automatic">Automático</option>
@@ -251,6 +281,7 @@ export default function FormRegistration() {
                 height={100}
                 alt="Apresentation Photo"
                 className="rounded-lg w-full h-[350px] object-contain mb-2"
+                layout="responsive"
               />
               <input
                 type="file"
@@ -272,6 +303,7 @@ export default function FormRegistration() {
                 height={100}
                 alt="Lateral Photo"
                 className="rounded-lg w-full h-[350px] object-contain mb-2"
+                layout="responsive"
               />
               <input
                 type="file"
