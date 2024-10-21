@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useState, useCallback } from "react";
 import { useThisToaster } from "@components/toaster/ToasterContext";
+import { addNewVehicle } from "@root/app/server/VehiclesActions";
 
 export default function FormRegistration() {
   const [FormInputTextValues, setFormInputTextValues] = useState({
@@ -31,10 +32,6 @@ export default function FormRegistration() {
   const toast = useThisToaster();
 
   const [error, setError] = useState<string>("");
-
-  const showToaster = () => {
-    toast.success("aaaaaaaaaaaaaaaaaa");
-  };
 
   const handleStringsInputsChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -99,19 +96,9 @@ export default function FormRegistration() {
       );
       formData.append("lateralPhoto", formInputFiles.lateralPhoto.file);
 
-      try {
-        const response = await fetch("/api/vehicles/create", {
-          method: "POST",
-          body: formData,
-        });
-        const data = await response.json();
-        if (data.error) {
-          setError(data.error);
-        } else {
-        }
-      } catch (err: unknown) {
-        console.error("Erro no fetch:", err);
-      }
+      const result = await addNewVehicle(formData);
+      
+      console.log(result)
     } else {
       setError("Preencha todos os campos!");
     }
@@ -122,7 +109,6 @@ export default function FormRegistration() {
       <h1 className="text-2xl font-open-sans text-center">
         Registro de novo veiculo
       </h1>
-      <button onClick={showToaster}>Ativar toaster</button>
       <form
         onSubmit={submitForm}
         className="*:font-open-sans font-semibold tracking-wide"

@@ -1,5 +1,5 @@
 import { createContext, ReactNode, useContext } from "react";
-import toast, { useToaster, Toast } from "react-hot-toast";
+import toast,{ useToaster, Toast, Toaster } from "react-hot-toast";
 
 type ToasterContextProps = {
   children: ReactNode;
@@ -8,55 +8,23 @@ type ToasterContextProps = {
 const ToasterContext = createContext<null | typeof toast>(null);
 
 export const ToasterProvider = ({ children }: ToasterContextProps) => {
-  const { toasts, handlers } = useToaster();
-  const { startPause, endPause, calculateOffset, updateHeight } = handlers;
-
   return (
     <ToasterContext.Provider value={toast}>
-      <div
-        onMouseEnter={startPause}
-        onMouseLeave={endPause}
-        className="fixed top-[8rem] right-16 z-50"
-      >
-        {toasts
-          .filter((toast) => toast.visible)
-          .map((toast) => {
-            const offset = calculateOffset(toast, {
-              reverseOrder: false,
-              gutter: 8,
-            });
-
-            const ref = (el) => {
-              if (el && typeof toast.height !== "number") {
-                const height = el.getBoundingClientRect().height;
-                updateHeight(toast.id, height);
-              }
-            };
-            return (
-              <div
-                key={toast.id}
-                ref={ref}
-                className={`
-                absolute
-                right-0
-                p-3 
-                bg-white 
-                text-black 
-                text-2xl 
-                rounded-lg
-                `}
-                style={{
-                  transition: "all 0.5s ease-out",
-                  opacity: toast.visible ? 1 : 0,
-                  transform: `translateY(${offset}px)`,
-                }}
-                {...toast.ariaProps}
-              >
-                {toast.message}
-              </div>
-            );
-          })}
-      </div>
+      <Toaster
+      position="top-right"
+      containerClassName="text-2xl"
+      toastOptions={{
+        success:{
+          style:{
+            background: "rgb(74 222 128)",
+            color: "white",
+          },
+          iconTheme:{
+            primary: "rgb(163 230 53)",
+            secondary: "black",
+          },
+        },
+      }}/>
       {children}
     </ToasterContext.Provider>
   );

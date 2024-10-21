@@ -2,7 +2,7 @@
 import TableContainer from "@components/shared/TableContainer";
 import { useModal } from "@components/modal/BaseModal/ModalContext";
 import { useState, useEffect, useCallback } from "react";
-import { getVehiclesService } from "@root/app/server/ServerActions";
+import { getVehiclesService } from "@root/app/server/VehiclesActions";
 
 const ManagerVehicles = () => {
   const { openModal } = useModal();

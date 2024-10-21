@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import Input from "./Input";
 import Image from "next/image";
-import { getVehicleByIdService } from "@server/ServerActions";
+import { getVehicleByIdService } from "@root/app/server/VehiclesActions";
 
 type EditVehiclesProps = {
   id: number;
