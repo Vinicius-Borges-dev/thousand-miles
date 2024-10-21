@@ -15,12 +15,11 @@ export const addNewVehicle = async (formContent:FormData)=>{
 }
 
 
-export const getVehiclesService = async () => {
+export const getAllVehicles = async () => {
   try {
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/vehicles/`);
     const data = await response.json();
     return data;
-    console.log(data);
   } catch (err) {
     throw new Error("Erro na requisição: " + err);
   }

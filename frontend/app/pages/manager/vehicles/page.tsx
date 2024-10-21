@@ -2,14 +2,15 @@
 import TableContainer from "@components/shared/TableContainer";
 import { useModal } from "@components/modal/BaseModal/ModalContext";
 import { useState, useEffect, useCallback } from "react";
-import { getVehiclesService } from "@root/app/server/VehiclesActions";
+import { getAllVehicles } from "@server/VehiclesActions";
 
 const ManagerVehicles = () => {
   const { openModal } = useModal();
   const [content, setContent] = useState([]);
 
   const getVehicles = useCallback(async() => {
-    const result = await getVehiclesService();
+    const result = await getAllVehicles();
+    console.log(result)
     if (result.status === "ok"){
       const vehicles = result.data;
 

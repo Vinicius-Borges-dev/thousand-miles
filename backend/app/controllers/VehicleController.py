@@ -123,6 +123,7 @@ class VehicleController:
         vehicles = self.__VehicleModel.query.all()
         if vehicles:
             allVehicles = [self.__VehicleModel.to_dict(vehicle) for vehicle in vehicles]
+
             return (
                 res(
                     {
@@ -251,6 +252,10 @@ class VehicleController:
     def delete_vehicle(self, identifier, res):
         vehicle = self.__VehicleModel.query.filter_by(id=identifier).first()
         if vehicle:
+
+            os.remove(os.path.join("app", vehicle.apresentation_photo))
+            os.remove(os.path.join("app", vehicle.lateral_photo))
+
             db.session.delete(vehicle)
             db.session.commit()
             return res({"status": "ok", "message": "Veículo deletado com sucesso"}), 200

@@ -18,16 +18,28 @@ export default function FormRegistration() {
     description: "",
   });
 
-  const [formInputFiles, setFormInputFiles] = useState({
-    apresentationPhoto: {
-      file: null,
-      preview: "",
-    },
-    lateralPhoto: {
-      file: null,
-      preview: "",
-    },
-  });
+  type FileState = {
+    file: File | null;
+    preview: string;
+  };
+
+  type FormInputTextValuesType = {
+    apresentationPhoto: FileState;
+    lateralPhoto: FileState;
+  };
+
+  const [formInputFiles, setFormInputFiles] = useState<FormInputTextValuesType>(
+    {
+      apresentationPhoto: {
+        file: null,
+        preview: "",
+      },
+      lateralPhoto: {
+        file: null,
+        preview: "",
+      },
+    }
+  );
 
   const toast = useThisToaster();
 
@@ -92,11 +104,16 @@ export default function FormRegistration() {
         );
       });
 
-      formData.append(
-        "apresentationPhoto",
-        formInputFiles.apresentationPhoto.file
-      );
-      formData.append("lateralPhoto", formInputFiles.lateralPhoto.file);
+      if (formInputFiles.apresentationPhoto.file) {
+        formData.append(
+          "apresentationPhoto",
+          formInputFiles.apresentationPhoto.file
+        );
+      }
+
+      if (formInputFiles.lateralPhoto.file) {
+        formData.append("lateralPhoto", formInputFiles.lateralPhoto.file);
+      }
 
       const result = await addNewVehicle(formData);
 
