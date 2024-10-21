@@ -1,13 +1,18 @@
 import { useCallback, useEffect, useState } from "react";
 import Input from "./Input";
 import Image from "next/image";
-import { getVehicleByIdService, updateVehicle } from "@root/app/server/VehiclesActions";
+import {
+  getVehicleByIdService,
+  updateVehicle,
+} from "@root/app/server/VehiclesActions";
+import { useThisToaster } from "@components/toaster/ToasterContext";
 
 type EditVehiclesProps = {
   id: number;
 };
 
 export default function EditVehicle({ id }: EditVehiclesProps) {
+  const toast = useThisToaster();
   const [responseInputData, setResponseInputData] = useState({
     id: id,
     model: "",
@@ -21,7 +26,18 @@ export default function EditVehicle({ id }: EditVehiclesProps) {
     description: "",
   });
 
-  const [ResponseFiles, setResponseFiles] = useState({
+  type FileState = {
+    isNew: boolean;
+    file: File | null;
+    preview: string;
+  };
+
+  type ResponseFilesType = {
+    apresentationPhoto: FileState;
+    lateralPhoto: FileState;
+  };
+
+  const [ResponseFiles, setResponseFiles] = useState<ResponseFilesType>({
     apresentationPhoto: {
       isNew: false,
       file: null,
@@ -63,25 +79,6 @@ export default function EditVehicle({ id }: EditVehiclesProps) {
     }));
   }, []);
 
-  const submitForm = useCallback(async (e: React.FormEvent<HTMLFormElement>)=>{
-    e.preventDefault();
-
-    const formData = new FormData();
-
-    Object.keys(responseInputData).forEach((key)=>{
-      formData.append(key, responseInputData[key as keyof typeof responseInputData]);
-    });
-
-    formData.append("apresentationPhoto", ResponseFiles.apresentationPhoto.file);
-    formData.append("lateralPhoto", ResponseFiles.lateralPhoto.file);
-
-    const result = await updateVehicle(formData);
-
-
-
-  })
-
-
   useEffect(() => {
     getVehicleById(id);
   }, [getVehicleById, id]);
@@ -120,6 +117,45 @@ export default function EditVehicle({ id }: EditVehiclesProps) {
       }
     },
     []
+  );
+
+  const submitForm = useCallback(
+    async (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+
+      const formData = new FormData();
+
+      Object.keys(responseInputData).forEach((key) => {
+        formData.append(
+          key,
+          String(responseInputData[key as keyof typeof responseInputData])
+        );
+      });
+
+      if (ResponseFiles.apresentationPhoto.file) {
+        formData.append(
+          "apresentationPhoto",
+          ResponseFiles.apresentationPhoto.file
+        );
+      }
+      if (ResponseFiles.lateralPhoto.file) {
+        formData.append("lateralPhoto", ResponseFiles.lateralPhoto.file);
+      }
+
+      const result = await updateVehicle(formData);
+
+      if (result.status === "ok") {
+        toast.success(result.message, {
+          duration: 2000,
+        });
+        setTimeout(()=>{
+          window.location.reload();
+        },2000)
+      } else {
+        toast.error(result.message);
+      }
+    },
+    [responseInputData, ResponseFiles, toast]
   );
 
   return (
@@ -174,14 +210,6 @@ export default function EditVehicle({ id }: EditVehiclesProps) {
             placeholder="Digite o preço do veículo por dia."
             value={responseInputData.price_per_day}
           />
-          <Input
-            label="Descrição do veículo:"
-            name="price_per_day"
-            onChange={handleChangeInput}
-            type="textarea"
-            placeholder="Digite o preço do veículo por dia."
-            value={responseInputData.description}
-          />
           <div className="flex gap-4">
             <div className="w-1/2 mt-5">
               <label
@@ -197,16 +225,8 @@ export default function EditVehicle({ id }: EditVehiclesProps) {
                 onChange={handleChangeInput}
                 value={responseInputData.transmission}
               >
-                <option
-                  value="Manual"
-                >
-                  Manual
-                </option>
-                <option
-                  value="Automatic"
-                >
-                  Automático
-                </option>
+                <option value="Manual">Manual</option>
+                <option value="Automatic">Automático</option>
               </select>
             </div>
             <div className="w-1/2">
@@ -220,7 +240,7 @@ export default function EditVehicle({ id }: EditVehiclesProps) {
               />
             </div>
           </div>
-          <Input 
+          <Input
             label="Descrição do veículo:"
             name="description"
             onChange={handleChangeInput}

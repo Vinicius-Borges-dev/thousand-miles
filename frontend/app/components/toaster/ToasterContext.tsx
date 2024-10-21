@@ -1,5 +1,5 @@
 import { createContext, ReactNode, useContext } from "react";
-import toast,{ useToaster, Toast, Toaster } from "react-hot-toast";
+import toast,{ Toaster } from "react-hot-toast";
 
 type ToasterContextProps = {
   children: ReactNode;
@@ -8,6 +8,7 @@ type ToasterContextProps = {
 const ToasterContext = createContext<null | typeof toast>(null);
 
 export const ToasterProvider = ({ children }: ToasterContextProps) => {
+  console.log("ToasterProvider montado");
   return (
     <ToasterContext.Provider value={toast}>
       <Toaster
@@ -35,6 +36,7 @@ export const ToasterProvider = ({ children }: ToasterContextProps) => {
 export const useThisToaster = () => {
   const context = useContext(ToasterContext);
   if (context === null) {
+    console.log("Toaster é nulo");
     throw new Error("Erro no toaster");
   }
   return context;

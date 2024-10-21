@@ -35,9 +35,9 @@ export default function Base({ children }: BaseProps): JSX.Element {
   }, [backgroundRef, mainRef, footerRef, pathname]);
 
   return (
-    <ModalProvider>
-      <Background ref={backgroundRef} />
-      <ToasterProvider>
+    <ToasterProvider>
+      <ModalProvider>
+        <Background ref={backgroundRef} />
         <Navbar />
         <main
           className="min-h-[120vh] container absolute pt-28 left-2/4 -translate-x-2/4 z-0"
@@ -46,7 +46,7 @@ export default function Base({ children }: BaseProps): JSX.Element {
           {children}
           <Footer ref={footerRef} />
         </main>
-      </ToasterProvider>
-    </ModalProvider>
+      </ModalProvider>
+    </ToasterProvider>
   );
 }

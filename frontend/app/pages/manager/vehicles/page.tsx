@@ -10,7 +10,41 @@ const ManagerVehicles = () => {
 
   const getVehicles = useCallback(async() => {
     const result = await getVehiclesService();
-    setContent(result);
+    if (result.status === "ok"){
+      const vehicles = result.data;
+
+      type VehicleTypes = {
+        id: string;
+        model: string;
+        brand: string;
+        category: string;
+        year: number;
+        color: string;
+        price_per_day: number;
+        transmission: string;
+        seats: number;
+        description: string;
+        lateral_photo: string;
+      };
+  
+      const newContent = vehicles.map((vehicle: VehicleTypes) => [
+        vehicle.id,
+        vehicle.model,
+        vehicle.brand,
+        vehicle.category,
+        vehicle.year,
+        vehicle.color,
+        vehicle.price_per_day,
+        vehicle.transmission,
+        vehicle.seats,
+        vehicle.description,
+        "editar",
+        vehicle.lateral_photo,
+        "excluir",
+      ]);
+  
+      setContent(newContent);
+    }
   }, []);
 
   useEffect(() => {
@@ -27,6 +61,8 @@ const ManagerVehicles = () => {
         "ano",
         "cor",
         "preço por dia",
+        "tipo de câmbio",
+        "número de assentos",
         "descrição",
         "ações",
       ]}

@@ -18,3 +18,12 @@ def create():
 @vehicle_bp.route("/<int:id>", methods=["GET"])
 def show(id):
     return VehicleController().get_vehicle_by_id(id, jsonify)
+
+
+@vehicle_bp.route("/<int:id>/update", methods=["PUT"])
+def update(id):
+    return VehicleController().update_vehicle(id, request, jsonify)
+
+@vehicle_bp.route("/<int:id>/delete", methods=["DELETE"])
+def delete(id):
+    return VehicleController().delete_vehicle(id, jsonify)
