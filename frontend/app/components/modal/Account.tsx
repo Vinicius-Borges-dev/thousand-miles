@@ -4,15 +4,33 @@ import iconPassword from "@icons/iconLock.svg";
 import iconId from "@icons/iconId.svg";
 import iconCalendar from "@icons/iconCalendar.svg";
 import iconFingerPrint from "@icons/iconFingerprint.svg";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { useThisToaster } from "@components/toaster/ToasterContext";
+import { addNewUser, login } from "@root/app/server/UserActions";
+
+type LoginType = {
+  email: string;
+  password: string;
+};
+
+type SignUpType = {
+  name: string;
+  email: string;
+  birthdate: string;
+  rg: string;
+  cpf: string;
+  password: string;
+  confirmPassword: string;
+};
 
 export default function Account() {
-  const [logIn, setLogIn] = useState({
+  const toast = useThisToaster();
+  const [logIn, setLogIn] = useState<LoginType>({
     email: "",
     password: "",
   });
 
-  const [signUp, setSignUp] = useState({
+  const [signUp, setSignUp] = useState<SignUpType>({
     name: "",
     email: "",
     birthdate: "",
@@ -41,15 +59,41 @@ export default function Account() {
     });
   };
 
-  const handleLogInSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    console.log(logIn);
+  const validateFormFilled = (form: LoginType | SignUpType) => {
+    return Object.keys(form).every((key) => form[key as keyof typeof form]);
   };
 
-  const handleSignUpSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    console.log(signUp);
-  };
+  const handleSubmit = useCallback(
+    async (
+      e: React.FormEvent<HTMLFormElement>,
+      form: LoginType | SignUpType,
+      type: "login" | "signup"
+    ) => {
+      e.preventDefault();
+
+      if (!validateFormFilled(form)) {
+        toast.error("Preencha todos os campos");
+        return;
+      }
+
+      const formData = new FormData();
+
+      Object.keys(form).forEach((key) => {
+        formData.append(key, form[key as keyof typeof form]);
+      });
+
+      if (type === "login") {
+        const resultLogin = await login(formData);
+        console.log(resultLogin);
+
+      } else if (type === "signup") {
+        const resultSignUp = await addNewUser(formData);
+        console.log(resultSignUp);
+
+      }
+    },
+    [toast]
+  );
 
   useEffect(() => {
     changeFormToLoginRef.current?.addEventListener("click", () => {
@@ -61,13 +105,14 @@ export default function Account() {
       signUpFormRef.current?.classList.remove("hidden");
     });
   });
+
   return (
     <section className="flex w-full">
       <div ref={loginFormRef} className="w-full">
         <h1 className="text-2xl font-semibold text-center">
           Entre na sua conta
         </h1>
-        <form action="#" className="mb-3" onSubmit={handleLogInSubmit}>
+        <form className="mb-3" onSubmit={handleSubmit(event, logIn, 'login')}>
           <Input
             label="Digite seu email:"
             type="email"
@@ -97,7 +142,7 @@ export default function Account() {
       </div>
       <div className="hidden w-full" ref={signUpFormRef}>
         <h1 className="text-2xl font-semibold text-center">Cadastre-se</h1>
-        <form action="#" className="mb-3" onSubmit={handleSignUpSubmit}>
+        <form action="#" className="mb-3" onSubmit={handleSubmit(event, signUp, 'signup')}>
           <span className="lg:flex lg:gap-10">
             <div className="lg:w-1/2 w-full">
               <Input

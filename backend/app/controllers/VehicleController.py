@@ -112,7 +112,7 @@ class VehicleController:
                                 "message": "Veículo adicionado com sucesso!",
                             }
                         ),
-                        200,
+                        201,
                     )
                 else:
                     return res({"status": "error", "message": "Imagem inválida"}), 415

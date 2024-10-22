@@ -15,5 +15,8 @@ def create_app():
 
     from .routes.VehiclesRoute import vehicle_bp
     app.register_blueprint(vehicle_bp, url_prefix="/vehicles")
+    
+    from.routes.UserRoutes import user_bp
+    app.register_blueprint(user_bp, url_prefix="/users")
 
     return app
