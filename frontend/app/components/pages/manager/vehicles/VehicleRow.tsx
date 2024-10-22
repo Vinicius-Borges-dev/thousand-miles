@@ -125,7 +125,7 @@ export default function VehicleRow({
         } else if (index == items.length - 2) {
           return null;
         }
-        return <td key={index}>{item}</td>;
+        return <td key={index} className="max-w-[250px] min-w-[50px] truncate">{item}</td>;
       })}
     </tr>
   );
