@@ -52,7 +52,7 @@ export default function VehicleRow({
   return (
     <tr className="odd:bg-white even:bg-gray-200 odd:hover:bg-gray-300 even:hover:bg-gray-300 transition-all [&>td]:h-[66px] [&>td>span]:flex [&>td>span]:items-center">
       {items.map((item: string | number, index: number) => {
-        const lastItem = items[items.length - 2].replace("\\", "/");
+        const lastItem = (items[items.length - 2] as string).replace("\\", "/");
         if (index == 1) {
           return (
             <td key={index}>

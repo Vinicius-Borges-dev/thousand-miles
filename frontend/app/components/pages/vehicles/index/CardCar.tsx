@@ -6,14 +6,14 @@ import Link from "next/link";
 type CardCarsProps = {
   id: number;
   model: string;
-  price: number;
+  price: any;
   transmission: string;
   seats: number;
   lateral_photo: string;
 }
 
 export default function CardCars({id, model, price, transmission, seats, lateral_photo}:CardCarsProps) {
-  price = (price.toFixed(2)).replace(".", ","); 
+  price = (price.toFixed(2) as string).replace(".", ","); 
   lateral_photo = lateral_photo.replace("\\", "/");
   return (
     <div className="w-[350px] bg-card-cars rounded-lg shadow-md shadow-slate-50 relative flex flex-col items-center justify-between">

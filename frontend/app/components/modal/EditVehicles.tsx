@@ -258,8 +258,9 @@ export default function EditVehicle({ id }: EditVehiclesProps) {
                   ? `/api/${ResponseFiles.apresentationPhoto.preview}`
                   : ResponseFiles.apresentationPhoto.preview
               }
-              width={100}
-              height={100}
+              width={500}
+              height={500}
+              priority
               alt="Apresentation Photo"
               className="rounded-lg w-full h-[350px] object-contain mb-2"
             />
@@ -280,8 +281,9 @@ export default function EditVehicle({ id }: EditVehiclesProps) {
                   ? `/api/${ResponseFiles.lateralPhoto.preview}`
                   : ResponseFiles.lateralPhoto.preview
               }
-              width={100}
-              height={100}
+              width={500}
+              height={500}
+              priority
               alt="Lateral Photo"
               className="rounded-lg w-full h-[350px] object-contain mb-2"
             />
