@@ -32,7 +32,6 @@ class VehicleController:
         self.__VehicleModel = VehicleModel
 
     def add_vehicle(self, req, res):
-
         imageValidator = ImageMiddleWare()
 
         self.__brand = req.form["brand"]
@@ -47,6 +46,7 @@ class VehicleController:
         self.__apresentationPhoto = req.files["apresentationPhoto"]
         self.__lateralPhoto = req.files["lateralPhoto"]
 
+        print(self.__brand, self.__model, self.__category, self.__year, self.__color, self.__pricePerDay, self.__transmission, self.__seats, self.__description)
         if (
             not self.__brand
             or not self.__model
@@ -66,7 +66,7 @@ class VehicleController:
                 if imageValidator.validate_image(
                     self.__apresentationPhoto
                 ) and imageValidator.validate_image(self.__lateralPhoto):
-
+                    
                     apresentation_photo_secure_filename = secure_filename(
                         self.__apresentationPhoto.filename
                     )
@@ -127,7 +127,7 @@ class VehicleController:
         else:
             return res({"status": "error", "message": "Nenhum veículo encontrado"}), 404
 
-    def update_vehicles(req, res):
+    def update_vehicles(id, req, res):
 
         self.__brand = req.form["brand"]
         self.__model = req.form["model"]
