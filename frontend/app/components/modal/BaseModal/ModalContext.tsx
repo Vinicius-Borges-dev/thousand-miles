@@ -1,8 +1,9 @@
 import React, { createContext, useState, useContext, ReactNode } from 'react';
 import ModalBase from './ModalBase';
 
-type ModalContextType = {
+export type ModalContextType = {
   openModal: (content?: JSX.Element) => void;
+  closeModal?: ()=> void;
 };
 
 const ModalContext = createContext<ModalContextType | undefined>(undefined);
@@ -19,7 +20,7 @@ export const ModalProvider = ({ children }: { children: ReactNode }) => {
   const closeModal = () => setIsModalOpen(false);
 
   return (
-    <ModalContext.Provider value={{ openModal }}>
+    <ModalContext.Provider value={{openModal, closeModal}}>
       {children}
       {isModalOpen && <ModalBase closeModal={closeModal}>{modalContent}</ModalBase>}
     </ModalContext.Provider>

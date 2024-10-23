@@ -14,7 +14,8 @@ class UserMiddleware:
         return role == EnumRole.employee
     
     def check_user_already_exists(self, cpf, rg):
-        user = self.__model.query.filter_by(cpf=cpf, rg=rg)
+        user = self.__model.query.filter_by(cpf=cpf, rg=rg).first()
+        print(user)
         if user:
             return True
         else:

@@ -10,7 +10,6 @@ def index():
 
 @vehicle_bp.route("/create", methods=["POST"])
 def create():
-    print("AAAAAAAAAAAAAAAAAAA")
     return VehicleController().add_vehicle(request, jsonify)
 
 @vehicle_bp.route("/<int:id>", methods=["GET"])

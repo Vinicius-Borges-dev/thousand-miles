@@ -1,7 +1,7 @@
 from app.models.UserModel import UserModel, EnumRole
-import datetime
+from datetime import datetime, date, timedelta
 from app import db
-from app.middlewares.UserMiddleware import UserMiddleware
+from app.middlewares.Usermiddleware import UserMiddleware
 import bcrypt
 import jwt
 from flask import current_app as app
@@ -24,10 +24,13 @@ class UserController:
     def create_user(self, req, res):
         self.__name = req.form["signup_name"]
         self.__email = req.form["signup_email"]
-        self.__birth_date = req.form["signup_birthdate"]
+        self.__birth_date = datetime.strptime(req.form["signup_birthdate"], '%Y-%m-%d').date()
         self.__rg = req.form["signup_rg"]
         self.__cpf = req.form["signup_cpf"]
         self.__password = req.form["signup_password"]
+        
+        print(self.__cpf)
+        print(self.__rg)
 
         if (
             not self.__name
@@ -86,17 +89,16 @@ class UserController:
             return (res({"status": "error", "message": "Usupario não encotrado!"}), 404)
 
         user_dict = self.__user_model.to_dict(user)
-
         if not self.__user_middleware.verify_passwords_match(
-            user_dict.password, self.__password
+            user_dict['password'], self.__password
         ):
             return (res({"status": "erro", "message": "Senhas não conferem!"}), 400)
 
         token_data = {
-            "id": user_dict.id,
-            "name": user_dict.name,
-            "access_level": user_dict.access_level.value,
-            "exp": datetime.datetime.utcnow() + datetime.timedelta(hours=2),
+            "id": user_dict['id'],
+            "name": user_dict['name'],
+            "access_level": user_dict['access_level'],
+            "exp": datetime.utcnow() + timedelta(hours=2),
         }
 
         token = jwt.encode(token_data, app.config["SECRET_KEY"])

@@ -36,6 +36,7 @@ class UserModel(db.Model):
             'id': self.id,
             'name': self.name,
             'email': self.email,
+            'password':self.password,
             'cpf': self.cpf,
             'rg': self.rg,
             'birth_date': self.birth_date,

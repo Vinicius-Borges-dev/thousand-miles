@@ -6,7 +6,8 @@ import iconCalendar from "@icons/iconCalendar.svg";
 import iconFingerPrint from "@icons/iconFingerprint.svg";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useThisToaster } from "@components/toaster/ToasterContext";
-import { addNewUser, login } from "@root/app/server/UserActions";
+import { addNewUser, getTokenData, login } from "@root/app/server/UserActions";
+import { useModal } from "./BaseModal/ModalContext";
 
 type LoginType = {
   login_email: string;
@@ -25,6 +26,7 @@ type SignUpType = {
 
 export default function Account() {
   const toast = useThisToaster();
+  const { closeModal } = useModal();
   const [logIn, setLogIn] = useState<LoginType>({
     login_email: "",
     login_password: "",
@@ -85,13 +87,35 @@ export default function Account() {
 
       if (type === "login") {
         const resultLogin = await login(formData);
+        if (resultLogin.status === "ok") {
+          toast.success(resultLogin.message, {
+            duration: 2000
+          });
+          closeModal();
+          const resultToken = await getTokenData(resultLogin.token);
+          console.log(resultToken);
+
+          localStorage.setItem("username", resultToken.name)
+          localStorage.setItem("role", resultToken.access_level)
+          localStorage.setItem("exp", resultToken.exp)
+
+          setTimeout(()=>{
+            window.location.reload();
+          }, 2000)
+        } else {
+          toast.error(resultLogin.message);
+        }
         console.log(resultLogin);
       } else if (type === "signup") {
         const resultSignUp = await addNewUser(formData);
-        console.log(resultSignUp);
+        if (resultSignUp.status === "ok") {
+          toast.success(resultSignUp.message);
+        } else {
+          toast.error(resultSignUp.message);
+        }
       }
     },
-    [toast]
+    [toast, closeModal]
   );
 
   useEffect(() => {

@@ -1,14 +1,12 @@
 "use client";
 
 import Image from "next/image";
-import bmwCinza from "@images/bmw-cinza.png";
 import iconCar from "@icons/iconCar.svg";
 import steringWheel from "@icons/stering-wheel.svg";
 import seat from "@icons/seat.svg";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { getVehicleByIdService } from "@root/app/server/VehiclesActions";
-import { get } from "http";
 
 type VehicleDataType = {
   brand: string;
