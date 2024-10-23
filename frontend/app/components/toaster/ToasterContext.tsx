@@ -1,5 +1,5 @@
 import { createContext, ReactNode, useContext } from "react";
-import toast,{ useToaster, Toast, Toaster } from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 
 type ToasterContextProps = {
   children: ReactNode;
@@ -11,22 +11,23 @@ export const ToasterProvider = ({ children }: ToasterContextProps) => {
   return (
     <ToasterContext.Provider value={toast}>
       <Toaster
-      position="top-center"
-      containerClassName="text-2xl"
-      gutter={10}
-      toastOptions={{
-        className:"mt-10",
-        success:{
-          style:{
-            background: "white",
-            color: "black",
+        position="top-center"
+        containerClassName="text-2xl"
+        gutter={10}
+        toastOptions={{
+          className: "mt-10",
+          success: {
+            style: {
+              background: "white",
+              color: "black",
+            },
+            iconTheme: {
+              primary: "rgb(163 230 53)",
+              secondary: "white",
+            },
           },
-          iconTheme:{
-            primary: "rgb(163 230 53)",
-            secondary: "white",
-          },
-        },
-      }}/>
+        }}
+      />
       {children}
     </ToasterContext.Provider>
   );

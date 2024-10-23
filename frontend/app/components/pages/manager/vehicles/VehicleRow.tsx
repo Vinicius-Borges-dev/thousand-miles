@@ -6,9 +6,10 @@ import iconSuccess from "@icons/IconSuccess.svg";
 import iconWarning from "@icons/iconWarning.svg";
 import iconDanger from "@icons/iconDanger.svg";
 import iconDelete from "@icons/iconTrash.svg";
-import Link from "next/link";
 import EditReserve from "@components/modal/EditReserve";
 import EditVehicle from "@components/modal/EditVehicles";
+import { deleteVehicle } from "@root/app/server/VehiclesActions";
+import { useThisToaster } from "@components/toaster/ToasterContext";
 
 type VehicleRowProps = {
   items: Array<string | number>;
@@ -21,6 +22,8 @@ export default function VehicleRow({
   typeContent,
   openModal,
 }: VehicleRowProps) {
+  const toast = useThisToaster();
+
   const handleEdit = (id: number) => {
     if (typeContent === "AllReserves") {
       openModal(<EditReserve reserveId={id} />);
@@ -29,10 +32,27 @@ export default function VehicleRow({
     }
   };
 
+  const handleDelete = async (id: number) => {
+    if (typeContent === "AllReserves") {
+    } else if (typeContent === "AllVehicles") {
+      const result = await deleteVehicle(id);
+      if (result.status === "ok") {
+        toast.success(result.message, {
+          duration: 2000,
+        });
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
+      } else {
+        toast.error(result.message);
+      }
+    }
+  };
+
   return (
     <tr className="odd:bg-white even:bg-gray-200 odd:hover:bg-gray-300 even:hover:bg-gray-300 transition-all [&>td]:h-[66px] [&>td>span]:flex [&>td>span]:items-center">
       {items.map((item: string | number, index: number) => {
-        const lastItem = items[items.length - 2].replace("\\", "/");
+        const lastItem = (items[items.length - 2] as string).replace("\\", "/");
         if (index == 1) {
           return (
             <td key={index}>
@@ -72,13 +92,10 @@ export default function VehicleRow({
         } else if (item === "cancelar") {
           return (
             <td key={index}>
-              <Link
-                href=""
-                className="flex gap-2 border border-gray-600 rounded-lg w-fit p-2"
-              >
+              <button className="flex gap-2 border border-gray-600 rounded-lg w-fit p-2">
                 <Image src={iconDelete} alt="Icone de deletar" />
                 {item}
-              </Link>
+              </button>
             </td>
           );
         } else if (item === "editar") {
@@ -96,7 +113,10 @@ export default function VehicleRow({
         } else if (item === "excluir") {
           return (
             <td key={index}>
-              <button className="flex gap-2 border border-gray-600 rounded-lg w-fit p-2">
+              <button
+                className="flex gap-2 border border-gray-600 rounded-lg w-fit p-2"
+                onClick={() => handleDelete(Number(items[0]))}
+              >
                 <Image src={iconDelete} alt="Icone de deletar" />
                 {item}
               </button>
@@ -105,7 +125,7 @@ export default function VehicleRow({
         } else if (index == items.length - 2) {
           return null;
         }
-        return <td key={index}>{item}</td>;
+        return <td key={index} className="max-w-[250px] min-w-[50px] truncate">{item}</td>;
       })}
     </tr>
   );

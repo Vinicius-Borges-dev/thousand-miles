@@ -112,7 +112,7 @@ class VehicleController:
                                 "message": "Veículo adicionado com sucesso!",
                             }
                         ),
-                        200,
+                        201,
                     )
                 else:
                     return res({"status": "error", "message": "Imagem inválida"}), 415
@@ -123,7 +123,17 @@ class VehicleController:
         vehicles = self.__VehicleModel.query.all()
         if vehicles:
             allVehicles = [self.__VehicleModel.to_dict(vehicle) for vehicle in vehicles]
-            return res({"vehicles": allVehicles}), 200
+
+            return (
+                res(
+                    {
+                        "status": "ok",
+                        "message": "Veículos encontrados!",
+                        "data": allVehicles,
+                    }
+                ),
+                200,
+            )
         else:
             return res({"status": "error", "message": "Nenhum veículo encontrado"}), 404
 
@@ -134,7 +144,7 @@ class VehicleController:
         self.__category = req.form["category"]
         self.__year = int(req.form["year"])
         self.__color = req.form["color"]
-        self.__pricePerDay = float(req.form["pricePerDay"].replace(",", "."))
+        self.__pricePerDay = float(req.form["price_per_day"].replace(",", "."))
         self.__transmission = req.form["transmission"]
         self.__seats = int(req.form["seats"])
         self.__description = req.form["description"]
@@ -156,7 +166,7 @@ class VehicleController:
         ):
             return res({"status": "error", "message": "Preencha todos os campos"}), 422
         else:
-            vehicle = VehicleModel.query.filter_by(id=req.form["id"]).first()
+            vehicle = VehicleModel.query.filter_by(id=id).first()
 
             if vehicle:
                 vehicle.brand = self.__brand
@@ -240,9 +250,13 @@ class VehicleController:
         else:
             return res({"status": "error", "message": "Veículo não encontrado!"}), 404
 
-    def delete_vehicle(self, req, res):
-        vehicle = self.__VehicleModel.query.filter_by(id=req.form["id"]).first()
+    def delete_vehicle(self, identifier, res):
+        vehicle = self.__VehicleModel.query.filter_by(id=identifier).first()
         if vehicle:
+
+            os.remove(os.path.join("app", vehicle.apresentation_photo))
+            os.remove(os.path.join("app", vehicle.lateral_photo))
+
             db.session.delete(vehicle)
             db.session.commit()
             return res({"status": "ok", "message": "Veículo deletado com sucesso"}), 200

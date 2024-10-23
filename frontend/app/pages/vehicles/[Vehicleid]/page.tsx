@@ -6,11 +6,31 @@ import iconCar from "@icons/iconCar.svg";
 import steringWheel from "@icons/stering-wheel.svg";
 import seat from "@icons/seat.svg";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { getVehicleByIdService } from "@root/app/server/VehiclesActions";
+import { get } from "http";
 
-const ReservarVeiculo = (params: { Vehicleid: string }) => {
-  const vehicle = params.Vehicleid;
-  console.log(vehicle);
+type VehicleDataType = {
+  brand: string;
+  model: string;
+  price: number;
+  category: string;
+  transmission: string;
+  seats: number;
+  lateral_photo: string;
+};
+
+const ReservarVeiculo = ({ params }: { params: { [key: string]: number } }) => {
+  const dataQuery = params["Vehicleid"];
+  const [vehicleData, setVehicleData] = useState<VehicleDataType>({
+    brand: "",
+    model: "",
+    price: 0,
+    category: "",
+    transmission: "",
+    seats: 0,
+    lateral_photo: "",
+  });
 
   const [entry_date, setEntry_date] = useState<Date | null>(null);
   const [end_date, setEnd_date] = useState<Date | null>(null);
@@ -28,22 +48,41 @@ const ReservarVeiculo = (params: { Vehicleid: string }) => {
       const endFeedback = endFeedbackRef.current;
       console.log(today, entry, end);
 
-      if (entry < today) {
-        entryFeedback.textContent =
-          "Data de entrada não pode ser anterior a data de hoje";
-      } else if (end < entry) {
-        endFeedback.textContent =
-          "Data de saída não pode ser anterior a data de entrada";
-      } else {
-        entryFeedback.textContent = "";
-        endFeedback.textContent = "";
-        const days = end - entry + 1;
-        const price = days * 100;
-        const fixedPrice = price.toFixed(2);
-        priceRef.current.textContent = `R$ ${fixedPrice.replace(".", ",")}`;
+      if (entryFeedback && endFeedback && priceRef.current) {
+        if (entry < today) {
+          entryFeedback.textContent =
+            "Data de entrada não pode ser anterior a data de hoje";
+        } else if (end < entry) {
+          endFeedback.textContent =
+            "Data de saída não pode ser anterior a data de entrada";
+        } else {
+          entryFeedback.textContent = "";
+          endFeedback.textContent = "";
+          const days = end - entry + 1;
+          const price = days * vehicleData.price;
+          const fixedPrice = price.toFixed(2);
+          priceRef.current.textContent = `R$ ${fixedPrice.replace(".", ",")}`;
+        }
       }
     }
-  }, [entry_date, end_date]);
+  }, [entry_date, end_date, vehicleData.price]);
+
+  const getVehilceData = useCallback(async () => {
+    const result = await getVehicleByIdService(dataQuery);
+    setVehicleData({
+      brand: result.brand,
+      model: result.model,
+      price: result.price_per_day,
+      category: result.category,
+      transmission: result.transmission,
+      seats: result.seats,
+      lateral_photo: result.lateral_photo,
+    });
+  }, [dataQuery]);
+
+  useEffect(() => {
+    getVehilceData();
+  }, [getVehilceData]);
 
   return (
     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full">
@@ -51,37 +90,59 @@ const ReservarVeiculo = (params: { Vehicleid: string }) => {
         <section className="flex flex-col p-4 lg:w-1/2 max-md:w-full *:select-none">
           <span className="flex w-full justify-between">
             <h1 className="text-3xl font-asap-condensed-semibold">
-              Veículo reservado
+              {vehicleData.brand}
             </h1>
             <span className="text-3xl font-asap-condensed-semibold">
-              R$ 100,00
+              R${vehicleData.price.toFixed(2).replace(".", ",")}
             </span>
           </span>
           <h2 className="text-center text-2xl font-bold tracking-widest">
-            BMW
+            {vehicleData.model}
           </h2>
-          <Image src={bmwCinza} alt="modelo da marca" className="w-full" />
+          <Image
+            src={`/api/${vehicleData.lateral_photo}`}
+            width={500}
+            height={500}
+            alt="modelo da marca"
+            className="w-full"
+            priority
+          />
           <section className="flex w-full justify-between [&>div>span>p]:text-gray-400 [&>div>h3]:text-xl">
             <div>
               <span className="flex gap-2">
-                <Image src={iconCar} alt="Icone de tipo de veículo" />
+                <Image
+                  src={iconCar}
+                  width={30}
+                  height={30}
+                  alt="Icone de tipo de veículo"
+                />
                 <p className="text-xl font-semibold">Tipo de veículo</p>
               </span>
-              <h3 className="font-semibold">Esportivo</h3>
+              <h3 className="font-semibold">{vehicleData.category}</h3>
             </div>
             <div>
               <span className="flex gap-2">
-                <Image src={steringWheel} alt="Icone de cambio" />
-                <p className="text-xl font-semibold">Cambio</p>
+                <Image
+                  src={steringWheel}
+                  width={30}
+                  height={30}
+                  alt="Icone de cambio"
+                />
+                <p className="text-xl font-semibold">Câmbio</p>
               </span>
-              <h3 className="font-semibold">Esportivo</h3>
+              <h3 className="font-semibold">{vehicleData.transmission}</h3>
             </div>
             <div>
               <span className="flex gap-2">
-                <Image src={seat} alt="Icone de assento" />
+                <Image
+                  src={seat}
+                  width={30}
+                  height={30}
+                  alt="Icone de assento"
+                />
                 <p className="text-xl font-semibold">Numero de assentos</p>
               </span>
-              <h3 className="font-semibold">Esportivo</h3>
+              <h3 className="font-semibold">{vehicleData.seats}</h3>
             </div>
           </section>
         </section>
@@ -98,7 +159,9 @@ const ReservarVeiculo = (params: { Vehicleid: string }) => {
                   type="date"
                   id="entry_date"
                   name="entry_date"
-                  onChange={(e) => setEntry_date(new Date((e.target.value).replace(/-/g, "/")))}
+                  onChange={(e) =>
+                    setEntry_date(new Date(e.target.value.replace(/-/g, "/")))
+                  }
                   required
                 />
                 <span ref={entryFeedbackRef} className="text-red-500"></span>
@@ -107,7 +170,9 @@ const ReservarVeiculo = (params: { Vehicleid: string }) => {
                   type="date"
                   id="end_date"
                   name="end_date"
-                  onChange={(e) => setEnd_date(new Date((e.target.value).replace(/-/g, "/")))}
+                  onChange={(e) =>
+                    setEnd_date(new Date(e.target.value.replace(/-/g, "/")))
+                  }
                   required
                 />
                 <span ref={endFeedbackRef} className="text-red-500"></span>
