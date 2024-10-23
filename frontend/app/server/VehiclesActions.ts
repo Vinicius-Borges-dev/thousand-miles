@@ -45,7 +45,7 @@ export const getVehicleByIdService = async (id: number) => {
 export const updateVehicle = async (formContent:FormData)=> {
   const id = formContent.get("id");
   try{
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/vehicles/${id}/update`,{
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/vehicles/${id}`,{
       method: "PUT",
       body: formContent
     })
@@ -62,7 +62,7 @@ export const updateVehicle = async (formContent:FormData)=> {
 
 export const deleteVehicle = async (id: number) => {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/vehicles/${id}/delete`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/vehicles/${id}`, {
       method: "DELETE",
     });
     const data = await response.json();

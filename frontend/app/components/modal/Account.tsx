@@ -9,35 +9,35 @@ import { useThisToaster } from "@components/toaster/ToasterContext";
 import { addNewUser, login } from "@root/app/server/UserActions";
 
 type LoginType = {
-  email: string;
-  password: string;
+  login_email: string;
+  login_password: string;
 };
 
 type SignUpType = {
-  name: string;
-  email: string;
-  birthdate: string;
-  rg: string;
-  cpf: string;
-  password: string;
-  confirmPassword: string;
+  signup_name: string;
+  signup_email: string;
+  signup_birthdate: string;
+  signup_rg: string;
+  signup_cpf: string;
+  signup_password: string;
+  signup_confirm_Password: string;
 };
 
 export default function Account() {
   const toast = useThisToaster();
   const [logIn, setLogIn] = useState<LoginType>({
-    email: "",
-    password: "",
+    login_email: "",
+    login_password: "",
   });
 
   const [signUp, setSignUp] = useState<SignUpType>({
-    name: "",
-    email: "",
-    birthdate: "",
-    rg: "",
-    cpf: "",
-    password: "",
-    confirmPassword: "",
+    signup_name: "",
+    signup_email: "",
+    signup_birthdate: "",
+    signup_rg: "",
+    signup_cpf: "",
+    signup_password: "",
+    signup_confirm_Password: "",
   });
 
   const loginFormRef = useRef<HTMLDivElement | null>(null);
@@ -72,6 +72,7 @@ export default function Account() {
       e.preventDefault();
 
       if (!validateFormFilled(form)) {
+        console.log(form);
         toast.error("Preencha todos os campos");
         return;
       }
@@ -85,11 +86,9 @@ export default function Account() {
       if (type === "login") {
         const resultLogin = await login(formData);
         console.log(resultLogin);
-
       } else if (type === "signup") {
         const resultSignUp = await addNewUser(formData);
         console.log(resultSignUp);
-
       }
     },
     [toast]
@@ -112,11 +111,14 @@ export default function Account() {
         <h1 className="text-2xl font-semibold text-center">
           Entre na sua conta
         </h1>
-        <form className="mb-3" onSubmit={handleSubmit(event, logIn, 'login')}>
+        <form
+          className="mb-3"
+          onSubmit={() => handleSubmit(event, logIn, "login")}
+        >
           <Input
             label="Digite seu email:"
             type="email"
-            name="email"
+            name="login_email"
             placeholder="Ex. JohnDoe@email.com"
             onChange={handleLogIn}
             icon={iconEmail}
@@ -142,13 +144,17 @@ export default function Account() {
       </div>
       <div className="hidden w-full" ref={signUpFormRef}>
         <h1 className="text-2xl font-semibold text-center">Cadastre-se</h1>
-        <form action="#" className="mb-3" onSubmit={handleSubmit(event, signUp, 'signup')}>
+        <form
+          action="#"
+          className="mb-3"
+          onSubmit={() => handleSubmit(event, signUp, "signup")}
+        >
           <span className="lg:flex lg:gap-10">
             <div className="lg:w-1/2 w-full">
               <Input
                 label="Digite seu nome completo:"
                 type="text"
-                name="username"
+                name="signup_name"
                 placeholder="Ex. John Doe"
                 onChange={handleSignUp}
                 icon={iconEmail}
@@ -164,14 +170,14 @@ export default function Account() {
               <Input
                 label="Digite sua data de nascimento:"
                 type="date"
-                name="birthdate"
+                name="signup_birthdate"
                 onChange={handleSignUp}
                 icon={iconCalendar}
               />
               <Input
                 label="Digite seu rg:"
                 type="text"
-                name="rg"
+                name="signup_rg"
                 placeholder="Ex. 123456789"
                 onChange={handleSignUp}
                 icon={iconId}
@@ -181,7 +187,7 @@ export default function Account() {
               <Input
                 label="Digite seu CPF:"
                 type="text"
-                name="cpf"
+                name="signup_cpf"
                 placeholder="Ex. 12345678901"
                 onChange={handleSignUp}
                 icon={iconFingerPrint}
@@ -197,7 +203,7 @@ export default function Account() {
               <Input
                 label="Confirme sua senha:"
                 type="password"
-                name="signup_confirm_password"
+                name="signup_confirm_Password"
                 placeholder="********"
                 onChange={handleSignUp}
                 icon={iconPassword}

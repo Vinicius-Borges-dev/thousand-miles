@@ -8,7 +8,7 @@ class UserMiddleware:
     
     def __init__(self):
         self.__connection = db
-        self.__model = UserModel()
+        self.__model = UserModel
     
     def check_employee_permission(self, role):
         return role == EnumRole.employee
