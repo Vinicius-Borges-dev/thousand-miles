@@ -1,0 +1,9 @@
+ambiente/
+
+__pycache__/
+
+.env
+
+.dependencies_installed
+
+instance/
