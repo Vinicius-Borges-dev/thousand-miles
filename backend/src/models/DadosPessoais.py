@@ -12,3 +12,19 @@ class DadosPessoaisModel(Base):
     fk_id_documento = Column(Integer, ForeignKey("documento.id_documento"), nullable=False)
     
     documento = relationship("DocumentoModel", back_populates="dados_pessoais")
+    
+    def __init__(self, nome:str, sobrenome:str, fk_id_documento:int)->None:
+        self.nome = nome
+        self.sobrenome = sobrenome
+        self.fk_id_documento = fk_id_documento
+    
+    def __repr__(self)->str:
+        return f'DadosPessoais (id: {self.id_dados_pessoais}, nome: {self.nome}, sobrenome: {self.sobrenome})'
+    
+    def to_dict(self)->dict:
+        return {
+            'id_dados_pessoais': self.id_dados_pessoais,
+            'nome': self.nome,
+            'sobrenome': self.sobrenome,
+            'fk_id_documento': self.fk_id_documento
+        }
