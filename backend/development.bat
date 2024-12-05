@@ -1,11 +1,11 @@
 @echo off
 
-if not exist "ambiente\" (
+if not exist "venv\" (
     echo Criando ambiente virtual...
-    python -m venv ambiente
+    python -m venv venv
 )
 
-call ambiente\Scripts\activate
+call venv\Scripts\activate
 
 if not exist ".dependencies_installed" (
     echo Instalando dependências...
