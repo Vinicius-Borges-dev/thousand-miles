@@ -59,3 +59,10 @@ class UsuarioService:
         except SQLAlchemyError as erro:
             app.session.rollback()
             return erro
+    
+    def verificar_email(self, email: str):
+        try:
+            usuario = app.session.query(UsuarioModel).filter_by(email=email).first()
+            return usuario
+        except SQLAlchemyError as erro:
+            return erro

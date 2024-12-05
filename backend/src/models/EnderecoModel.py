@@ -12,7 +12,7 @@ class EnderecoModel(Base):
     fk_id_bairro = Column(Integer, ForeignKey('bairro.id_bairro'), nullable=False)
     
     bairro = relationship('BairroModel', back_populates='endereco')
-    usuario = relationship('EnderecoModel', back_populates='endereco')
+    usuario = relationship('UsuarioModel', back_populates='endereco')
     
     def __init__(self, rua:str, numero:int, fk_id_bairro:int)->None:
         self.rua = rua

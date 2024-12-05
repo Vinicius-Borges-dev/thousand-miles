@@ -9,6 +9,7 @@ class DadosPessoaisService:
             novos_dados_pessoais = DadosPessoaisModel(
                 nome=dados.get("nome"),
                 sobrenome=dados.get("sobrenome"),
+                data_nascimento=dados.get("data_nascimento"),
                 fk_id_documento=dados.get("id_documento"),
             )
 

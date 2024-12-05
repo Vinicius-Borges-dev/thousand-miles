@@ -8,6 +8,7 @@ def create_app():
     banco_de_dados = BancoDeDados(app)
     banco_de_dados.criar_tabelas()
     
+    
     from src.routes.UsuarioRoute import usuario_bp
     app.register_blueprint(usuario_bp, url_prefix="/usuario")
     

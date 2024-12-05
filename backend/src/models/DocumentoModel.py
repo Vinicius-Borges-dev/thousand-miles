@@ -7,8 +7,8 @@ class DocumentoModel(Base):
     __tablename__ = "documento"
     
     id_documento = Column(Integer, primary_key=True, autoincrement=True)
-    tipo_documento = Column(String(50), nullable=False)
-    numero_documento = Column(String(50), nullable=False)
+    cpf = Column(String(11), nullable=False)
+    rg = Column(String(9), nullable=False)
     
     dados_pessoais = relationship('DadosPessoaisModel', back_populates='documento')
     

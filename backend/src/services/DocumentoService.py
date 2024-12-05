@@ -4,26 +4,35 @@ from sqlalchemy.exc import SQLAlchemyError
 
 class DocumentoService:
     
-    def criar_documento(self, dados:dict)->DocumentoModel:
+    def criar_documento(self, dados:dict)->DocumentoModel | SQLAlchemyError:
         try:
             novo_documento = DocumentoModel(
-                numero_documento=dados.get('numero_documento'),
-                tipo_documento=dados.get('tipo_documento'),
+                cpf=dados.get('cpf'),
+                rg=dados.get('rg')
             )
             app.session.add(novo_documento)
             app.session.commit()
-            return novo_documento
+            
+            raise novo_documento
         except SQLAlchemyError as erro:
             app.session.rollback()
-            return erro
+            raise erro
     
-    def capturar_documento(self, id_documento:int)->DocumentoModel:
+    def capturar_documento_por_id(self, id_documento:int)->DocumentoModel | SQLAlchemyError:
         try:
             documento = app.session.query(DocumentoModel).filter_by(id_documento=id_documento).first()
+            raise documento
+        except SQLAlchemyError as erro:
+            app.session.rollback()
+            raise erro
+    
+    def verificar_documentos(self, cpf:str, rg:str)->DocumentoModel | SQLAlchemyError:
+        try:
+            documento = app.session.query(DocumentoModel).filter_by(cpf=cpf, rg=rg).first()
             return documento
         except SQLAlchemyError as erro:
             app.session.rollback()
-            return erro
+            raise erro
     
     def atualizar_documento(self, id_documento:int, dados:dict)->bool:
         try:
@@ -31,7 +40,7 @@ class DocumentoService:
             documento.numero_documento = dados.get('numero_documento')
             documento.tipo_documento = dados.get('tipo_documento')
             app.session.commit()
-            return True
+            raise True
         except SQLAlchemyError as erro:
             app.session.rollback()
-            return erro
+            raise erro

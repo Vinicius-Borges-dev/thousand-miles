@@ -13,6 +13,7 @@ class ModeloModel(Base):
     
     marca = relationship("MarcaModel", back_populates="modelo")
     album_veiculo = relationship("AlbumVeiculoModel", back_populates="modelo")
+    veiculo = relationship("VeiculoModel", back_populates="modelo")
     
     def __init__(self, nome_modelo:str, fk_id_marca:int, fk_id_album_veiculo:int)->None:
         self.nome_modelo = nome_modelo

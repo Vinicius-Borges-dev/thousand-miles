@@ -1,5 +1,5 @@
 from src.configs.banco_de_dados import Base
-from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy import Column, Integer, String, ForeignKey, Date
 from sqlalchemy.orm import relationship
 
 
@@ -10,6 +10,7 @@ class DadosPessoaisModel(Base):
     id_dados_pessoais = Column(Integer, primary_key=True, autoincrement=True)
     nome = Column(String(50), nullable=False)
     sobrenome = Column(String(50), nullable=False)
+    data_nascimento = Column(Date, nullable=True)
     fk_id_documento = Column(
         Integer, ForeignKey("documento.id_documento"), nullable=False
     )
