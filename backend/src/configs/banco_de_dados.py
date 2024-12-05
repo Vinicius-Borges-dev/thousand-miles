@@ -1,7 +1,7 @@
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, text
 from sqlalchemy.orm import sessionmaker, declarative_base
 from flask_sqlalchemy import SQLAlchemy
-from flask import Flask
+from flask import Flask, current_app as app
 import os
 from datetime import timedelta
 
@@ -37,3 +37,10 @@ class BancoDeDados:
     def criar_tabelas(self):
         with self.__app.app_context():
             Base.metadata.create_all(self.__engine)
+    
+    def text(self, consulta:str)->list:
+        with self.__app.engine.connect() as conexao:
+            resultado = conexao.execute(text(consulta))
+            if resultado.returns_rows:
+                return resultado.fetchall()
+            return None
