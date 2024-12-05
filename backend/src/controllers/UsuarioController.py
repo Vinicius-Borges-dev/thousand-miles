@@ -46,47 +46,40 @@ class UsuarioController:
             print(cidade)
             print(estado) """
             
-            estado_check = EstadoService().capturar_estado_por_nome(estado.get("nome_estado"))
-            if not estado_check:
-                estado = EstadoService().criar_estado({
-                    "nome_estado": estado.get("nome_estado")
-                })
+            verificar_estado = EstadoService().capturar_estado_por_nome(estado.get("nome_estado"))
+            if verificar_estado is None:
+                EstadoService().criar_estado(estado)
+                verificar_estado = EstadoService().capturar_estado_por_nome(estado.get("nome_estado"))
             
-            cidade_check = CidadeService().capturar_cidade_por_nome(cidade.get("nome_cidade"))
-            if not cidade_check:
-                cidade = CidadeService().criar_cidade({
-                    "nome_cidade": cidade.get("nome_cidade"),
-                    "id_estado": estado.id_estado
-                })
+            verificar_cidade = CidadeService().capturar_cidade_por_nome(cidade.get("nome_cidade"))
+            if verificar_cidade is None:
+                CidadeService().criar_cidade(cidade, verificar_estado.id_estado)
+                verificar_cidade = CidadeService().capturar_cidade_por_nome(cidade.get("nome_cidade"))
             
-            bairro_check = BairroService().capturar_bairro_por_nome(bairro.get("nome_bairro"))
-            if not bairro_check:
-                bairro = BairroService().criar_bairro({
-                    "nome_bairro": bairro.get("nome_bairro"),
-                    "id_cidade": cidade.id_cidade
-                })
+            verificar_bairro = BairroService().capturar_bairro_por_nome(bairro.get("nome_bairro"))
+            if verificar_bairro is None:
+                BairroService().criar_bairro(bairro, verificar_cidade.id_cidade)
+                verificar_bairro = BairroService().capturar_bairro_por_nome(bairro.get("nome_bairro"))
             
-            endereco_check = EnderecoService().capturar_endereco_por_rua_e_numero(endereco.get("rua"), endereco.get("numero"))
-            if not endereco_check:
-                endereco = EnderecoService().criar_endereco({
-                    "rua": endereco_check.get("rua"),
-                    "numero": endereco_check.get("numero"),
-                    "id_bairro": bairro_check.id_bairro
-                })
+            verificar_endereco = EnderecoService().capturar_endereco_por_rua_e_numero(endereco.get("rua"), endereco.get("numero"))
+            if verificar_endereco is None:
+                EnderecoService().criar_endereco(endereco, verificar_bairro.id_bairro)
+                verificar_endereco = EnderecoService().capturar_endereco_por_rua_e_numero(endereco.get("rua"), endereco.get("numero"))
             
-            documentos_check = DocumentoService().criar_documento(documentos)
-            dados_pessoais_check = DadosPessoaisService().criar_dados_pessoais({
+            novos_documentos = DocumentoService().criar_documento(documentos)
+            novos_dados_pessoais = DadosPessoaisService().criar_dados_pessoais({
                 "nome": dados_pessoais.get("nome"),
                 "sobrenome": dados_pessoais.get("sobrenome"),
-                "data_nascimento": dados_pessoais_check.get("data_nascimento"),
-                "id_documento": documentos_check.id_documento
+                "data_nascimento": dados_pessoais.get("data_nascimento"),
+                "id_documento": novos_documentos.id_documento,
             })
-            usuario = UsuarioService().criar_usuario({
+            
+            UsuarioService().criar_usuario({
                 "email": usuario.get("email"),
                 "senha": usuario.get("senha"),
                 "nivel_acesso": usuario.get("nivel_acesso"),
-                "id_dados_pessoais": dados_pessoais_check.id_dados_pessoais,
-                "id_endereco": endereco_check.id_endereco
+                "id_dados_pessoais": novos_dados_pessoais.id_dados_pessoais,
+                "id_endereco": verificar_endereco.id_endereco,
             })
             
             return jsonify({
