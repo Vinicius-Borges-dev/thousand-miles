@@ -11,59 +11,38 @@ class UsuarioController:
     
     def cadastrar_usuario(self):
         try:
-            usuario = {
-                "email": request.json.get("email"),
-                "senha": request.json.get("senha"),
-                "nivel_acesso": "usuario",
-            }
-            dados_pessoais = {
-                "nome": request.json.get("nome"),
-                "sobrenome": request.json.get("sobrenome"),
-                "data_nascimento": request.json.get("data_nascimento"),
-            }
-            documentos = {
-                "cpf": request.json.get("cpf"),
-                "rg": request.json.get("rg"),
-            }
-            endereco = {
-                "rua": request.json.get("rua"),
-                "numero": request.json.get("numero"),
-            }
-            bairro = {
-                "nome_bairro": request.json.get("nome_bairro"),
-            }
-            cidade = {
-                "nome_cidade": request.json.get("nome_cidade"),
-            }
-            estado = {
-                "nome_estado": request.json.get("nome_estado"),
-            }
-            """ print(usuario)
-            print(dados_pessoais)
-            print(documentos)
-            print(endereco)
-            print(bairro)
-            print(cidade)
-            print(estado) """
+            email = request.json.get("email")
+            senha = request.json.get("senha")
+            nivel_acesso = "usuario"
+            nome = request.json.get("nome")
+            sobrenome = request.json.get("sobrenome")
+            data_nascimento = request.json.get("data_nascimento")
+            cpf = request.json.get("cpf")
+            rg = request.json.get("rg")
+            rua = request.json.get("rua")
+            numero = request.json.get("numero")
+            nome_bairro = request.json.get("nome_bairro")
+            nome_cidade = request.json.get("nome_cidade")
+            nome_estado = request.json.get("nome_estado")
             
-            verificar_estado = EstadoService().capturar_estado_por_nome(estado.get("nome_estado"))
+            verificar_estado = EstadoService().capturar_estado_por_nome(nome_estado)
             if verificar_estado is None:
                 EstadoService().criar_estado(estado)
                 verificar_estado = EstadoService().capturar_estado_por_nome(estado.get("nome_estado"))
             
             verificar_cidade = CidadeService().capturar_cidade_por_nome(cidade.get("nome_cidade"))
             if verificar_cidade is None:
-                CidadeService().criar_cidade(cidade, verificar_estado.id_estado)
+                CidadeService().criar_cidade(cidade)
                 verificar_cidade = CidadeService().capturar_cidade_por_nome(cidade.get("nome_cidade"))
             
             verificar_bairro = BairroService().capturar_bairro_por_nome(bairro.get("nome_bairro"))
             if verificar_bairro is None:
-                BairroService().criar_bairro(bairro, verificar_cidade.id_cidade)
+                BairroService().criar_bairro(bairro)
                 verificar_bairro = BairroService().capturar_bairro_por_nome(bairro.get("nome_bairro"))
             
             verificar_endereco = EnderecoService().capturar_endereco_por_rua_e_numero(endereco.get("rua"), endereco.get("numero"))
             if verificar_endereco is None:
-                EnderecoService().criar_endereco(endereco, verificar_bairro.id_bairro)
+                EnderecoService().criar_endereco(endereco)
                 verificar_endereco = EnderecoService().capturar_endereco_por_rua_e_numero(endereco.get("rua"), endereco.get("numero"))
             
             novos_documentos = DocumentoService().criar_documento(documentos)
