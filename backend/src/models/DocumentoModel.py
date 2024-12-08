@@ -10,18 +10,18 @@ class DocumentoModel(Base):
     cpf = Column(String(11), nullable=False)
     rg = Column(String(9), nullable=False)
     
-    dados_pessoais = relationship('DadosPessoaisModel', back_populates='documento')
+    dados_pessoais = relationship('DadosPessoaisModel', back_populates='documento', cascade="all, delete-orphan")
     
-    def __init__(self, tipo_documento:str, numero_documento:str)->None:
-        self.tipo_documento = tipo_documento
-        self.numero_documento = numero_documento
+    def __init__(self, cpf:str, rg:str)->None:
+        self.cpf = cpf
+        self.rg = rg
     
     def __repr__(self)->str:
-        return f'Documento (id: {self.id_documento}, tipo_documento: {self.tipo_documento}, numero_documento: {self.numero_documento})'
+        return f'Documento (id: {self.id_documento}, cpf: {self.cpf}, rg: {self.rg})'
     
     def to_dict(self)->dict:
         return {
             'id_documento': self.id_documento,
-            'tipo_documento': self.tipo_documento,
-            'numero_documento': self.numero_documento
+            'cpf': self.cpf,
+            'rg': self.rg
         }

@@ -13,14 +13,14 @@ class UsuarioModel(Base):
     nivel_acesso = Column(String(20), nullable=False)
 
     fk_id_dados_pessoais = Column(
-        Integer, ForeignKey("dados_pessoais.id_dados_pessoais"), nullable=False
+        Integer, ForeignKey("dados_pessoais.id_dados_pessoais", ondelete="CASCADE"), nullable=False
     )
     fk_id_endereco = Column(Integer, ForeignKey("endereco.id_endereco"), nullable=False)
 
     dados_pessoais = relationship("DadosPessoaisModel", back_populates="usuario")
-    usuario_reserva = relationship("UsuarioReservaModel", back_populates="usuario")
+    usuario_reserva = relationship("UsuarioReservaModel", back_populates="usuario", cascade="all, delete-orphan")
     endereco = relationship("EnderecoModel", back_populates="usuario")
-    favorito = relationship("FavoritoModel", back_populates="usuario")
+    favorito = relationship("FavoritoModel", back_populates="usuario", cascade="all, delete-orphan")
 
     
     def __init__(self, email:str, senha:str, nivel_acesso:str, fk_id_dados_pessoais:int, fk_id_endereco:int)->None:

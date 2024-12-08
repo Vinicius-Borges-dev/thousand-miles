@@ -12,15 +12,16 @@ class DadosPessoaisModel(Base):
     sobrenome = Column(String(50), nullable=False)
     data_nascimento = Column(Date, nullable=True)
     fk_id_documento = Column(
-        Integer, ForeignKey("documento.id_documento"), nullable=False
+        Integer, ForeignKey("documento.id_documento", ondelete="CASCADE"), nullable=False
     )
 
     documento = relationship("DocumentoModel", back_populates="dados_pessoais")
-    usuario = relationship("UsuarioModel", back_populates="dados_pessoais")
+    usuario = relationship("UsuarioModel", back_populates="dados_pessoais", cascade="all, delete-orphan")
 
-    def __init__(self, nome: str, sobrenome: str, fk_id_documento: int) -> None:
+    def __init__(self, nome: str, sobrenome: str, fk_id_documento: int, data_nascimento:str) -> None:
         self.nome = nome
         self.sobrenome = sobrenome
+        self.data_nascimento = data_nascimento
         self.fk_id_documento = fk_id_documento
 
     def __repr__(self) -> str:

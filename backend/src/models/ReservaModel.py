@@ -16,7 +16,7 @@ class ReservaModel(Base):
 
     seguro = relationship("SeguroModel", back_populates="reserva")
     veiculo_reserva = relationship("VeiculoReservaModel", back_populates="reserva")
-    usuario_reserva = relationship("UsuarioReservaModel", back_populates="reserva")
+    usuario_reserva = relationship("UsuarioReservaModel", back_populates="reserva", cascade="all, delete-orphan")
 
     def __init__(
         self,

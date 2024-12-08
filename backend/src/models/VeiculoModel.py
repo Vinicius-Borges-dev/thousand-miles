@@ -32,8 +32,8 @@ class VeiculoModel(Base):
     combustivel = relationship("CombustivelModel", back_populates="veiculo")
     album_veiculo = relationship("AlbumVeiculoModel", back_populates="veiculo")
     modelo = relationship("ModeloModel", back_populates="veiculo")
-    veiculo_reserva = relationship("VeiculoReservaModel", back_populates="veiculo")
-    favorito = relationship("FavoritoModel", back_populates="veiculo")
+    veiculo_reserva = relationship("VeiculoReservaModel", back_populates="veiculo", cascade="all, delete-orphan")
+    favorito = relationship("FavoritoModel", back_populates="veiculo", cascade="all, delete-orphan")
 
     def __init__(
         self,
