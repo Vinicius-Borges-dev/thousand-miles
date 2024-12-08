@@ -50,7 +50,7 @@ class EnderecoService:
             endereco.numero = dados.get('numero')
             endereco.fk_id_bairro = dados.get('id_bairro')
             app.session.commit()
-            return True
+            return endereco
         except SQLAlchemyError as erro:
             app.session.rollback()
             return erro

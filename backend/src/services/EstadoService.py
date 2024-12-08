@@ -4,7 +4,7 @@ from src.models import EstadoModel
 
 class EstadoService:
     
-    def criar_estado(self, dados):
+    def criar_estado(self, dados:dict):
         try:
             novo_estado = EstadoModel(
                 nome_estado=dados.get('nome_estado')

@@ -21,7 +21,7 @@ class UsuarioService:
             return novo_usuario
         except SQLAlchemyError as erro:
             app.session.rollback()
-            return erro
+            raise erro
 
     def editar_usuario(self, id_usuario: int, dados: dict):
         try:
@@ -38,7 +38,7 @@ class UsuarioService:
             return usuario
         except SQLAlchemyError as erro:
             app.session.rollback()
-            return erro
+            raise erro
     
     def deletar_usuario(self, id_usuario: int):
         try:
@@ -50,19 +50,25 @@ class UsuarioService:
             return True
         except SQLAlchemyError as erro:
             app.session.rollback()
-            return erro
+            raise erro
     
     def capturar_informacoes_usuario(self, id_usuario: int):
         try:
             usuario = app.session.query(UsuarioModel).filter_by(id_usuario=id_usuario).first()
             return usuario
         except SQLAlchemyError as erro:
-            app.session.rollback()
-            return erro
+            raise erro
+    
+    def buscar_todos_usuarios(self):
+        try:
+            usuarios = app.session.query(UsuarioModel).all()
+            return usuarios
+        except SQLAlchemyError as erro:
+            raise erro
     
     def verificar_email(self, email: str):
         try:
             usuario = app.session.query(UsuarioModel).filter_by(email=email).first()
             return usuario
         except SQLAlchemyError as erro:
-            return erro
+            raise erro

@@ -13,7 +13,7 @@ class DocumentoService:
             app.session.add(novo_documento)
             app.session.commit()
             
-            raise novo_documento
+            return novo_documento
         except SQLAlchemyError as erro:
             app.session.rollback()
             raise erro
@@ -21,7 +21,7 @@ class DocumentoService:
     def capturar_documento_por_id(self, id_documento:int)->DocumentoModel | SQLAlchemyError:
         try:
             documento = app.session.query(DocumentoModel).filter_by(id_documento=id_documento).first()
-            raise documento
+            return documento
         except SQLAlchemyError as erro:
             app.session.rollback()
             raise erro
@@ -40,7 +40,7 @@ class DocumentoService:
             documento.numero_documento = dados.get('numero_documento')
             documento.tipo_documento = dados.get('tipo_documento')
             app.session.commit()
-            raise True
+            return documento
         except SQLAlchemyError as erro:
             app.session.rollback()
             raise erro
