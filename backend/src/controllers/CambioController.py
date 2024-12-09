@@ -5,7 +5,7 @@ from src.services.CambioService import CambioService
 class CambioController:
 
     def criar_cambio(self):
-        nome_cambio = request.json.get("nome_cambio")
+        nome_cambio = request.form.get("nome_cambio")
         try:
             cambio = CambioService().criar_cambio({"nome_cambio": nome_cambio})
             return (
@@ -114,10 +114,10 @@ class CambioController:
             )
 
     def atualizar_cambio(self, id_cambio: int):
-        nome_cambio = request.json.get("nome_cambio")
+        nome_cambio = request.form.get("nome_cambio")
         try:
             cambio = CambioService().atualizar_cambio(
-                id_cambio, {"nome_cambio": nome_cambio}
+                id_cambio, {"tipo_cambio": nome_cambio}
             )
             return (
                 jsonify(
@@ -134,6 +134,7 @@ class CambioController:
                     {
                         "status": "erro",
                         "mensagem": "Erro ao atualizar câmbio",
+                        "erro": str(erro),
                     }
                 ),
                 500,
