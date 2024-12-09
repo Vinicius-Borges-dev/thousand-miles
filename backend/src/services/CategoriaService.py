@@ -72,3 +72,14 @@ class CategoriaService:
         except SQLAlchemyError as erro:
             app.session.rollback()
             raise erro
+    
+    def buscar_por_nome_semelhante(self, nome_categoria: str):
+        try:
+            categorias = (
+                app.session.query(CategoriaModel)
+                .filter(CategoriaModel.nome_categoria.like(f"%{nome_categoria}%"))
+                .all()
+            )
+            return categorias
+        except SQLAlchemyError as erro:
+            raise erro
