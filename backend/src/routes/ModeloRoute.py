@@ -27,6 +27,6 @@ def editar_modelo(id_modelo: int):
 def deletar_modelo(id_modelo: int):
     return ModeloController().excluir_modelo(id_modelo)
 
-@modelo_bp.route("/semelhante/<string:nome>", methods=["GET"])
+@modelo_bp.route("/buscar/<string:nome>", methods=["GET"])
 def buscar_nome_semelhante(nome: str):
     return ModeloController().buscar_nome_semelhante(nome)
