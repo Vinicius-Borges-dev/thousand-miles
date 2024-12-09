@@ -61,3 +61,10 @@ class MarcaService:
         except SQLAlchemyError as erro:
             app.session.rollback()
             raise erro
+    
+    def buscar_marca_por_nome_semelhante(self, nome_marca:str):
+        try:
+            marcas = app.session.query(MarcaModel).filter(MarcaModel.nome_marca.like(f"%{nome_marca}%")).all()
+            return marcas
+        except SQLAlchemyError as erro:
+            raise erro
