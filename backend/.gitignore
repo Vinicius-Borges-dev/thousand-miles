@@ -7,3 +7,9 @@ __pycache__/
 .dependencies_installed
 
 instance/
+
+!src/uploads/imagens/marcas/
+!src/uploads/imagens/veiculos/
+
+src/uploads/imagens/marcas/*
+src/uploads/imagens/veiculos/*
