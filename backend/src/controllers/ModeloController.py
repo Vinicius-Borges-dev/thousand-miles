@@ -33,6 +33,12 @@ class ModeloController:
         try:
             modelo = ModeloService().buscar_modelo_por_id(id_modelo)
             if modelo:
+                modelo = {
+                    "id_modelo": modelo.id_modelo,
+                    "nome_modelo": modelo.nome_modelo,
+                    "id_marca": modelo.id_marca,
+                    "nome_marca": modelo.marca.nome_marca,
+                }
                 return jsonify(
                     {"status": "ok", "mensagem": "Modelo encontrado", "dados": modelo}
                 )
@@ -58,6 +64,12 @@ class ModeloController:
         try:
             modelo = ModeloService().buscar_modelo_por_nome(nome_modelo)
             if modelo:
+                modelo = {
+                    "id_modelo": modelo.id_modelo,
+                    "nome_modelo": modelo.nome_modelo,
+                    "id_marca": modelo.id_marca,
+                    "nome_marca": modelo.marca.nome_marca,
+                }
                 return jsonify(
                     {"status": "ok", "mensagem": "Modelo encontrado", "dados": modelo}
                 )
