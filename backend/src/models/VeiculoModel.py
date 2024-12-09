@@ -43,6 +43,11 @@ class VeiculoModel(Base):
         cor: str,
         placa: str,
         disponivel: int,
+        id_categoria: int,
+        id_cambio: int,
+        id_combustivel: int,
+        id_album_veiculo: int,
+        id_modelo: int,
     ) -> None:
         self.assentos = assentos
         self.preco_por_dia = preco_por_dia
@@ -50,6 +55,11 @@ class VeiculoModel(Base):
         self.cor = cor
         self.placa = placa
         self.disponivel = disponivel
+        self.fk_id_categoria = id_categoria
+        self.fk_id_cambio = id_cambio
+        self.fk_id_combustivel = id_combustivel
+        self.fk_id_album_veiculo = id_album_veiculo
+        self.fk_id_modelo = id_modelo
 
     def __repr__(self) -> str:
         return f"Veiculo (id: {self.id_veiculo}, placa: {self.placa})"
