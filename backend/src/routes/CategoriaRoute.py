@@ -27,3 +27,7 @@ def atualizar_categoria(id_categoria: int):
 @categoria_bp.route("/<int:id_categoria>", methods=["DELETE"])
 def deletar_categoria(id_categoria: int):
     return CategoriaController().deletar_categoria(id_categoria)
+
+@categoria_bp.route("/buscar/<string:nome_categoria>", methods=["GET"])
+def buscar_por_nome_semelhante(nome_categoria: str):
+    return CategoriaController().buscar_por_nome_semelhante(nome_categoria)
