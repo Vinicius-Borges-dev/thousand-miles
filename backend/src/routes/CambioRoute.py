@@ -4,7 +4,7 @@ from src.controllers.CambioController import CambioController
 cambio_bp = Blueprint("cambios", __name__)
 
 
-@cambio_bp.route("/cambios", methods=["POST"])
+@cambio_bp.route("/", methods=["POST"])
 def criar_cambio():
     return CambioController().criar_cambio()
 
@@ -34,6 +34,6 @@ def deletar_cambio(id_cambio: int):
     return CambioController().deletar_cambio(id_cambio)
 
 
-@cambio_bp.route("/semelhante/<string:nome_cambio>", methods=["GET"])
+@cambio_bp.route("/buscar/<string:nome_cambio>", methods=["GET"])
 def buscar_cambio_semelhante(nome_cambio: str):
     return CambioController().buscar_por_nome_semelhante(nome_cambio)
