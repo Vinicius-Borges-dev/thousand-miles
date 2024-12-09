@@ -49,11 +49,6 @@ def buscar_veiculo_por_categoria(categoria):
     return VeiculoController().buscar_veiculos_por_categoria(categoria)
 
 
-@veiculo_bp.route("/modelo/<string:modelo>", methods=["GET"])
-def buscar_veiculo_por_modelo(modelo):
-    return VeiculoController().buscar_veiculos_por_modelo(modelo)
-
-
 @veiculo_bp.route("/cambio/<string:cambio>", methods=["GET"])
 def buscar_veiculo_por_cambio(cambio):
     return VeiculoController().buscar_veiculos_por_cambio(cambio)
@@ -67,6 +62,7 @@ def buscar_veiculo_por_combustivel(combustivel):
 @veiculo_bp.route("/disponibilidade/<int:id_veiculo>", methods=["PATCH"])
 def atualizar_disponibilidade(id_veiculo):
     return VeiculoController().alterar_disponibilidade(id_veiculo)
+
 
 @veiculo_bp.route("/<int:id_veiculo>", methods=["DELETE"])
 def deletar_veiculo(id_veiculo):
