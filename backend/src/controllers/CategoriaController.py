@@ -179,3 +179,39 @@ class CategoriaController:
                 ),
                 500,
             )
+    
+    def buscar_por_nome_semelhante(self, nome_categoria:str):
+        try:
+            categorias = CategoriaService().buscar_por_nome_semelhante(nome_categoria)
+            if categorias:
+                return (
+                    jsonify(
+                        {
+                            "status": "ok",
+                            "mensagem": "Categorias encontradas",
+                            "dados": categorias,
+                        }
+                    ),
+                    200,
+                )
+            else:
+                return (
+                    jsonify(
+                        {
+                            "status": "erro",
+                            "mensagem": "Nenhuma categoria encontrada",
+                        }
+                    ),
+                    404,
+                )
+        except Exception as erro:
+            return (
+                jsonify(
+                    {
+                        "status": "erro",
+                        "mensagem": "Erro ao buscar categorias",
+                        "erro": str(erro),
+                    }
+                ),
+                500,
+            )
