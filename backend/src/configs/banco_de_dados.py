@@ -23,7 +23,8 @@ class BancoDeDados:
         self.__Session = sessionmaker(bind=self.__engine)
         
         self.__app.config['SECRET_KEY'] = os.getenv("SECRET_KEY")
-        self.__app.config['UPLOAD_IMAGES_FOLDER'] = "src/uploads/imagens"
+        self.__app.config['UPLOAD_IMAGES_MARCA_FOLDER'] = "src/uploads/imagens/marcas"
+        self.__app.config['UPLOAD_IMAGES_VEICULOS_FOLDER'] = "src/uploads/imagens/veiculos"
         self.__app.config['SESSSION_PERMANENT'] = True
         self.__app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(hours=4)
         self.__app.config['SQLALCHEMY_DATABASE_URI'] = BD_URI
