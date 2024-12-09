@@ -23,5 +23,5 @@ class MarcaModel(Base):
         return {
             'id_marca': self.id_marca,
             'nome_marca': self.nome_marca,
-            'logo_marca': self.logo
+            'logo_marca': self.logo_marca
         }
