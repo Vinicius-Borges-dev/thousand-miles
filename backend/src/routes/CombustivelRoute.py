@@ -34,6 +34,6 @@ def deletar_combustivel(id_combustivel: int):
     return CombustivelController().deletar_combustivel(id_combustivel)
 
 
-@combustivel_bp.route("/semelhante/<string:nome_combustivel>", methods=["GET"])
+@combustivel_bp.route("/buscar/<string:nome_combustivel>", methods=["GET"])
 def buscar_por_nome_semelhante(nome_combustivel: str):
     return CombustivelController().buscar_por_nome_semelhante(nome_combustivel)
