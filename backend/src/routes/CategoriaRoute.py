@@ -1,10 +1,12 @@
 from flask import Blueprint
 from src.controllers.CategoriaController import CategoriaController
+from src.middlewares.AuthCategoriaMiddleware import AuthCategoriaMiddleware
 
 categoria_bp = Blueprint("categorias", __name__)
 
 
 @categoria_bp.route("/", methods=["POST"])
+@AuthCategoriaMiddleware.verificar_existencia_categoria
 def criar_categoria():
     return CategoriaController().criar_categoria()
 

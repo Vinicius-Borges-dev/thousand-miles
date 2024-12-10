@@ -1,10 +1,12 @@
 from flask import Blueprint
 from src.controllers.CombustivelController import CombustivelController
+from src.middlewares.AuthCombustivelMiddleware import AuthCombustivelMiddleware
 
 combustivel_bp = Blueprint("combustiveis", __name__)
 
 
 @combustivel_bp.route("/", methods=["POST"])
+@AuthCombustivelMiddleware.verificar_existencia_combustivel
 def criar_combustivel():
     return CombustivelController().criar_combustivel()
 

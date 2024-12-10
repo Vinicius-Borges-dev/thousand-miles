@@ -1,10 +1,12 @@
 from flask import Blueprint
 from src.controllers.CambioController import CambioController
+from src.middlewares.AuthCambioMiddleware import AuthCambioMiddleware
 
 cambio_bp = Blueprint("cambios", __name__)
 
 
 @cambio_bp.route("/", methods=["POST"])
+@AuthCambioMiddleware.verificar_existencia_cambio
 def criar_cambio():
     return CambioController().criar_cambio()
 

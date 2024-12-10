@@ -1,5 +1,6 @@
 from flask import Blueprint
 from src.controllers.ModeloController import ModeloController
+from src.middlewares.AuthModeloMidleware import AuthModeloMiddleware
 
 modelo_bp = Blueprint("modelos", __name__)
 
@@ -8,6 +9,7 @@ def buscar_todos():
     return ModeloController().buscar_todos()
 
 @modelo_bp.route("/", methods=["POST"])
+@AuthModeloMiddleware.verificar_existencia_modelo
 def criar_modelo():
     return ModeloController().criar_modelo()
 

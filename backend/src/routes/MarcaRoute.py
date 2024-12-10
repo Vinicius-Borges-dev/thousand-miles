@@ -1,9 +1,11 @@
 from flask import Blueprint
 from src.controllers.MarcaController import MarcaController
+from src.middlewares.AuthMarcaMiddleware import AuthMarcaMiddleware
 
 marca_bp = Blueprint('marca_bp', __name__)
 
 @marca_bp.route('/', methods=['POST'])
+@AuthMarcaMiddleware.verificar_existencia_marca
 def criar_marca():
     return MarcaController().criar_marca()
 

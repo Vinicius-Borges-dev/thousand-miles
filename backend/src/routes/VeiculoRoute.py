@@ -1,12 +1,14 @@
 from flask import Blueprint
 from src.controllers.VeiculoController import VeiculoController
-from src.middlewares.UsuarioMiddleware import UsuarioMiddleware
+from src.middlewares.AuthUsuarioMiddleware import AuthUsuarioMiddleware
+from src.middlewares.AuthVeiculoMiddleware import AuthVeiculoMiddleware
 
 
 veiculo_bp = Blueprint("veiculos", __name__)
 
 
 @veiculo_bp.route("/", methods=["POST"])
+@AuthVeiculoMiddleware.verificar_existencia_placa
 def cadastrar_veiculo():
     return VeiculoController().cadastrar_veiculo()
 
@@ -36,9 +38,9 @@ def editar(id_veiculo):
     return VeiculoController().editar_veículo(id_veiculo)
 
 
-@veiculo_bp.route("/aleatorio", methods=["GET"])
-def buscar_veiculo_aleatorio():
-    return VeiculoController().buscar_veiculo_aleatorio()
+@veiculo_bp.route("/aleatorio/<string:nome_modelo>", methods=["GET"])
+def buscar_veiculo_aleatorio(nome_modelo):
+    return VeiculoController().buscar_veiculo_aleatorio(nome_modelo)
 
 
 @veiculo_bp.route("/categoria/<string:categoria>", methods=["GET"])
