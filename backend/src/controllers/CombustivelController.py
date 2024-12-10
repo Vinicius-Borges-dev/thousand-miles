@@ -1,11 +1,11 @@
 from flask import request, jsonify
 from src.services.CombustivelService import CombustivelService
-
+import traceback
 
 class CombustivelController:
 
     def criar_combustivel(self):
-        tipo_combustivel = request.json.get("tipo_combustivel")
+        tipo_combustivel = request.form.get("tipo_combustivel")
         try:
             combustivel = CombustivelService().criar_combustivel(
                 {"tipo_combustivel": tipo_combustivel}
@@ -20,12 +20,14 @@ class CombustivelController:
                 201,
             )
         except Exception as erro:
+            tb = traceback.format_exc()
             return (
                 jsonify(
                     {
                         "status": "erro",
                         "mensagem": "Erro ao criar combustível",
                         "erro": str(erro),
+                        "traceback": tb,
                     }
                 ),
                 500,
@@ -35,6 +37,7 @@ class CombustivelController:
         try:
             combustiveis = CombustivelService().buscar_todos_combustiveis()
             if combustiveis:
+                combustiveis = [combustivel.to_dict() for combustivel in combustiveis]
                 return (
                     jsonify(
                         {
@@ -68,6 +71,7 @@ class CombustivelController:
         try:
             combustivel = CombustivelService().buscar_combustivel_por_id(id_combustivel)
             if combustivel:
+                combustivel = combustivel.to_dict()
                 return (
                     jsonify(
                         {
@@ -103,6 +107,7 @@ class CombustivelController:
                 nome_combustivel
             )
             if combustivel:
+                combustivel = combustivel.to_dict()
                 return (
                     jsonify(
                         {
@@ -133,7 +138,7 @@ class CombustivelController:
             )
 
     def atualizar_combustivel(self, id_combustivel: int):
-        tipo_combustivel = request.json.get("tipo_combustivel")
+        tipo_combustivel = request.form.get("tipo_combustivel")
         try:
             combustivel = CombustivelService().atualizar_combustivel(
                 id_combustivel, {"tipo_combustivel": tipo_combustivel}
@@ -180,6 +185,7 @@ class CombustivelController:
                 nome_combustivel
             )
             if combustiveis:
+                combustiveis = [combustivel.to_dict() for combustivel in combustiveis]
                 return (
                     jsonify(
                         {

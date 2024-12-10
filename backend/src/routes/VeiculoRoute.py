@@ -7,9 +7,6 @@ veiculo_bp = Blueprint("veiculos", __name__)
 
 
 @veiculo_bp.route("/", methods=["POST"])
-@UsuarioMiddleware.validar_existencia_token
-@UsuarioMiddleware.validar_dados_token
-@UsuarioMiddleware.capturar_permissao_de_funcionario
 def cadastrar_veiculo():
     return VeiculoController().cadastrar_veiculo()
 
@@ -29,7 +26,7 @@ def buscar_veiculo_por_id(id_veiculo):
     return VeiculoController().buscar_veículo_por_id(id_veiculo)
 
 
-@veiculo_bp.route("/todos", methods=["GET"])
+@veiculo_bp.route("/", methods=["GET"])
 def buscar_todos_veiculos():
     return VeiculoController().buscar_todos_veículos()
 
@@ -67,3 +64,7 @@ def atualizar_disponibilidade(id_veiculo):
 @veiculo_bp.route("/<int:id_veiculo>", methods=["DELETE"])
 def deletar_veiculo(id_veiculo):
     return VeiculoController().excluir_veiculo(id_veiculo)
+
+@veiculo_bp.route("/disponiveis", methods=["GET"])
+def buscar_veiculos_disponiveis():
+    return VeiculoController().buscar_veiculo_por_modelo_disponiveis()

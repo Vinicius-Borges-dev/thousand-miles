@@ -8,7 +8,7 @@ class CombustivelService:
     def criar_combustivel(self, dados: dict):
         try:
             combustivel = CombustivelModel(
-                tipo_combustivel=dados.get("nome_combustivel")
+                tipo_combustivel=dados.get("tipo_combustivel")
             )
             app.session.add(combustivel)
             app.session.commit()

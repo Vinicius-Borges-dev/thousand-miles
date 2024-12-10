@@ -1,23 +1,26 @@
 from src.services.VeiculoService import VeiculoService
 from flask import request, jsonify
 from src.models.VeiculoModel import VeiculoModel
-
+import traceback
 
 class VeiculoController:
 
     def cadastrar_veiculo(self):
         try:
-            ano_fabricacao = request.json.get("ano_fabricacao")
-            assentos = request.json.get("assentos")
-            cor = request.json.get("cor")
+            ano_fabricacao = request.form.get("ano_fabricacao")
+            assentos = request.form.get("assentos")
+            cor = request.form.get("cor")
             disponivel = 1
-            placa = request.json.get("placa")
-            preco_por_dia = request.json.get("preco_por_dia")
-            id_album_veiculo = request.json.get("id_album_veiculo")
-            id_categoria = request.json.get("id_categoria")
-            id_cambio = request.json.get("id_cambio")
-            id_combustivel = request.json.get("id_combustivel")
-            id_modelo = request.json.get("id_modelo")
+            placa = request.form.get("placa")
+            preco_por_dia = request.form.get("preco_por_dia")
+            id_album_veiculo = request.form.get("id_album_veiculo")
+            id_categoria = request.form.get("id_categoria")
+            id_cambio = request.form.get("id_cambio")
+            id_combustivel = request.form.get("id_combustivel")
+            id_modelo = request.form.get("id_modelo")
+
+            if not id_album_veiculo:
+                id_album_veiculo = None
 
             veiculo = VeiculoService().criar_veículo(
                 {
@@ -197,17 +200,20 @@ class VeiculoController:
 
     def editar_veículo(self, id_veiculo: int):
         try:
-            ano_fabricacao = request.json.get("ano_fabricacao")
-            assentos = request.json.get("assentos")
-            cor = request.json.get("cor")
-            disponivel = request.json.get("disponivel")
-            placa = request.json.get("placa")
-            preco_por_dia = request.json.get("preco_por_dia")
-            id_album_veiculo = request.json.get("id_album_veiculo")
-            id_categoria = request.json.get("id_categoria")
-            id_cambio = request.json.get("id_cambio")
-            id_combustivel = request.json.get("id_combustivel")
-            id_modelo = request.json.get("id_modelo")
+            ano_fabricacao = request.form.get("ano_fabricacao")
+            assentos = request.form.get("assentos")
+            cor = request.form.get("cor")
+            disponivel = 1
+            placa = request.form.get("placa")
+            preco_por_dia = request.form.get("preco_por_dia")
+            id_album_veiculo = request.form.get("id_album_veiculo")
+            id_categoria = request.form.get("id_categoria")
+            id_cambio = request.form.get("id_cambio")
+            id_combustivel = request.form.get("id_combustivel")
+            id_modelo = request.form.get("id_modelo")
+
+            if not id_album_veiculo:
+                id_album_veiculo = None
 
             veiculo = VeiculoService().atualizar_veiculo(
                 id_veiculo,
@@ -354,7 +360,7 @@ class VeiculoController:
             )
 
     def buscar_veiculos_por_cambio(self, cambio: str):
-        cambio = request.json.get("nome_cambio")
+        cambio = request.form.get("nome_cambio")
         try:
             veiculos = VeiculoService().buscar_todos_veiculos_por_cambio(cambio)
             if veiculos:
@@ -435,7 +441,7 @@ class VeiculoController:
             )
 
     def alterar_disponibilidade(self, id_veiculo: int):
-        disponibilidade = request.json.get("disponibilidade")
+        disponibilidade = request.form.get("disponibilidade")
         try:
             veiculo = VeiculoService().alterar_disponibilidade_veiculo(
                 id_veiculo, disponibilidade
@@ -485,6 +491,46 @@ class VeiculoController:
                 500,
             )
 
+    def buscar_veiculo_por_modelo_disponiveis(self):
+        try:
+            veiculos = VeiculoService().buscar_veiculos_por_modelo_disponiveis()
+            if veiculos:
+                print(veiculos)
+                veiculos = [
+                    self.buscar_detalhes_do_veiculo(veiculo) for veiculo in veiculos
+                ]
+                return (
+                    jsonify(
+                        {
+                            "status": "ok",
+                            "dados": veiculos,
+                            "mensagem": "Veículos encontrados com sucesso",
+                        }
+                    ),
+                    200,
+                )
+            else:
+                return (
+                    jsonify(
+                        {
+                            "status": "erro",
+                            "mensagem": "Veículos não encontrados",
+                        }
+                    ),
+                    404,
+                )
+
+        except Exception as erro:
+            tb = traceback.format_exc()
+            return jsonify(
+                {
+                    "status": "erro",
+                    "mensagem": "Erro ao buscar veículos",
+                    "erro": str(erro),
+                    "traceback": tb,
+                }
+            ), 500
+
     @staticmethod
     def buscar_detalhes_do_veiculo(veiculo: VeiculoModel):
         detalhes = {
@@ -496,12 +542,12 @@ class VeiculoController:
             "placa": veiculo.placa,
             "preco_por_dia": veiculo.preco_por_dia,
             "album": {
-                "id_album_veiculo": veiculo.album.id_album_veiculo,
-                "foto_apresentacao_primaria": veiculo.album.foto_apresentacao_primaria,
-                "foto_apresentacao_secundaria": veiculo.album.foto_apresentacao_secundaria,
-                "foto_apresentacao_terciaria": veiculo.album.foto_apresentacao_terciaria,
-                "foto_principal": veiculo.album.foto_principal,
-                "foto_secundaria": veiculo.album.foto_secundaria,
+                "id_album_veiculo": veiculo.modelo.album_veiculo.id_album_veiculo,
+                "foto_apresentacao_primaria": veiculo.modelo.album_veiculo.foto_apresentacao_primaria,
+                "foto_apresentacao_secundaria": veiculo.modelo.album_veiculo.foto_apresentacao_secundaria,
+                "foto_apresentacao_terciaria": veiculo.modelo.album_veiculo.foto_apresentacao_terciaria,
+                "foto_principal": veiculo.modelo.album_veiculo.foto_principal,
+                "foto_secundaria": veiculo.modelo.album_veiculo.foto_secundaria,
             },
             "categoria": {
                 "id_categoria": veiculo.categoria.id_categoria,
