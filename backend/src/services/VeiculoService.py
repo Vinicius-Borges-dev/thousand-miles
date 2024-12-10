@@ -170,3 +170,18 @@ class VeiculoService:
         except SQLAlchemyError as erro:
             app.session.rollback()
             raise erro
+    
+    def buscar_veiculos_por_modelo_disponiveis(self):
+        try:
+            veiculos = (
+                app.session.query(VeiculoModel)
+                .join(
+                    ModeloModel,
+                    VeiculoModel.fk_id_modelo == ModeloModel.id_modelo,
+                )
+                .having(func.count(VeiculoModel.id_veiculo == 1) > 0)
+                
+            )
+            return veiculos
+        except SQLAlchemyError as erro:
+            raise erro
