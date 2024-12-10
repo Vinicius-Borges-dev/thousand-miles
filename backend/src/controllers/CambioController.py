@@ -95,7 +95,7 @@ class CambioController:
                         "mensagem": "Câmbio encontrado",
                         "dados": cambio.to_dict(),
                     }
-                )
+                ),200
             else:
                 return (
                     jsonify({"status": "erro", "mensagem": "Câmbio não encontrado"}),

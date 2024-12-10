@@ -16,19 +16,19 @@ class UsuarioController:
 
     def cadastrar_usuario(self):
         try:
-            email = request.json.get("email")
-            senha = request.json.get("senha")
+            email = request.form.get("email")
+            senha = request.form.get("senha")
             nivel_acesso = "admin"
-            nome = request.json.get("nome")
-            sobrenome = request.json.get("sobrenome")
-            data_nascimento = request.json.get("data_nascimento")
-            cpf = request.json.get("cpf")
-            rg = request.json.get("rg")
-            rua = request.json.get("rua")
-            numero = request.json.get("numero")
-            nome_bairro = request.json.get("nome_bairro")
-            nome_cidade = request.json.get("nome_cidade")
-            nome_estado = request.json.get("nome_estado")
+            nome = request.form.get("nome")
+            sobrenome = request.form.get("sobrenome")
+            data_nascimento = request.form.get("data_nascimento")
+            cpf = request.form.get("cpf")
+            rg = request.form.get("rg")
+            rua = request.form.get("rua")
+            numero = request.form.get("numero")
+            nome_bairro = request.form.get("nome_bairro")
+            nome_cidade = request.form.get("nome_cidade")
+            nome_estado = request.form.get("nome_estado")
 
             estado = self.verificar_ou_criar_estado(nome_estado)
             cidade = self.verificar_ou_criar_cidade(nome_cidade, estado.id_estado)
@@ -80,8 +80,8 @@ class UsuarioController:
 
     def login_usuario(self):
         try:
-            email = request.json.get("email")
-            senha = request.json.get("senha")
+            email = request.form.get("email")
+            senha = request.form.get("senha")
 
             usuario = UsuarioService().verificar_email(email)
 
@@ -94,7 +94,7 @@ class UsuarioController:
             if not self.senha_check(senha, usuario.senha):
                 return jsonify({"status": "erro", "mensagem": "Senha incorreta."}), 401
 
-            token = self.gerar_token(usuario.id_usuario, usuario.nivel_acesso)
+            token = self.gerar_token(usuario.id_usuario, usuario.nivel_acesso, usuario.dados_pessoais.nome, usuario.dados_pessoais.sobrenome)
 
             return (
                 jsonify(
@@ -111,18 +111,18 @@ class UsuarioController:
             raise erro
 
     def atualizar_usuario(self, id_usuario: int):
-        email = request.json.get("email")
+        email = request.form.get("email")
         nivel_acesso = "usuario"
-        nome = request.json.get("nome")
-        sobrenome = request.json.get("sobrenome")
-        data_nascimento = request.json.get("data_nascimento")
-        cpf = request.json.get("cpf")
-        rg = request.json.get("rg")
-        rua = request.json.get("rua")
-        numero = request.json.get("numero")
-        nome_bairro = request.json.get("nome_bairro")
-        nome_cidade = request.json.get("nome_cidade")
-        nome_estado = request.json.get("nome_estado")
+        nome = request.form.get("nome")
+        sobrenome = request.form.get("sobrenome")
+        data_nascimento = request.form.get("data_nascimento")
+        cpf = request.form.get("cpf")
+        rg = request.form.get("rg")
+        rua = request.form.get("rua")
+        numero = request.form.get("numero")
+        nome_bairro = request.form.get("nome_bairro")
+        nome_cidade = request.form.get("nome_cidade")
+        nome_estado = request.form.get("nome_estado")
 
         try:
             usuario = UsuarioService().capturar_informacoes_usuario(id_usuario)
@@ -280,11 +280,13 @@ class UsuarioController:
         return bcrypt.checkpw(senha.encode("utf-8"), senha_hash)
 
     @staticmethod
-    def gerar_token(id_usuario: int, nivel_acesso: str):
+    def gerar_token(id_usuario: int, nivel_acesso: str, nome_usuario: str, sobrenome_usuario: str):
         dados = {
             "exp": datetime.utcnow() + timedelta(hours=1),
             "usuario": id_usuario,
             "nivel_acesso": nivel_acesso,
+            "nome": nome_usuario,
+            "sobrenome": sobrenome_usuario
         }
 
         chave = environ.get("SECRET_KEY")

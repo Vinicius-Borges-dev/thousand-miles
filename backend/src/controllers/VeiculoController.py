@@ -3,6 +3,7 @@ from flask import request, jsonify
 from src.models.VeiculoModel import VeiculoModel
 import traceback
 
+
 class VeiculoController:
 
     def cadastrar_veiculo(self):
@@ -54,12 +55,15 @@ class VeiculoController:
             veiculo = VeiculoService().buscar_veiculo_por_placa(placa)
             if veiculo:
                 veiculo = self.buscar_detalhes_do_veiculo(veiculo)
-                return jsonify(
-                    {
-                        "status": "ok",
-                        "dados": veiculo,
-                        "mensagem": "Veículo encontrado com sucesso",
-                    }
+                return (
+                    jsonify(
+                        {
+                            "status": "ok",
+                            "dados": veiculo,
+                            "mensagem": "Veículo encontrado com sucesso",
+                        }
+                    ),
+                    200,
                 )
             else:
                 return (
@@ -243,9 +247,9 @@ class VeiculoController:
         except Exception as erro:
             raise erro
 
-    def buscar_veiculo_aleatorio(self):
+    def buscar_veiculo_aleatorio(self, nome_modelo: str):
         try:
-            veiculo = VeiculoService().buscar_veiculo_aleatorio_disponivel()
+            veiculo = VeiculoService().buscar_veiculo_aleatorio_disponivel(nome_modelo)
             if veiculo:
                 veiculo = self.buscar_detalhes_do_veiculo(veiculo)
                 return (
@@ -495,7 +499,6 @@ class VeiculoController:
         try:
             veiculos = VeiculoService().buscar_veiculos_por_modelo_disponiveis()
             if veiculos:
-                print(veiculos)
                 veiculos = [
                     self.buscar_detalhes_do_veiculo(veiculo) for veiculo in veiculos
                 ]
@@ -522,14 +525,17 @@ class VeiculoController:
 
         except Exception as erro:
             tb = traceback.format_exc()
-            return jsonify(
-                {
-                    "status": "erro",
-                    "mensagem": "Erro ao buscar veículos",
-                    "erro": str(erro),
-                    "traceback": tb,
-                }
-            ), 500
+            return (
+                jsonify(
+                    {
+                        "status": "erro",
+                        "mensagem": "Erro ao buscar veículos",
+                        "erro": str(erro),
+                        "traceback": tb,
+                    }
+                ),
+                500,
+            )
 
     @staticmethod
     def buscar_detalhes_do_veiculo(veiculo: VeiculoModel):

@@ -77,8 +77,15 @@ class ModeloController:
                     "nome_marca": modelo.marca.nome_marca,
                     "fotos": modelo.album_veiculo.to_dict(),
                 }
-                return jsonify(
-                    {"status": "ok", "mensagem": "Modelo encontrado", "dados": modelo}
+                return (
+                    jsonify(
+                        {
+                            "status": "ok",
+                            "mensagem": "Modelo encontrado",
+                            "dados": modelo,
+                        }
+                    ),
+                    200,
                 )
             else:
                 return (
@@ -221,5 +228,3 @@ class ModeloController:
                     "erro": str(erro),
                 }
             )
-        
-    
