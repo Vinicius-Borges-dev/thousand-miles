@@ -5,11 +5,11 @@ from src.services.CategoriaService import CategoriaService
 class CategoriaController:
 
     def criar_categoria(self):
-        dados = request.json
+        nome_categoria = request.form.get("nome_categoria")
         try:
             categoria_service = CategoriaService()
             categoria = categoria_service.criar_categoria(
-                {"nome_categoria": dados.get("nome_categoria")}
+                {"nome_categoria": nome_categoria}
             )
             return (
                 jsonify(
@@ -34,14 +34,16 @@ class CategoriaController:
 
     def buscar_todas_categorias(self):
         try:
-            categoria = CategoriaService().buscar_todas_categorias()
-            if categoria:
+            categorias = CategoriaService().buscar_todas_categorias()
+            if categorias:
+                lista = [categoria.to_dict() for categoria in categorias]
+                
                 return (
                     jsonify(
                         {
                             "status": "ok",
                             "mensagem": "Categorias encontradas",
-                            "dados": categoria,
+                            "dados": lista,
                         }
                     ),
                     200,
@@ -72,6 +74,7 @@ class CategoriaController:
         try:
             categoria = CategoriaService().buscar_categoria_por_id(id_categoria)
             if categoria:
+                categoria = categoria.to_dict()
                 return (
                     jsonify(
                         {
@@ -108,6 +111,7 @@ class CategoriaController:
         try:
             categoria = CategoriaService().buscar_categoria_por_nome(nome_categoria)
             if categoria:
+                categoria = categoria.to_dict()
                 return (
                     jsonify(
                         {
@@ -136,7 +140,7 @@ class CategoriaController:
             )
 
     def atualizar_categoria(self, id_categoria: int):
-        nome_categoria = request.json.get("nome_categoria")
+        nome_categoria = request.form.get("nome_categoria")
         try:
             categoria_service = CategoriaService()
             categoria = categoria_service.atualizar_categoria(
@@ -179,11 +183,12 @@ class CategoriaController:
                 ),
                 500,
             )
-    
-    def buscar_por_nome_semelhante(self, nome_categoria:str):
+
+    def buscar_por_nome_semelhante(self, nome_categoria: str):
         try:
             categorias = CategoriaService().buscar_por_nome_semelhante(nome_categoria)
             if categorias:
+                categorias = [categoria.to_dict() for categoria in categorias]
                 return (
                     jsonify(
                         {
