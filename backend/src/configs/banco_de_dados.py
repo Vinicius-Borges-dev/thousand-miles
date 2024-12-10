@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine, text
 from sqlalchemy.orm import sessionmaker, declarative_base
 from flask_sqlalchemy import SQLAlchemy
-from flask import Flask, current_app as app
+from flask import Flask
 import os
 from datetime import timedelta
 
