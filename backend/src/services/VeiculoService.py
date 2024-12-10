@@ -9,6 +9,7 @@ from sqlalchemy.exc import SQLAlchemyError
 from flask import current_app as app
 from sqlalchemy.sql.expression import func
 
+
 class VeiculoService:
 
     def criar_veículo(self, dados: dict):
@@ -70,11 +71,12 @@ class VeiculoService:
         except SQLAlchemyError as erro:
             raise erro
 
-    def buscar_veiculo_aleatorio_disponivel(self):
+    def buscar_veiculo_aleatorio_disponivel(self, nome_modelo: str):
         try:
             veiculo = (
                 app.session.query(VeiculoModel)
-                .filter(VeiculoModel.disponivel == 1)
+                .join(ModeloModel, VeiculoModel.fk_id_modelo == ModeloModel.id_modelo)
+                .filter(VeiculoModel.disponivel == 1, ModeloModel.nome_modelo == nome_modelo)
                 .order_by(func.random())
                 .first()
             )
@@ -170,18 +172,16 @@ class VeiculoService:
         except SQLAlchemyError as erro:
             app.session.rollback()
             raise erro
-    
+
     def buscar_veiculos_por_modelo_disponiveis(self):
         try:
             veiculos = (
                 app.session.query(VeiculoModel)
-                .join(
-                    ModeloModel,
-                    VeiculoModel.fk_id_modelo == ModeloModel.id_modelo,
-                )
-                .having(func.count(VeiculoModel.id_veiculo == 1) > 0)
-                
-            )
+                .join(ModeloModel, VeiculoModel.fk_id_modelo == ModeloModel.id_modelo)
+                .filter(VeiculoModel.disponivel == 1)
+                .group_by(ModeloModel.id_modelo)
+                .having(func.count(VeiculoModel.id_veiculo) > 0)
+            ).all()
             return veiculos
         except SQLAlchemyError as erro:
             raise erro
